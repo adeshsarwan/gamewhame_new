@@ -1,1 +1,1 @@
-# Add your authorized seller line(s) from Google Ad Manager before monetization.
+google.com, pub-1730786981458373, DIRECT, f08c47fec0942fa0
