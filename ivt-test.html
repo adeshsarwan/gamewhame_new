@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Thebes IVT Shadow Test</title>
+  <style>
+    :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b0f1a;color:#e8edf7;line-height:1.5}.wrap{max-width:900px;margin:auto;padding:32px 20px 100px}.card{background:#151b2b;border:1px solid #283149;border-radius:16px;padding:22px;margin:18px 0}.status{display:flex;align-items:center;gap:10px;font-weight:700}.dot{width:11px;height:11px;border-radius:50%;background:#f5b942}.dot.ok{background:#4ade80}.dot.bad{background:#fb7185}.muted{color:#9da9bd}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:16px}.metric{background:#0e1422;border-radius:12px;padding:14px}.metric b{display:block;font-size:22px;margin-top:4px}button{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;margin:6px 6px 6px 0}.primary{background:#7c5cff;color:white}.secondary{background:#26314b;color:#e8edf7}.scroll-zone{height:850px;background:linear-gradient(#151b2b,#101624);border-radius:16px;padding:22px;margin-top:18px}.bottom{margin-top:700px}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;overflow-wrap:anywhere}.warning{border-left:4px solid #f5b942}.okbox{border-left:4px solid #4ade80}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Thebes IVT v2 — Shadow Browser Test</h1>
+  <p class="muted">Isolated validation page. No ads, GAM, Price Optimiser, or monetisation code is loaded here.</p>
+
+  <section class="card warning" id="statusCard">
+    <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">Loading IVT SDK…</span></div>
+    <p class="muted" id="statusDetail">Waiting for the server-authorised runtime event.</p>
+  </section>
+
+  <section class="card">
+    <h2>Browser test actions</h2>
+    <p>Use this page normally for 60–90 seconds. Click, scroll, switch tabs once, return, and optionally type in the field below. The IVT sensor records aggregate counts only; it does not record coordinates, typed text, or DOM contents.</p>
+    <button class="primary" id="clickButton">Test pointer activity</button>
+    <button class="secondary" id="resetButton">Reset local counters</button>
+    <p><label>Keyboard activity test: <input id="keyboardTest" autocomplete="off" placeholder="Type anything; content is not collected"></label></p>
+    <div class="grid">
+      <div class="metric">Page seconds<b id="seconds">0</b></div>
+      <div class="metric">Local clicks<b id="clicks">0</b></div>
+      <div class="metric">Local keys<b id="keys">0</b></div>
+      <div class="metric">Max local scroll<b id="scroll">0%</b></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Test information</h2>
+    <p class="code" id="locationInfo"></p>
+    <p class="muted">The counters displayed on this page are only for visual confirmation. They are separate from the IVT SDK's internal aggregate telemetry.</p>
+  </section>
+
+  <section class="scroll-zone">
+    <h2>Scroll telemetry area</h2>
+    <p class="muted">Scroll toward the bottom to create a normal human scroll signal.</p>
+    <div class="bottom card okbox">You reached the lower test area. Stay on the page a little longer so at least one telemetry heartbeat can be sent.</div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const started = Date.now();
+  let clicks = 0, keys = 0, maxScroll = 0;
+  const $ = id => document.getElementById(id);
+  $('locationInfo').textContent = `Origin: ${location.origin} | Path: ${location.pathname} | Referrer: ${document.referrer || '(direct)'}`;
+  setInterval(() => $('seconds').textContent = String(Math.floor((Date.now() - started) / 1000)), 1000);
+  $('clickButton').addEventListener('click', () => { clicks++; $('clicks').textContent = String(clicks); });
+  $('keyboardTest').addEventListener('keydown', () => { keys++; $('keys').textContent = String(keys); });
+  addEventListener('scroll', () => {
+    const d = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    maxScroll = Math.max(maxScroll, Math.min(100, Math.round(scrollY / d * 100)));
+    $('scroll').textContent = `${maxScroll}%`;
+  }, {passive:true});
+  $('resetButton').addEventListener('click', () => {
+    clicks = 0; keys = 0; maxScroll = 0;
+    $('clicks').textContent = '0'; $('keys').textContent = '0'; $('scroll').textContent = '0%';
+  });
+  window.addEventListener('thebes:ivt-admitted', event => {
+    $('statusDot').className = 'dot ok';
+    $('statusText').textContent = 'IVT admission runtime received';
+    $('statusDetail').textContent = `Shadow admission succeeded. Runtime event version: ${event.detail?.v ?? 'unknown'}. Signed telemetry is running in the background.`;
+    $('statusCard').className = 'card okbox';
+  });
+  setTimeout(() => {
+    if (!$('statusDot').classList.contains('ok')) {
+      $('statusDot').className = 'dot bad';
+      $('statusText').textContent = 'No admission runtime received';
+      $('statusDetail').textContent = 'Open DevTools → Network and inspect ivt.js and /v1/admit. No monetisation is affected by this test.';
+    }
+  }, 8000);
+})();
+</script>
+
+<script
+  src="https://thebes-ivt.adesh-4df.workers.dev/v1/ivt.js"
+  data-auto-init="true"
+  data-endpoint="https://thebes-ivt.adesh-4df.workers.dev"
+  data-site-key="gamewhame.com">
+</script>
+</body>
+</html>
