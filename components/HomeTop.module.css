@@ -1,0 +1,75 @@
+.wrap {
+  margin: 0;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+}
+.seeAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: none;
+  padding: 8px 12px;
+  border-radius: var(--r-pill);
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 13px;
+  transition: transform var(--dur) var(--ease-spring), box-shadow var(--dur) var(--ease-card);
+}
+.seeAll:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--sh-sm);
+}
+
+/* Bigger, feature-sized tiles in a horizontal snap row. */
+.row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 260px;
+  gap: var(--gap-grid);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 2px 2px 8px;
+  overscroll-behavior-x: contain;
+}
+.cell {
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+@media (max-width: 1199px) {
+  .row {
+    grid-auto-columns: 232px;
+  }
+}
+@media (max-width: 767px) {
+  .title {
+    font-size: 17px;
+  }
+  .row {
+    grid-auto-columns: 200px;
+    gap: var(--gap-grid-mobile);
+  }
+}
+@media (max-width: 389px) {
+  .row {
+    grid-auto-columns: 168px;
+  }
+}

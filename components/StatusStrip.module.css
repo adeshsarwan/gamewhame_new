@@ -1,0 +1,49 @@
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  font-size: 12px;
+  color: var(--muted);
+  box-shadow: 0 2px 8px rgba(16, 35, 63, 0.05);
+}
+.pill b {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  color: var(--navy);
+}
+.live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22d07a;
+  box-shadow: 0 0 0 0 rgba(34, 208, 122, 0.6);
+  animation: pulse 1.8s ease-out infinite;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 208, 122, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(34, 208, 122, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 208, 122, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live {
+    animation: none;
+  }
+}

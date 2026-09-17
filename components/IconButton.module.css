@@ -1,0 +1,106 @@
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  color: var(--navy);
+  background: var(--surface);
+  transition:
+    transform var(--dur) var(--ease-bounce),
+    background var(--dur) var(--ease-card),
+    color var(--dur) var(--ease-card),
+    box-shadow var(--dur) var(--ease-card);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  background: var(--surface-hover);
+}
+.btn:active {
+  transform: scale(0.94);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.surface {
+  box-shadow: var(--sh-sm);
+}
+
+.ghost {
+  background: transparent;
+}
+.ghost:hover {
+  background: var(--surface);
+}
+
+/* header controls — light icons on the dark navy header */
+.header {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--header-ink);
+}
+.header:hover {
+  background: rgba(11, 224, 208, 0.18);
+  border-color: rgba(11, 224, 208, 0.4);
+}
+
+/* player controls — on dark chrome */
+.player {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  width: 42px;
+  height: 42px;
+}
+.player:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* bottom-nav item */
+.nav {
+  background: transparent;
+  color: var(--muted);
+  width: 48px;
+  height: 48px;
+}
+.nav:hover {
+  background: transparent;
+  color: var(--navy);
+}
+
+.active {
+  background: var(--navy);
+  color: #fff;
+}
+.nav.active {
+  background: transparent;
+  color: var(--navy);
+}
+.active:hover {
+  background: var(--navy-2);
+}
+
+.badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pink);
+  color: #fff;
+  border-radius: var(--r-pill);
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: 10.5px;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(255, 77, 125, 0.5);
+}

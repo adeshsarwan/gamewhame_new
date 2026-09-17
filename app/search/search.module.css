@@ -1,0 +1,126 @@
+.page {
+  padding-block: 20px 8px;
+  min-height: 50vh;
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px 8px 12px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.back:hover {
+  background: var(--surface-hover);
+}
+.h1 {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 24px;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+.h1 small {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: var(--fw-semibold);
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  background: var(--navy);
+  flex: none;
+}
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 50px 20px;
+}
+.empty h2 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 20px;
+  color: var(--navy);
+}
+.empty p {
+  color: var(--muted);
+  font-weight: var(--fw-medium);
+}
+.emptyCtas {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ctaPrimary,
+.ctaGhost {
+  padding: 12px 24px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 14px;
+}
+.ctaPrimary {
+  background: var(--grad-cta);
+  color: #fff;
+  box-shadow: var(--sh-cta);
+}
+.ctaGhost {
+  background: var(--surface);
+  color: var(--navy);
+}
+
+.landing,
+.noResults {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 2px;
+}
+.prompt {
+  color: var(--muted);
+  font-weight: var(--fw-semibold);
+  font-size: 14px;
+  margin: -6px 0 0;
+}
+.subhead {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: 14px;
+  color: var(--navy);
+  margin: 0 0 12px;
+}
+.catSection {
+  display: flex;
+  flex-direction: column;
+}
+.catGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.didYouMean {
+  padding: 4px 0 0;
+}
+@media (max-width: 479px) {
+  .landing,
+  .noResults {
+    gap: 24px;
+  }
+}

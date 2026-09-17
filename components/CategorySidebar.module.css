@@ -1,0 +1,87 @@
+.sidebar {
+  flex: none;
+  width: var(--sidebar-w);
+}
+
+.rail {
+  position: sticky;
+  top: var(--header-h);
+  max-height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 8px 24px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 4px 8px;
+  border-radius: var(--r);
+  transition: background var(--dur) var(--ease-card), transform var(--dur) var(--ease-spring);
+}
+.item:hover {
+  background: #fff;
+  box-shadow: var(--sh-sm);
+}
+.item:active {
+  transform: scale(0.95);
+}
+.active {
+  background: #fff;
+  box-shadow: var(--sh-sm);
+}
+
+.disc {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.55), transparent 55%),
+    color-mix(in srgb, var(--c) 88%, #0b1a30);
+  box-shadow: var(--sh-inset-hi), 0 6px 14px color-mix(in srgb, var(--c) 34%, transparent);
+  transition: transform var(--dur) var(--ease-spring);
+}
+.item:hover .disc {
+  transform: translateY(-2px) scale(1.05);
+}
+.active .disc {
+  outline: 2.5px solid color-mix(in srgb, var(--c) 60%, transparent);
+  outline-offset: 2px;
+}
+.emblem {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(8, 24, 45, 0.28));
+}
+
+.label {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 10.5px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.active .label {
+  color: var(--navy);
+}
+
+/* Collapses on tablet/mobile — the header menu drawer + bottom nav take over. */
+@media (max-width: 1023px) {
+  .sidebar {
+    display: none;
+  }
+}

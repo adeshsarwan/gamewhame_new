@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Block Puzzle Jewel</title>
+<style>
+  :root{
+    --aqua:#0BE0D0; --navy:#10233F; --pink:#FF4D7D; --yellow:#FFC531;
+    --purple:#7C5CFF; --lime:#B8F135; --blue:#00A8FF; --orange:#FF8A00;
+    --bg0:#0b1830; --bg1:#152a4d; --ink:#eaf2ff; --ink-dim:#9fb2d0;
+    --font:"Nunito",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--font); color:var(--ink); overflow:hidden;
+    background:radial-gradient(120% 120% at 15% 0%,var(--bg1),var(--bg0) 62%);
+    user-select:none; -webkit-user-select:none; touch-action:none;
+    display:flex; flex-direction:column;
+  }
+  header{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px clamp(10px,3vw,20px) 4px;}
+  .brand{display:flex; flex-direction:column; line-height:1;}
+  .brand h1{font-size:clamp(18px,5vw,26px); font-weight:1000; letter-spacing:-.5px;
+    background:linear-gradient(90deg,var(--purple),var(--pink)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .brand span{font-size:10px; color:var(--ink-dim); font-weight:800; margin-top:3px; letter-spacing:.4px;}
+  .right{display:flex; align-items:center; gap:8px;}
+  .score{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08);
+    border-radius:14px; padding:6px 13px; min-width:70px; text-align:center;}
+  .score b{display:block; font-size:9px; color:var(--ink-dim); font-weight:800; letter-spacing:1px;}
+  .score s{display:block; font-size:clamp(15px,4vw,21px); font-weight:1000; text-decoration:none;}
+  button.ghost{background:rgba(255,255,255,.07); color:var(--ink); border:1px solid rgba(255,255,255,.1);
+    width:42px; height:42px; padding:0; display:grid; place-items:center; border-radius:12px; cursor:pointer;}
+  button.ghost:active{transform:scale(.94);} button.ghost svg{width:19px;height:19px;}
+  #stage{flex:1; position:relative; min-height:0;}
+  canvas{position:absolute; inset:0; width:100%; height:100%; display:block;}
+  .overlay{position:absolute; inset:0; z-index:20; display:none; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; gap:16px; padding:24px;
+    background:radial-gradient(120% 120% at 50% 35%,rgba(16,35,63,.82),rgba(11,24,48,.95));}
+  .overlay.show{display:flex; animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .overlay h2{font-size:clamp(26px,8vw,44px); font-weight:1000; letter-spacing:-1px;
+    background:linear-gradient(90deg,var(--pink),var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .overlay p{color:var(--ink-dim); font-size:15px; font-weight:700; max-width:300px;}
+  button.btn{font-family:var(--font); font-weight:900; color:var(--navy); cursor:pointer; border:none;
+    border-radius:14px; padding:13px 26px; font-size:16px;
+    background:linear-gradient(180deg,var(--aqua),#08b6ab); box-shadow:0 5px 0 #067a72; transition:transform .08s, box-shadow .08s;}
+  button.btn:active{transform:translateY(3px); box-shadow:0 2px 0 #067a72;}
+  .startcard h2{background:linear-gradient(90deg,var(--aqua),var(--blue)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><h1>Block Jewel</h1><span>FIT &amp; CLEAR LINES</span></div>
+  <div class="right">
+    <div class="score"><b>SCORE</b><s id="score">0</s></div>
+    <div class="score"><b>BEST</b><s id="best">0</s></div>
+    <button class="ghost" id="muteBtn" aria-label="Sound">
+      <svg id="sIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+    </button>
+  </div>
+</header>
+<div id="stage">
+  <canvas id="cv"></canvas>
+  <div class="overlay startcard show" id="startOv">
+    <h2>Block Puzzle Jewel</h2>
+    <p>Drag jewel blocks onto the grid. Fill a full row or column to clear it. Plan ahead so a piece always fits.</p>
+    <button class="btn" id="startBtn">Play</button>
+  </div>
+  <div class="overlay" id="overOv">
+    <h2>Game Over</h2>
+    <p id="overText">No room left for the pieces.</p>
+    <button class="btn" id="againBtn">Play Again</button>
+  </div>
+</div>
+<script>
+(function(){
+"use strict";
+const SLUG="block-puzzle-jewel", N=8, HI_KEY="gw_"+SLUG+"_hi";
+const COLORS=["#0BE0D0","#FF4D7D","#FFC531","#7C5CFF","#B8F135","#00A8FF","#FF8A00"];
+const $=id=>document.getElementById(id);
+const cv=$("cv"), ctx=cv.getContext("2d");
+const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// piece shapes (list of [r,c])
+const SHAPES=[
+  [[0,0]],
+  [[0,0],[0,1]], [[0,0],[1,0]],
+  [[0,0],[0,1],[0,2]], [[0,0],[1,0],[2,0]],
+  [[0,0],[0,1],[0,2],[0,3]], [[0,0],[1,0],[2,0],[3,0]],
+  [[0,0],[0,1],[1,0],[1,1]],                     // square
+  [[0,0],[1,0],[1,1]], [[0,0],[0,1],[1,0]], [[0,0],[0,1],[1,1]], [[0,1],[1,0],[1,1]], // small L / corners
+  [[0,0],[1,0],[2,0],[2,1]], [[0,1],[1,1],[2,1],[2,0]], // L / J
+  [[0,0],[0,1],[0,2],[1,0]], [[0,0],[0,1],[0,2],[1,2]],
+  [[0,0],[1,0],[1,1],[2,1]], [[0,1],[1,0],[1,1],[2,0]], // S / Z
+  [[0,0],[0,1],[1,1],[1,2]],
+  [[0,0],[0,1],[0,2],[1,1]],                     // T
+  [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]],         // 2x3
+  [[0,0],[0,1],[1,0],[1,1],[2,0],[2,1]]          // 3x2
+];
+
+let board, score=0, best=0, tray=[], state="start", dpr=1;
+let W=0,H=0, bx=0,by=0,cell=0, trayY=0, traySlotW=0, trayCellSize=0;
+let muted=false, particles=[], clearing=[], flashCells=[];
+let drag=null; // {shape,color,px,py,ox,oy,sourceIdx}
+
+try{ best=parseInt(localStorage.getItem(HI_KEY)||"0",10)||0; }catch(e){}
+try{ muted=localStorage.getItem("gw_"+SLUG+"_mute")==="1"; }catch(e){}
+$("best").textContent=best;
+
+// ---- audio ----
+let AC=null;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } return AC; }
+function blip(f,d,t,v){ if(muted) return; const c=ac(); if(!c) return; try{
+  if(c.state==="suspended")c.resume();
+  const o=c.createOscillator(),g=c.createGain(); o.type=t||"sine"; o.frequency.value=f;
+  o.connect(g); g.connect(c.destination); const n=c.currentTime;
+  g.gain.setValueAtTime(0,n); g.gain.linearRampToValueAtTime(v||.12,n+.01);
+  g.gain.exponentialRampToValueAtTime(.0001,n+(d||.14)); o.start(n); o.stop(n+(d||.14)+.02);
+}catch(e){} }
+function updateMute(){ $("muteBtn").style.opacity=muted?".45":"1"; }
+$("muteBtn").addEventListener("click",()=>{ muted=!muted; try{localStorage.setItem("gw_"+SLUG+"_mute",muted?"1":"0");}catch(e){} updateMute(); if(!muted) blip(660,.1,"sine",.1); });
+updateMute();
+
+function post(m){ try{ window.parent&&window.parent.postMessage(m,"*"); }catch(e){} }
+
+// ---- layout ----
+function resize(){
+  const st=$("stage"); const w=st.clientWidth, h=st.clientHeight;
+  dpr=Math.min(2.5,window.devicePixelRatio||1);
+  cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  W=w; H=h;
+  const landscape = w > h*1.15;
+  const pad=Math.max(10,Math.min(w,h)*0.03);
+  if(landscape){
+    // board on left, tray column on right
+    const boardMax=Math.min(h-pad*2, (w-pad*3)*0.62);
+    cell=Math.floor(boardMax/N);
+    const bsize=cell*N;
+    bx=pad + ((w-pad*3 - bsize - (w-pad*3)*0.30)/2>0? (w - pad*2 - bsize - Math.min(w*0.34,220))/2 :0);
+    bx=pad; by=(h-bsize)/2;
+    const trayX=bx+bsize+pad;
+    traySlotW=Math.min(w-trayX-pad, 180);
+    trayCellSize=Math.floor(traySlotW/5);
+    layoutTrayVertical(trayX, by, bsize);
+  } else {
+    const boardMax=Math.min(w-pad*2, h*0.66);
+    cell=Math.floor(boardMax/N);
+    const bsize=cell*N;
+    bx=(w-bsize)/2; by=pad + Math.max(0,(h - pad*2 - bsize - (h*0.24))/2);
+    if(by<pad) by=pad;
+    trayY=by+bsize+pad;
+    const availH=h-trayY-pad;
+    traySlotW=(w-pad*2)/3;
+    trayCellSize=Math.floor(Math.min(traySlotW/5, availH/5));
+    layoutTrayHorizontal();
+  }
+  // recompute tray slot rects for current pieces
+  assignTrayRects();
+}
+let trayMode="h", trayAnchor={x:0,y:0,size:0};
+function layoutTrayHorizontal(){ trayMode="h"; }
+function layoutTrayVertical(x,y,size){ trayMode="v"; trayAnchor={x,y,size}; }
+function assignTrayRects(){
+  const pad=Math.max(10,Math.min(W,H)*0.03);
+  for(let i=0;i<tray.length;i++){
+    const p=tray[i]; if(!p) continue;
+    if(trayMode==="h"){
+      const slotX=pad + i*traySlotW; p.slotCx=slotX+traySlotW/2; p.slotCy=trayY + (H-trayY-pad)/2;
+    } else {
+      const slotH=trayAnchor.size/3; p.slotCx=trayAnchor.x + traySlotW/2; p.slotCy=trayAnchor.y + i*slotH + slotH/2;
+    }
+  }
+}
+
+// ---- game ----
+function emptyBoard(){ return Array.from({length:N},()=>Array(N).fill(null)); }
+function normShape(s){ let mr=99,mc=99; s.forEach(([r,c])=>{mr=Math.min(mr,r);mc=Math.min(mc,c);}); return s.map(([r,c])=>[r-mr,c-mc]); }
+function shapeDims(s){ let R=0,C=0; s.forEach(([r,c])=>{R=Math.max(R,r);C=Math.max(C,c);}); return [R+1,C+1]; }
+function newPiece(){ const s=normShape(SHAPES[(Math.random()*SHAPES.length)|0]); return { shape:s, color:COLORS[(Math.random()*COLORS.length)|0], used:false }; }
+function refillTray(){ tray=[newPiece(),newPiece(),newPiece()]; assignTrayRects(); }
+
+function canPlaceAt(shape,r,c){
+  for(const [dr,dc] of shape){ const rr=r+dr, cc=c+dc; if(rr<0||rr>=N||cc<0||cc>=N||board[rr][cc]) return false; }
+  return true;
+}
+function anyPlacement(shape){
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++) if(canPlaceAt(shape,r,c)) return true;
+  return false;
+}
+function trayHasMove(){ return tray.some(p=>p && !p.used && anyPlacement(p.shape)); }
+
+function place(shape,color,r,c){
+  for(const [dr,dc] of shape){ board[r+dr][c+dc]=color; }
+  const gained=shape.length; addScore(gained);
+  spawnPlaceFx(shape,r,c,color);
+  blip(420,.07,"triangle",.1);
+  checkClears();
+}
+function checkClears(){
+  const fullRows=[], fullCols=[];
+  for(let r=0;r<N;r++){ if(board[r].every(x=>x)) fullRows.push(r); }
+  for(let c=0;c<N;c++){ let f=true; for(let r=0;r<N;r++) if(!board[r][c]){f=false;break;} if(f) fullCols.push(c); }
+  const totalLines=fullRows.length+fullCols.length;
+  if(totalLines===0) return;
+  const cells=new Set();
+  fullRows.forEach(r=>{ for(let c=0;c<N;c++) cells.add(r+","+c); });
+  fullCols.forEach(c=>{ for(let r=0;r<N;r++) cells.add(r+","+c); });
+  // score: 10 per line + combo bonus
+  const bonus= totalLines*10 + (totalLines>1?(totalLines-1)*15:0);
+  addScore(bonus);
+  blip(totalLines>1?880:660,.18,"triangle",.14);
+  if(totalLines>1) setTimeout(()=>blip(1174,.2,"triangle",.12),90);
+  cells.forEach(k=>{ const [r,c]=k.split(",").map(Number);
+    const color=board[r][c];
+    spawnClearFx(r,c,color);
+    board[r][c]=null;
+  });
+}
+function addScore(n){
+  score+=n; $("score").textContent=score;
+  if(score>best){ best=score; $("best").textContent=best; try{localStorage.setItem(HI_KEY,String(best));}catch(e){} }
+  post({type:"gw:score",score});
+}
+
+// ---- fx ----
+function cellCenterPx(r,c){ return [bx+c*cell+cell/2, by+r*cell+cell/2]; }
+function spawnPlaceFx(shape,r,c,color){
+  flashCells.push({shape,r,c,color,t:performance.now()});
+}
+function spawnClearFx(r,c,color){
+  const [x,y]=cellCenterPx(r,c);
+  const cnt=reduce?3:7;
+  for(let i=0;i<cnt;i++){
+    const a=Math.random()*Math.PI*2, sp=1.5+Math.random()*3.5;
+    particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-1,life:1,color,size:cell*0.18});
+  }
+}
+function updateFx(dt){
+  for(let i=particles.length-1;i>=0;i--){ const p=particles[i];
+    p.x+=p.vx*dt*0.06; p.y+=p.vy*dt*0.06; p.vy+=0.15*dt*0.06; p.life-=dt*0.0022;
+    if(p.life<=0) particles.splice(i,1);
+  }
+  const now=performance.now();
+  flashCells=flashCells.filter(f=>now-f.t<260);
+}
+
+// ---- render ----
+function roundRect(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function drawJewel(x,y,s,color,alpha){
+  const pad=Math.max(1,s*0.06), r=Math.max(3,s*0.2);
+  ctx.globalAlpha=alpha==null?1:alpha;
+  roundRect(x+pad,y+pad,s-pad*2,s-pad*2,r);
+  ctx.fillStyle=color; ctx.fill();
+  // gloss
+  const g=ctx.createLinearGradient(x,y,x,y+s);
+  g.addColorStop(0,"rgba(255,255,255,.42)"); g.addColorStop(.5,"rgba(255,255,255,.05)"); g.addColorStop(1,"rgba(0,0,0,.16)");
+  roundRect(x+pad,y+pad,s-pad*2,s-pad*2,r); ctx.fillStyle=g; ctx.fill();
+  // top highlight
+  roundRect(x+pad+s*0.12,y+pad+s*0.1,s*0.5,s*0.24,r*0.6); ctx.fillStyle="rgba(255,255,255,.28)"; ctx.fill();
+  ctx.globalAlpha=1;
+}
+function drawBoard(){
+  // frame
+  const bsize=cell*N;
+  ctx.save();
+  roundRect(bx-cell*0.12,by-cell*0.12,bsize+cell*0.24,bsize+cell*0.24,cell*0.28);
+  ctx.fillStyle="rgba(13,32,60,.9)"; ctx.fill();
+  ctx.lineWidth=1; ctx.strokeStyle="rgba(255,255,255,.06)"; ctx.stroke();
+  ctx.restore();
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    const x=bx+c*cell, y=by+r*cell;
+    if(board[r][c]) drawJewel(x,y,cell,board[r][c]);
+    else{ const pad=cell*0.06; roundRect(x+pad,y+pad,cell-pad*2,cell-pad*2,cell*0.16); ctx.fillStyle="rgba(255,255,255,.045)"; ctx.fill(); }
+  }
+  // place flash
+  const now=performance.now();
+  flashCells.forEach(f=>{ const k=(now-f.t)/260; const a=Math.sin(k*Math.PI)*0.5;
+    f.shape.forEach(([dr,dc])=>{ const x=bx+(f.c+dc)*cell, y=by+(f.r+dr)*cell;
+      roundRect(x,y,cell,cell,cell*0.16); ctx.fillStyle="rgba(255,255,255,"+a+")"; ctx.fill(); }); });
+}
+function computeTarget(){
+  if(!drag) return;
+  const dims=shapeDims(drag.shape);
+  const topLeftX=drag.px - (dims[1]*cell)/2;
+  const topLeftY=drag.py - (dims[0]*cell)/2 - cell*0.6; // lift above finger
+  drag.tlx=topLeftX; drag.tly=topLeftY;
+  drag.targetC=Math.round((topLeftX-bx)/cell);
+  drag.targetR=Math.round((topLeftY-by)/cell);
+  drag.valid=canPlaceAt(drag.shape,drag.targetR,drag.targetC);
+}
+function drawGhost(){
+  if(!drag) return;
+  computeTarget();
+  const topLeftX=drag.tlx, topLeftY=drag.tly, gc=drag.targetC, gr=drag.targetR;
+  const ok=drag.valid;
+  if(ok){
+    // preview shadow on grid
+    drag.shape.forEach(([dr,dc])=>{ const x=bx+(gc+dc)*cell, y=by+(gr+dr)*cell;
+      roundRect(x+cell*0.06,y+cell*0.06,cell-cell*0.12,cell-cell*0.12,cell*0.16);
+      ctx.fillStyle="rgba(255,255,255,.18)"; ctx.fill(); });
+  }
+  // floating piece
+  drag.shape.forEach(([dr,dc])=>{ const x=topLeftX+dc*cell, y=topLeftY+dr*cell; drawJewel(x,y,cell,drag.color,0.95); });
+}
+function drawTray(){
+  for(let i=0;i<tray.length;i++){ const p=tray[i]; if(!p||p.used) continue;
+    if(drag && drag.sourceIdx===i) continue;
+    const dims=shapeDims(p.shape), s=trayCellSize;
+    const w=dims[1]*s, h=dims[0]*s;
+    const canMove=anyPlacement(p.shape);
+    p.tx=p.slotCx - w/2; p.ty=p.slotCy - h/2; p.ts=s; p.tw=w; p.th=h;
+    ctx.globalAlpha=canMove?1:0.4;
+    p.shape.forEach(([dr,dc])=>{ drawJewel(p.tx+dc*s, p.ty+dr*s, s, p.color); });
+    ctx.globalAlpha=1;
+  }
+}
+function drawParticles(){
+  particles.forEach(p=>{ ctx.globalAlpha=Math.max(0,p.life); roundRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size,p.size*0.3); ctx.fillStyle=p.color; ctx.fill(); });
+  ctx.globalAlpha=1;
+}
+let last=performance.now();
+function frame(now){
+  const dt=Math.min(50,now-last); last=now;
+  ctx.clearRect(0,0,W,H);
+  drawBoard();
+  drawTray();
+  drawGhost();
+  drawParticles();
+  updateFx(dt);
+  requestAnimationFrame(frame);
+}
+
+// ---- input ----
+function evtPos(e){ const rect=cv.getBoundingClientRect();
+  const t=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e;
+  return [t.clientX-rect.left, t.clientY-rect.top]; }
+function pickTray(x,y){
+  for(let i=0;i<tray.length;i++){ const p=tray[i]; if(!p||p.used) continue;
+    if(!anyPlacement(p.shape)) continue;
+    const dims=shapeDims(p.shape), s=p.ts||trayCellSize;
+    const w=(p.tw||dims[1]*s), h=(p.th||dims[0]*s);
+    const px=p.tx!=null?p.tx:p.slotCx-w/2, py=p.ty!=null?p.ty:p.slotCy-h/2;
+    // generous hit area
+    if(x>=px-s*0.4 && x<=px+w+s*0.4 && y>=py-s*0.4 && y<=py+h+s*0.4){
+      return i;
+    }
+  }
+  return -1;
+}
+function down(e){
+  if(state!=="play") return;
+  const [x,y]=evtPos(e); const i=pickTray(x,y);
+  if(i<0) return;
+  e.preventDefault(); firstInteract();
+  const p=tray[i];
+  drag={ shape:p.shape, color:p.color, sourceIdx:i, px:x, py:y, valid:false };
+  blip(520,.05,"sine",.07);
+}
+function moveEv(e){ if(!drag) return; e.preventDefault(); const [x,y]=evtPos(e); drag.px=x; drag.py=y; }
+function up(e){
+  if(!drag) return; e.preventDefault();
+  const [x,y]=evtPos(e); drag.px=x; drag.py=y; computeTarget();
+  const d=drag; drag=null;
+  if(d.valid){
+    tray[d.sourceIdx].used=true;
+    place(d.shape,d.color,d.targetR,d.targetC);
+    if(tray.every(p=>!p || p.used)){ refillTray(); }
+    if(!trayHasMove()){ gameOver(); }
+  } else {
+    blip(200,.09,"sine",.06);
+  }
+}
+cv.addEventListener("touchstart",down,{passive:false});
+cv.addEventListener("touchmove",moveEv,{passive:false});
+cv.addEventListener("touchend",up,{passive:false});
+cv.addEventListener("touchcancel",up,{passive:false});
+cv.addEventListener("mousedown",down);
+window.addEventListener("mousemove",moveEv);
+window.addEventListener("mouseup",up);
+
+let interacted=false;
+function firstInteract(){ if(interacted) return; interacted=true; const c=ac(); if(c&&c.state==="suspended") c.resume(); }
+
+// ---- flow ----
+function startGame(){
+  board=emptyBoard(); score=0; $("score").textContent="0";
+  refillTray(); state="play";
+  $("startOv").classList.remove("show"); $("overOv").classList.remove("show");
+  particles=[]; flashCells=[];
+  post({type:"gw:score",score:0});
+}
+function gameOver(){
+  state="over"; $("overText").textContent="No room left. Final score "+score+".";
+  $("overOv").classList.add("show"); blip(200,.3,"sawtooth",.12);
+  post({type:"gw:gameover",score});
+}
+$("startBtn").addEventListener("click",()=>{ firstInteract(); startGame(); });
+$("againBtn").addEventListener("click",()=>{ firstInteract(); startGame(); });
+
+// ---- lifecycle ----
+window.addEventListener("resize",resize);
+window.addEventListener("orientationchange",()=>setTimeout(resize,200));
+document.addEventListener("visibilitychange",()=>{ if(document.hidden){ try{AC&&AC.suspend();}catch(e){} drag=null; } });
+
+// boot
+board=emptyBoard(); tray=[]; resize(); requestAnimationFrame(frame);
+post({type:"gw:ready"});
+})();
+</script>
+</body>
+</html>

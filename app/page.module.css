@@ -1,0 +1,84 @@
+.page {
+  padding-block: 10px 8px;
+}
+.top {
+  margin-bottom: 24px;
+}
+.section {
+  margin-bottom: 32px;
+}
+.adWrap {
+  margin-bottom: 32px;
+}
+
+/* SEO card */
+.seo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 8px 0 20px;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+}
+.seoCol p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-body);
+}
+.seoTitle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+.howto {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin-bottom: 20px;
+}
+.howto li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: var(--fw-semibold);
+  color: var(--ink-body);
+}
+.seoCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 22px;
+  border-radius: var(--r-pill);
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 14px;
+  transition: transform var(--dur) var(--ease-bounce), background var(--dur) var(--ease-card);
+}
+.seoCta:hover {
+  transform: translateY(-2px);
+  background: var(--navy-2);
+}
+
+@media (max-width: 767px) {
+  .seo {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+  .top,
+  .section,
+  .adWrap {
+    margin-bottom: 22px;
+  }
+}

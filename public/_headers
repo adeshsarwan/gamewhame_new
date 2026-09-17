@@ -1,0 +1,17 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/thumbs/*
+  Cache-Control: public, max-age=604800, immutable
+
+/brand/*
+  Cache-Control: public, max-age=604800, immutable
+
+/icons/*
+  Cache-Control: public, max-age=604800, immutable
+
+/games/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: public, max-age=3600

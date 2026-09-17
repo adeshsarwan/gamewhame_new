@@ -1,0 +1,233 @@
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--navy);
+  box-shadow: var(--sh-card);
+  isolation: isolate;
+  transition:
+    transform var(--dur-slow) var(--ease-card),
+    box-shadow var(--dur-slow) var(--ease-card);
+  will-change: transform;
+}
+
+/* rail + grid contexts force a square tile */
+.card[data-context="rail"],
+.card[data-context="grid"] {
+  aspect-ratio: 1 / 1;
+  height: auto;
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* subtle permanent gradient scrim so titles stay legible over any art */
+.art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(to top, rgba(6, 16, 32, 0.5) 0%, rgba(6, 16, 32, 0) 42%);
+  pointer-events: none;
+}
+
+/* shine sweep */
+.shine {
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 55%;
+  height: 100%;
+  z-index: 3;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transform: skewX(-18deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* badges */
+.rate {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+}
+.fav {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 6;
+}
+
+.ribbon {
+  position: absolute;
+  top: 13px;
+  right: -30px;
+  z-index: 5;
+  transform: rotate(45deg);
+  background: var(--grad-cta-2);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 3px 34px;
+  box-shadow: var(--sh-sm);
+}
+
+/* meta bar */
+.meta {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 4;
+  padding: 28px 13px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: linear-gradient(to top, rgba(6, 16, 32, 0.94) 6%, rgba(6, 16, 32, 0.55) 52%, transparent);
+  color: #fff;
+  transition: transform var(--dur) var(--ease-card), opacity var(--dur) var(--ease-card);
+}
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 14px;
+  line-height: 1.14;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  letter-spacing: -0.01em;
+}
+.sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.82);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.subIcon {
+  opacity: 0.8;
+  flex: none;
+}
+.dot {
+  opacity: 0.55;
+}
+
+/* feature/wide tiles get a bigger title */
+.card[data-size="f"] .title {
+  font-size: 19px;
+}
+.card[data-size="w"] .title {
+  font-size: 15.5px;
+}
+
+/* hover layer */
+.hover {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(160deg, rgba(11, 224, 208, 0.28), rgba(16, 35, 63, 0.62));
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease-card);
+}
+.hoverTop {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 11px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(4px);
+}
+.playPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: var(--r-pill);
+  background: var(--grad-play);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  transform: scale(0.82) translateY(6px);
+  transition: transform var(--dur) var(--ease-spring);
+  box-shadow: 0 12px 26px rgba(255, 77, 125, 0.42);
+}
+
+/* hover / focus state (desktop only) */
+@media (hover: hover) and (min-width: 768px) {
+  .card:hover,
+  .card:focus-visible {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--sh-card-hover);
+  }
+  .card:hover .shine {
+    left: 120%;
+    opacity: 1;
+    transition:
+      left var(--dur-shine) var(--ease-card),
+      opacity var(--dur-shine) var(--ease-card);
+  }
+  .card:hover .hover,
+  .card:focus-within .hover {
+    opacity: 1;
+  }
+  .card:hover .playPill,
+  .card:focus-within .playPill {
+    transform: scale(1) translateY(0);
+  }
+  .card:hover .meta,
+  .card:focus-within .meta {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  /* art zoom on hover — target the Image inside Thumb */
+  .card:hover .art img {
+    transform: scale(1.12);
+  }
+}
+.art img {
+  transition: transform var(--dur-slow) var(--ease-card);
+}
+
+/* small screens: tighter radius */
+@media (max-width: 767px) {
+  .card {
+    border-radius: var(--r-card-mobile);
+  }
+  .title {
+    font-size: 12.5px;
+  }
+  .card[data-size="f"] .title {
+    font-size: 16px;
+  }
+  .meta {
+    padding: 24px 10px 10px;
+  }
+}

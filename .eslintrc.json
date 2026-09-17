@@ -1,0 +1,13 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "@next/next/no-img-element": "error",
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "JSXText[value=/[\\u{1F000}-\\u{1FAFF}\\u{2600}-\\u{27BF}]/u]",
+        "message": "No emoji in JSX. Use the <Icon> component or a real SVG (see docs/02 §2)."
+      }
+    ]
+  }
+}

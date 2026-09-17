@@ -1,0 +1,116 @@
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  transition:
+    transform var(--dur) var(--ease-bounce),
+    background var(--dur) var(--ease-card),
+    color var(--dur) var(--ease-card);
+}
+
+/* card variant — round white button, top-right of a tile */
+.card {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--sh-sm);
+}
+.card:hover {
+  transform: scale(1.12);
+  background: #fff;
+}
+
+/* ghost variant — text button for detail pages */
+.ghost {
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 14px;
+}
+.ghost:hover {
+  background: var(--surface-hover);
+}
+
+.active {
+  color: var(--pink);
+}
+.ghost.active {
+  background: rgba(255, 77, 125, 0.12);
+  color: var(--pink);
+}
+
+.ghostLabel {
+  line-height: 1;
+}
+
+/* heart pop */
+.pop {
+  display: inline-flex;
+  animation: heartPop 0.42s var(--ease-bounce);
+}
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.42);
+  }
+  60% {
+    transform: scale(0.86);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* particle burst */
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px;
+  border-radius: 50%;
+  background: var(--pink);
+  opacity: 0;
+  animation: burst 0.6s var(--ease-card) forwards;
+  transform: rotate(calc(var(--i) * 60deg)) translateY(0);
+}
+.particle:nth-child(even) {
+  background: var(--yellow);
+}
+@keyframes burst {
+  0% {
+    opacity: 1;
+    transform: rotate(calc(var(--i) * 60deg)) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(calc(var(--i) * 60deg)) translateY(-22px) scale(0.4);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pop,
+  .particle {
+    animation: none;
+  }
+  .particles {
+    display: none;
+  }
+}

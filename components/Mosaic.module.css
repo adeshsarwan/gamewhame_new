@@ -1,0 +1,64 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 84px;
+  grid-auto-flow: dense;
+  gap: var(--gap-grid);
+}
+
+.cell {
+  min-width: 0;
+  /* default = s */
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.cell[data-size="f"] {
+  grid-column: span 4;
+  grid-row: span 4;
+}
+.cell[data-size="t"] {
+  grid-column: span 2;
+  grid-row: span 4;
+}
+.cell[data-size="w"] {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+.cell[data-size="m"] {
+  grid-column: span 2;
+  grid-row: span 3;
+}
+
+/* Tablet — 8 cols / 88px */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: 88px;
+  }
+}
+
+/* Mobile — 4 cols / 112px with remapped spans */
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 112px;
+    gap: var(--gap-grid-mobile);
+  }
+  .cell {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .cell[data-size="f"] {
+    grid-column: span 4;
+    grid-row: span 3;
+  }
+  .cell[data-size="w"] {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+  .cell[data-size="t"],
+  .cell[data-size="m"] {
+    grid-column: span 2;
+    grid-row: span 3;
+  }
+}

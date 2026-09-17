@@ -1,0 +1,7 @@
+{
+  "slug": "dot-connect-mania",
+  "title": "Dot Connect Mania",
+  "orientation": "any",
+  "controls": ["touch", "mouse"],
+  "hasSound": true
+}

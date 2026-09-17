@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Dot Connect Mania</title>
+<style>
+  :root{
+    --aqua:#0BE0D0; --navy:#10233F; --pink:#FF4D7D; --yellow:#FFC531;
+    --purple:#7C5CFF; --lime:#B8F135; --blue:#00A8FF;
+    --font:"Nunito", ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; height:100%; overflow:hidden; background:#0a1830; font-family:var(--font);
+    user-select:none; -webkit-user-select:none; touch-action:none; }
+  #wrap{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    background:
+      radial-gradient(120% 90% at 20% 0%, #14315a 0%, rgba(20,49,90,0) 55%),
+      radial-gradient(120% 120% at 100% 100%, #101f52 0%, rgba(16,31,82,0) 60%),
+      #0a1526; }
+  canvas{ display:block; touch-action:none; }
+  .layer{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; text-align:center; color:#eaf3ff; padding:24px; }
+  .panel{ background:linear-gradient(180deg, rgba(19,36,74,.86), rgba(13,26,56,.93));
+    border:1px solid rgba(140,160,255,.2); border-radius:22px; padding:26px 26px 22px;
+    max-width:min(88vw,420px); width:100%; backdrop-filter:blur(6px);
+    box-shadow:0 18px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06); }
+  h1{ margin:0 0 6px; font-size:clamp(24px,7vw,38px); font-weight:900; letter-spacing:.5px;
+    background:linear-gradient(90deg,var(--blue),var(--aqua)); -webkit-background-clip:text;
+    background-clip:text; color:transparent; }
+  .sub{ margin:0 0 18px; color:#b3c2e6; font-weight:700; font-size:15px; line-height:1.4; }
+  .big{ font-size:clamp(28px,8vw,44px); }
+  button{ font-family:var(--font); cursor:pointer; border:none; }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:linear-gradient(180deg,var(--blue),#0080d0); color:#fff; font-weight:900;
+    font-size:19px; padding:15px 30px; border-radius:16px; width:100%;
+    box-shadow:0 8px 22px rgba(0,168,255,.38), inset 0 1px 0 rgba(255,255,255,.4);
+    transition:transform .08s ease; }
+  .btn:active{ transform:translateY(2px) scale(.99); }
+  .perfect{ color:var(--yellow); font-weight:900; font-size:18px; margin:2px 0 12px;
+    letter-spacing:1px; text-shadow:0 2px 12px rgba(255,197,49,.5); }
+  .hint{ margin-top:16px; color:#8fa0c6; font-size:13px; font-weight:700; line-height:1.5; }
+  .hide{ display:none !important; }
+  #hud{ position:absolute; top:0; left:0; right:0; display:flex; align-items:flex-start;
+    justify-content:space-between; padding:12px 14px; pointer-events:none; z-index:5; gap:8px; }
+  .chip{ background:rgba(11,26,50,.62); border:1px solid rgba(140,160,255,.18);
+    border-radius:14px; padding:7px 13px; color:#eaf3ff; font-weight:900; font-size:18px;
+    backdrop-filter:blur(4px); box-shadow:0 6px 16px rgba(0,0,0,.25); }
+  .chip small{ display:block; font-size:9px; font-weight:800; letter-spacing:1px;
+    color:#9fb0dc; text-transform:uppercase; line-height:1; margin-bottom:3px; }
+  .hbtns{ display:flex; gap:8px; }
+  .iconBtn{ pointer-events:auto; width:40px; height:40px; border-radius:11px;
+    background:rgba(11,26,50,.62); border:1px solid rgba(140,160,255,.18);
+    display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+  .iconBtn svg{ width:21px; height:21px; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game"></canvas>
+
+  <div id="hud" class="hide">
+    <div class="chip"><small>Level</small><span id="level">1</span></div>
+    <div class="chip" style="text-align:center;"><small>Pairs</small><span id="pairs">0/0</span></div>
+    <div class="hbtns">
+      <button class="iconBtn" id="reset" aria-label="Reset board"></button>
+      <button class="iconBtn" id="mute" aria-label="Toggle sound"></button>
+    </div>
+  </div>
+
+  <div class="layer" id="startScreen">
+    <div class="panel">
+      <h1>DOT CONNECT MANIA</h1>
+      <p class="sub">Draw a path from each dot to its twin. Fill the whole grid without crossing your own lines for a Perfect. Calm, clever, one flow at a time.</p>
+      <button class="btn" id="playBtn">PLAY</button>
+      <div class="hint">Drag from a dot to its matching color.<br>Cross another pipe to cut it. Cover every cell to win perfect.</div>
+    </div>
+  </div>
+
+  <div class="layer hide" id="overScreen">
+    <div class="panel">
+      <h1 id="overTitle">LEVEL COMPLETE</h1>
+      <div class="perfect hide" id="perfectTag">PERFECT — BOARD FULL</div>
+      <p class="sub" id="overSub"></p>
+      <div class="chip" style="display:inline-block; margin:0 auto 14px; font-size:22px;">
+        <small>Score</small><span class="big" id="finalScore">0</span>
+      </div>
+      <button class="btn" id="nextBtn">NEXT LEVEL</button>
+      <div class="hint" id="bestLine">Best: 0</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const SLUG="dot-connect-mania", HI_KEY="gw_"+SLUG+"_hi";
+const C=Object.freeze({aqua:"#0BE0D0",navy:"#10233F",pink:"#FF4D7D",yellow:"#FFC531",
+  purple:"#7C5CFF",lime:"#B8F135",blue:"#00A8FF"});
+const reduceMotion=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const PAL=[C.pink,C.aqua,C.yellow,C.purple,C.lime,C.blue];
+function darker(hex,f){ f=f||0.5; const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return "rgb("+Math.round(r*f)+","+Math.round(g*f)+","+Math.round(b*f)+")"; }
+
+const canvas=document.getElementById("game"), ctx=canvas.getContext("2d");
+const hud=document.getElementById("hud");
+const levelEl=document.getElementById("level"), pairsEl=document.getElementById("pairs");
+const startScreen=document.getElementById("startScreen"), overScreen=document.getElementById("overScreen");
+const finalScoreEl=document.getElementById("finalScore"), bestLineEl=document.getElementById("bestLine");
+const overTitle=document.getElementById("overTitle"), overSub=document.getElementById("overSub");
+const perfectTag=document.getElementById("perfectTag");
+
+function post(type,extra){ try{ parent.postMessage(Object.assign({type},extra||{}),"*"); }catch(e){} }
+function getHi(){ try{ return parseInt(localStorage.getItem(HI_KEY)||"0",10)||0; }catch(e){ return 0; } }
+function setHi(v){ try{ localStorage.setItem(HI_KEY,String(v)); }catch(e){} }
+let best=getHi();
+
+// audio
+let audioCtx=null, muted=false;
+try{ muted=localStorage.getItem("gw_muted")==="1"; }catch(e){}
+function ensureAudio(){ if(!audioCtx){ try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
+function tone(freq,dur,type,vol,slideTo){
+  if(muted||!audioCtx) return;
+  try{ const t=audioCtx.currentTime; const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type=type||"sine"; o.frequency.setValueAtTime(freq,t);
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo,t+dur);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol||0.1,t+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(audioCtx.destination); o.start(t); o.stop(t+dur+0.02);
+  }catch(e){}
+}
+function tickSound(){ tone(360,0.04,"sine",0.05); }
+function connectSound(){ tone(520,0.14,"sine",0.13,880); }
+function winSound(){ tone(500,0.15,"triangle",0.12,760); setTimeout(()=>tone(760,0.2,"triangle",0.12,1140),120); }
+
+const muteBtn=document.getElementById("mute");
+function muteIcon(){
+  muteBtn.innerHTML=muted
+   ?'<svg viewBox="0 0 24 24" fill="none" stroke="#9fb0dc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg>'
+   :'<svg viewBox="0 0 24 24" fill="none" stroke="'+C.aqua+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12"/></svg>';
+}
+muteIcon();
+muteBtn.addEventListener("click",e=>{ e.stopPropagation(); muted=!muted; try{localStorage.setItem("gw_muted",muted?"1":"0");}catch(_){} muteIcon(); ensureAudio(); });
+document.getElementById("reset").innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#9fb0dc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>';
+document.getElementById("reset").addEventListener("click",e=>{ e.stopPropagation(); if(state==="play") clearBoard(); });
+
+// layout
+let W=0,H=0,dpr=1, N=5, cell=60, boardX=0, boardY=0, boardSize=0;
+function computeLayout(){
+  W=window.innerWidth; H=window.innerHeight; dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=Math.floor(W*dpr); canvas.height=Math.floor(H*dpr);
+  canvas.style.width=W+"px"; canvas.style.height=H+"px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const topHUD=Math.max(58,H*0.09), botM=Math.max(16,H*0.03);
+  const availW=W*0.94, availH=H-topHUD-botM;
+  boardSize=Math.min(availW,availH);
+  cell=boardSize/N;
+  boardX=(W-boardSize)/2;
+  boardY=topHUD + (availH-boardSize)/2;
+}
+
+// state
+let state="start";
+let owner=[], epc=[], paths=[], levelColors=[], K=4;
+let level=1, totalScore=0, prevCompleted=0;
+let drawColor=-1, head=null, changedDuringDrag=false;
+let particles=[], lastT=0, paused=false, winFlash=0;
+
+// ---------- level generation ----------
+function neighborsGrid(r,c){
+  const out=[];
+  if(r>0) out.push([r-1,c]); if(r<N-1) out.push([r+1,c]);
+  if(c>0) out.push([r,c-1]); if(c<N-1) out.push([r,c+1]);
+  return out;
+}
+function snakePath(){
+  const p=[];
+  for(let r=0;r<N;r++){ if(r%2===0){ for(let c=0;c<N;c++) p.push([r,c]); } else { for(let c=N-1;c>=0;c--) p.push([r,c]); } }
+  return p;
+}
+function indexOfCell(p,cell){ for(let i=0;i<p.length;i++){ if(p[i][0]===cell[0]&&p[i][1]===cell[1]) return i; } return -1; }
+function hamilton(){
+  let p=snakePath();
+  const moves=N*N*10;
+  for(let t=0;t<moves;t++){
+    if(Math.random()<0.5) p.reverse();
+    const h=p[0];
+    const nb=neighborsGrid(h[0],h[1]);
+    const w=nb[(Math.random()*nb.length)|0];
+    if(w[0]===p[1][0]&&w[1]===p[1][1]) continue;
+    const i=indexOfCell(p,w);
+    if(i<1) continue;
+    const front=p.slice(0,i).reverse();
+    const back=p.slice(i);
+    p=front.concat(back);
+  }
+  return p;
+}
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function genLevel(){
+  owner=[]; epc=[];
+  for(let r=0;r<N;r++){ owner.push(new Array(N).fill(-1)); epc.push(new Array(N).fill(-1)); }
+  paths=[]; levelColors=[];
+  const path=hamilton();
+  const m=path.length;
+  // K segments each length>=2
+  const lens=new Array(K).fill(2); let rem=m-2*K;
+  while(rem>0){ lens[(Math.random()*K)|0]++; rem--; }
+  const colorOrder=shuffle([...Array(PAL.length).keys()]).slice(0,K);
+  let idx=0;
+  for(let s=0;s<K;s++){
+    const seg=path.slice(idx, idx+lens[s]); idx+=lens[s];
+    const a=seg[0], b=seg[seg.length-1];
+    epc[a[0]][a[1]]=s; epc[b[0]][b[1]]=s;
+    owner[a[0]][a[1]]=s; owner[b[0]][b[1]]=s;
+    paths[s]=[[a[0],a[1]]];
+    levelColors[s]=PAL[colorOrder[s]];
+  }
+  prevCompleted=0;
+  updateHUD();
+}
+
+function levelParams(){
+  N=Math.min(5+Math.floor((level-1)/2), 9);
+  K=Math.min(4+Math.floor(level/2), PAL.length);
+  if(N*N < 2*K) K=Math.floor(N*N/2);
+}
+
+function startGame(){
+  ensureAudio();
+  state="play"; level=1; totalScore=0; particles=[]; drawColor=-1; head=null;
+  levelParams(); computeLayout(); genLevel();
+  levelEl.textContent="1";
+  startScreen.classList.add("hide"); overScreen.classList.add("hide"); hud.classList.remove("hide");
+  lastT=performance.now();
+  post("gw:score",{score:0});
+}
+function nextLevel(){
+  state="play"; level++; particles=[]; drawColor=-1; head=null;
+  levelParams(); computeLayout(); genLevel();
+  levelEl.textContent=level;
+  overScreen.classList.add("hide"); hud.classList.remove("hide");
+  lastT=performance.now();
+}
+function clearBoard(){
+  for(let s=0;s<K;s++){
+    const p=paths[s];
+    for(let k=1;k<p.length;k++){ const [r,c]=p[k]; if(epc[r][c]<0) owner[r][c]=-1; }
+    // keep only origin endpoint
+    paths[s]=[p[0]];
+  }
+  drawColor=-1; head=null; prevCompleted=0; updateHUD();
+}
+
+// ---------- gameplay ----------
+function isEndpoint(r,c){ return epc[r][c]>=0; }
+function idxInPath(p,r,c){ for(let i=0;i<p.length;i++){ if(p[i][0]===r&&p[i][1]===c) return i; } return -1; }
+function clearPathKeepEndpoints(col){
+  const p=paths[col];
+  for(let k=0;k<p.length;k++){ const [r,c]=p[k]; if(!isEndpoint(r,c)) owner[r][c]=-1; }
+}
+function cellAt(px,py){
+  const c=Math.floor((px-boardX)/cell), r=Math.floor((py-boardY)/cell);
+  if(r<0||c<0||r>=N||c>=N) return null; return [r,c];
+}
+function adjacent(a,b){ return (Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1]))===1; }
+
+function startDraw(r,c){
+  const col=owner[r][c];
+  if(col<0) return false;
+  if(isEndpoint(r,c)){
+    clearPathKeepEndpoints(col);
+    paths[col]=[[r,c]];
+    drawColor=col; head=[r,c];
+  } else {
+    const p=paths[col]; const i=idxInPath(p,r,c);
+    if(i<0) return false;
+    for(let k=i+1;k<p.length;k++){ const [rr,cc]=p[k]; if(!isEndpoint(rr,cc)) owner[rr][cc]=-1; }
+    p.length=i+1;
+    drawColor=col; head=[r,c];
+  }
+  changedDuringDrag=true;
+  return true;
+}
+function cutColorAt(col,r,c){
+  const p=paths[col]; const i=idxInPath(p,r,c); if(i<0) return;
+  for(let k=i;k<p.length;k++){ const [rr,cc]=p[k]; if(!isEndpoint(rr,cc)) owner[rr][cc]=-1; }
+  p.length=i;
+}
+function extendTo(r,c){
+  if(drawColor<0||!head) return;
+  const p=paths[drawColor];
+  // must be adjacent to head
+  if(!adjacent(head,[r,c])) return;
+  // don't extend past a completed path's far endpoint
+  const last=p[p.length-1];
+  if(isEndpoint(last[0],last[1]) && p.length>1 && !(last[0]===p[0][0]&&last[1]===p[0][1])) return; // already completed
+  // backtrack
+  if(p.length>=2 && p[p.length-2][0]===r && p[p.length-2][1]===c){
+    const [hr,hc]=p.pop(); if(!isEndpoint(hr,hc)) owner[hr][hc]=-1;
+    head=p[p.length-1]; changedDuringDrag=true; tickSound(); return;
+  }
+  // loop onto own earlier cell -> truncate
+  if(owner[r][c]===drawColor){
+    const i=idxInPath(p,r,c);
+    if(i>=0){
+      if(i===p.length-1) return; // same as head
+      for(let k=i+1;k<p.length;k++){ const [rr,cc]=p[k]; if(!isEndpoint(rr,cc)) owner[rr][cc]=-1; }
+      p.length=i+1; head=p[i]; changedDuringDrag=true; return;
+    }
+  }
+  // blocked by other color's endpoint
+  if(isEndpoint(r,c) && epc[r][c]!==drawColor) return;
+  // our own origin endpoint? ignore
+  if(isEndpoint(r,c) && p[0][0]===r && p[0][1]===c) return;
+  // cut another color's pipe
+  const occ=owner[r][c];
+  if(occ>=0 && occ!==drawColor) cutColorAt(occ,r,c);
+  // extend
+  owner[r][c]=drawColor; p.push([r,c]); head=[r,c]; changedDuringDrag=true; tickSound();
+}
+
+function isComplete(col){
+  const p=paths[col]; if(p.length<2) return false;
+  const a=p[0], b=p[p.length-1];
+  return isEndpoint(a[0],a[1]) && isEndpoint(b[0],b[1]) && !(a[0]===b[0]&&a[1]===b[1]);
+}
+function countCompleted(){ let n=0; for(let s=0;s<K;s++){ if(isComplete(s)) n++; } return n; }
+function isFull(){ for(let r=0;r<N;r++) for(let c=0;c<N;c++) if(owner[r][c]<0) return false; return true; }
+
+function updateHUD(){
+  const done=countCompleted();
+  pairsEl.textContent=done+"/"+K;
+  return done;
+}
+function afterAction(){
+  const done=updateHUD();
+  if(done>prevCompleted){
+    totalScore += (done-prevCompleted)*20;
+    connectSound();
+    // sparkle at the just-connected head
+    if(head) spawnBurst(boardX+head[1]*cell+cell/2, boardY+head[0]*cell+cell/2, levelColors[drawColor], 10);
+    post("gw:score",{score:totalScore});
+  }
+  prevCompleted=done;
+  if(done===K){ winLevel(); }
+}
+function winLevel(){
+  const full=isFull();
+  const bonus=100+level*15+(full?120:0);
+  totalScore+=bonus;
+  if(totalScore>best){ best=totalScore; setHi(best); }
+  state="over";
+  winSound(); winFlash=reduceMotion?0:1;
+  // celebratory particles
+  for(let s=0;s<K;s++){ const p=paths[s]; const mid=p[(p.length/2)|0]||p[0];
+    if(mid) spawnBurst(boardX+mid[1]*cell+cell/2, boardY+mid[0]*cell+cell/2, levelColors[s], 12); }
+  finalScoreEl.textContent=totalScore;
+  bestLineEl.textContent="Best: "+best;
+  perfectTag.classList.toggle("hide", !full);
+  overTitle.textContent="LEVEL "+level+" COMPLETE";
+  overSub.textContent = full ? "Every cell covered. Flawless flow." : "All pairs connected. Fill the board for a Perfect.";
+  hud.classList.add("hide"); overScreen.classList.remove("hide");
+  post("gw:score",{score:totalScore});
+  post("gw:gameover",{score:totalScore, level:level, win:true});
+}
+
+function spawnBurst(x,y,col,n){
+  if(reduceMotion) n=Math.min(n,5);
+  for(let i=0;i<n;i++){ const a=Math.random()*6.28, sp=1+Math.random()*3;
+    particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,r:2+Math.random()*3,col}); }
+}
+
+// ---------- input ----------
+let drawing=false, lastCell=null;
+function pDown(px,py){
+  if(state!=="play") return;
+  const cl=cellAt(px,py); if(!cl) return;
+  changedDuringDrag=false;
+  if(startDraw(cl[0],cl[1])){ drawing=true; lastCell=cl; afterAction(); }
+}
+function pMove(px,py){
+  if(!drawing||state!=="play"||!head) return;
+  const cl=cellAt(px,py); if(!cl) return;
+  if(cl[0]===head[0] && cl[1]===head[1]) return;
+  // walk one orthogonal step at a time toward the target (handles fast drags)
+  let guard=0;
+  while(head && !(head[0]===cl[0]&&head[1]===cl[1]) && guard++<N*2){
+    const dr=cl[0]-head[0], dc=cl[1]-head[1];
+    let nr=head[0], nc=head[1];
+    if(Math.abs(dr)>=Math.abs(dc)) nr += dr>0?1:-1;
+    else nc += dc>0?1:-1;
+    const before=head;
+    extendTo(nr,nc);
+    if(head[0]===before[0] && head[1]===before[1]) break; // blocked, stop
+  }
+  afterAction();
+}
+function pUp(){ drawing=false; drawColor=-1; head=null; lastCell=null; }
+
+canvas.addEventListener("touchstart",e=>{ const t=e.changedTouches[0]; pDown(t.clientX,t.clientY); e.preventDefault(); },{passive:false});
+canvas.addEventListener("touchmove",e=>{ const t=e.changedTouches[0]; pMove(t.clientX,t.clientY); e.preventDefault(); },{passive:false});
+canvas.addEventListener("touchend",e=>{ pUp(); e.preventDefault(); },{passive:false});
+canvas.addEventListener("touchcancel",e=>{ pUp(); });
+canvas.addEventListener("mousedown",e=>{ pDown(e.clientX,e.clientY); });
+canvas.addEventListener("mousemove",e=>{ pMove(e.clientX,e.clientY); });
+window.addEventListener("mouseup",()=>pUp());
+window.addEventListener("keydown",e=>{ if(e.key===" "){ if(state==="start"){ startGame(); e.preventDefault(); } else if(state==="over"){ nextLevel(); e.preventDefault(); } } });
+
+document.getElementById("playBtn").addEventListener("click",startGame);
+document.getElementById("nextBtn").addEventListener("click",nextLevel);
+
+window.addEventListener("resize",()=>{ if(state!=="start") computeLayout(); });
+
+// ---------- render ----------
+function roundRect(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function cx(c){ return boardX+c*cell+cell/2; }
+function cy(r){ return boardY+r*cell+cell/2; }
+
+function drawBoard(){
+  roundRect(boardX-8,boardY-8,boardSize+16,boardSize+16,20);
+  ctx.fillStyle="rgba(9,22,44,.7)"; ctx.fill();
+  ctx.strokeStyle="rgba(140,160,255,.18)"; ctx.lineWidth=2; ctx.stroke();
+  ctx.strokeStyle="rgba(120,150,220,.10)"; ctx.lineWidth=1;
+  for(let i=1;i<N;i++){
+    ctx.beginPath(); ctx.moveTo(boardX+i*cell,boardY); ctx.lineTo(boardX+i*cell,boardY+boardSize); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(boardX,boardY+i*cell); ctx.lineTo(boardX+boardSize,boardY+i*cell); ctx.stroke();
+  }
+}
+function drawPipes(){
+  const lw=cell*0.36;
+  ctx.lineCap="round"; ctx.lineJoin="round";
+  for(let s=0;s<K;s++){
+    const p=paths[s]; if(p.length<1) continue;
+    const col=levelColors[s];
+    if(p.length>=2){
+      // glow
+      ctx.strokeStyle=col; ctx.globalAlpha=0.22; ctx.lineWidth=lw+8;
+      ctx.beginPath(); ctx.moveTo(cx(p[0][1]),cy(p[0][0]));
+      for(let k=1;k<p.length;k++) ctx.lineTo(cx(p[k][1]),cy(p[k][0])); ctx.stroke();
+      ctx.globalAlpha=1;
+      // main
+      ctx.strokeStyle=col; ctx.lineWidth=lw;
+      ctx.beginPath(); ctx.moveTo(cx(p[0][1]),cy(p[0][0]));
+      for(let k=1;k<p.length;k++) ctx.lineTo(cx(p[k][1]),cy(p[k][0])); ctx.stroke();
+      // inner highlight
+      ctx.strokeStyle="rgba(255,255,255,.25)"; ctx.lineWidth=lw*0.4;
+      ctx.beginPath(); ctx.moveTo(cx(p[0][1]),cy(p[0][0]));
+      for(let k=1;k<p.length;k++) ctx.lineTo(cx(p[k][1]),cy(p[k][0])); ctx.stroke();
+    }
+  }
+}
+function drawDots(){
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+    const s=epc[r][c]; if(s<0) continue;
+    const col=levelColors[s]; const x=cx(c), y=cy(r), rad=cell*0.30;
+    const done=isComplete(s);
+    if(done){ ctx.fillStyle=col; ctx.globalAlpha=0.3; ctx.beginPath(); ctx.arc(x,y,rad*1.5,0,7); ctx.fill(); ctx.globalAlpha=1; }
+    const g=ctx.createRadialGradient(x-rad*0.3,y-rad*0.3,rad*0.1,x,y,rad);
+    g.addColorStop(0,"rgba(255,255,255,.5)"); g.addColorStop(0.35,col); g.addColorStop(1,darker(col,0.6));
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,rad,0,7); ctx.fill();
+    ctx.strokeStyle="rgba(255,255,255,"+(done?0.9:0.3)+")"; ctx.lineWidth=done?3:2;
+    ctx.beginPath(); ctx.arc(x,y,rad+2,0,7); ctx.stroke();
+  }
+  // active head marker
+  if(head && drawColor>=0){
+    const x=cx(head[1]), y=cy(head[0]);
+    ctx.strokeStyle="rgba(255,255,255,.85)"; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(x,y,cell*0.22+2*Math.sin(performance.now()*0.008),0,7); ctx.stroke();
+  }
+}
+
+function frame(now){
+  requestAnimationFrame(frame);
+  let dt=now-lastT; lastT=now; if(dt>60)dt=60;
+  ctx.clearRect(0,0,W,H);
+  if(state!=="start" && paths.length && epc.length){
+    drawBoard();
+    drawPipes();
+    drawDots();
+  }
+  // particles
+  for(let i=particles.length-1;i>=0;i--){ const p=particles[i];
+    p.x+=p.vx; p.y+=p.vy; p.vx*=0.96; p.vy*=0.96; p.life-=dt*0.0022;
+    if(p.life<=0){ particles.splice(i,1); continue; }
+    ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=p.col;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7); ctx.fill(); }
+  ctx.globalAlpha=1;
+  if(winFlash>0){
+    ctx.fillStyle="rgba(255,255,255,"+(winFlash*0.25)+")"; ctx.fillRect(0,0,W,H);
+    winFlash-=dt*0.002; if(winFlash<0)winFlash=0;
+  }
+}
+requestAnimationFrame(frame);
+
+document.addEventListener("visibilitychange",()=>{ paused=document.hidden; if(!paused) lastT=performance.now(); });
+
+post("gw:ready",{slug:SLUG});
+})();
+</script>
+</body>
+</html>

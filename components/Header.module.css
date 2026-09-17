@@ -1,0 +1,197 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  height: var(--header-h);
+  background: linear-gradient(180deg, var(--header-bg) 0%, var(--header-bg-2) 100%);
+  border-bottom: 1px solid var(--header-line);
+  box-shadow: 0 6px 24px rgba(6, 16, 32, 0.28);
+}
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-inline: var(--container-pad);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  min-height: 44px;
+  transition: transform var(--dur) var(--ease-spring);
+}
+.logo:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+.word {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.word b {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.word i {
+  font-style: normal;
+  color: var(--aqua);
+}
+.word small {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 8.5px;
+  letter-spacing: 1.4px;
+  color: rgba(180, 205, 230, 0.72);
+  margin-top: 2px;
+}
+
+.search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+.mobileOnly {
+  display: none;
+}
+
+.profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 15px 8px 11px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--header-ink);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 13px;
+  transition: transform var(--dur) var(--ease-spring), background var(--dur) var(--ease-card);
+}
+.profile:hover {
+  transform: translateY(-2px);
+  background: rgba(11, 224, 208, 0.18);
+  border-color: rgba(11, 224, 208, 0.4);
+}
+
+/* Mobile search overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background: linear-gradient(160deg, var(--aqua), var(--aqua-2));
+  padding: 16px;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--dur-slow) var(--ease-drawer), opacity var(--dur-slow) var(--ease-drawer);
+}
+.overlayOpen {
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+.overlayTop {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Drawer */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer);
+  background: rgba(7, 17, 34, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-slow) var(--ease-drawer);
+}
+.scrimOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: calc(var(--z-drawer) + 1);
+  width: min(84vw, 340px);
+  background: #fff;
+  box-shadow: var(--sh-lg);
+  padding: 16px;
+  transform: translateX(100%);
+  transition: transform var(--dur-slow) var(--ease-drawer);
+  overflow-y: auto;
+}
+.drawerOpen {
+  transform: none;
+}
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.drawerTitle {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 20px;
+  color: var(--navy);
+}
+.drawerPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+@media (max-width: 900px) {
+  .search {
+    display: none;
+  }
+  .mobileOnly {
+    display: inline-flex;
+  }
+  .profileLabel {
+    display: none;
+  }
+  .profile {
+    padding: 10px;
+  }
+}
+/* Small phones: mark-only logo + drop the redundant profile pill (Favorites
+   lives in the header heart and the bottom nav's "Saved") so the row fits. */
+@media (max-width: 560px) {
+  .word {
+    display: none;
+  }
+  .profile {
+    display: none;
+  }
+  .inner {
+    gap: 10px;
+  }
+}
+@media (min-width: 901px) {
+  .overlay,
+  .drawer,
+  .scrim {
+    display: none;
+  }
+}

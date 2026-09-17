@@ -1,0 +1,1035 @@
+{
+  "count": 52,
+  "games": [
+    {
+      "id": 1,
+      "title": "Dot Connect Mania",
+      "slug": "dot-connect-mania",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Brain",
+        "Casual"
+      ],
+      "tags": [
+        "Brain",
+        "Casual"
+      ],
+      "hook": "Link glowing dots and untangle tricky boards in this calm, clever flow puzzler.",
+      "thumb": "/thumbs/dot-connect-mania.png",
+      "hasRealArt": true,
+      "playUrl": "/games/dot-connect-mania/index.html",
+      "placeholder": false
+    },
+    {
+      "id": 2,
+      "title": "Candy Match Blast",
+      "slug": "candy-match-blast",
+      "category": "Matching",
+      "categories": [
+        "Matching",
+        "Puzzle",
+        "Casual"
+      ],
+      "tags": [
+        "Puzzle",
+        "Casual"
+      ],
+      "hook": "Swap, blast and chain candy combos across hundreds of sweet match-3 boards.",
+      "thumb": "/thumbs/candy-match-blast.png",
+      "hasRealArt": true,
+      "playUrl": "/games/candy-match-blast/index.html",
+      "placeholder": false
+    },
+    {
+      "id": 3,
+      "title": "Basketball Arcade",
+      "slug": "basketball-arcade",
+      "category": "Sports",
+      "categories": [
+        "Sports",
+        "Arcade"
+      ],
+      "tags": [
+        "Arcade"
+      ],
+      "hook": "Time your flicks, beat the buzzer and chase three-point streaks.",
+      "thumb": "/thumbs/basketball-arcade.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 4,
+      "title": "Police Force Pursuit",
+      "slug": "police-force-pursuit",
+      "category": "Action",
+      "categories": [
+        "Action",
+        "Adventure"
+      ],
+      "tags": [
+        "Adventure"
+      ],
+      "hook": "High-speed chases, roadblocks and getaway takedowns as elite patrol.",
+      "thumb": "/thumbs/police-force-pursuit.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 5,
+      "title": "Metro Dash Runner",
+      "slug": "metro-dash-runner",
+      "category": "Arcade",
+      "categories": [
+        "Arcade",
+        "Hyper Casual",
+        "Action"
+      ],
+      "tags": [
+        "Hyper Casual",
+        "Action"
+      ],
+      "hook": "Dodge trains, vault barriers and surf the rails in this endless sprinter.",
+      "thumb": "/thumbs/metro-dash-runner.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 6,
+      "title": "Bubble Pop Mania",
+      "slug": "bubble-pop-mania",
+      "category": "Matching",
+      "categories": [
+        "Matching",
+        "Casual",
+        "Arcade"
+      ],
+      "tags": [
+        "Casual",
+        "Arcade"
+      ],
+      "hook": "Aim, bounce and pop vibrant bubble clusters with satisfying chains.",
+      "thumb": "/thumbs/bubble-pop-mania.png",
+      "hasRealArt": true,
+      "playUrl": "/games/bubble-pop-mania/index.html",
+      "placeholder": false
+    },
+    {
+      "id": 7,
+      "title": "Word Quest Search",
+      "slug": "word-quest-search",
+      "category": "Word",
+      "categories": [
+        "Word",
+        "Brain",
+        "Puzzle"
+      ],
+      "tags": [
+        "Brain",
+        "Puzzle"
+      ],
+      "hook": "Hunt hidden words, solve anagrams and train vocab daily.",
+      "thumb": "/thumbs/word-quest-search.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 8,
+      "title": "Math Puzzle Master",
+      "slug": "math-puzzle-master",
+      "category": "Math",
+      "categories": [
+        "Math",
+        "Brain",
+        "Puzzle"
+      ],
+      "tags": [
+        "Brain",
+        "Puzzle"
+      ],
+      "hook": "Crack number puzzles, sequences and lightning arithmetic.",
+      "thumb": "/thumbs/math-puzzle-master.png",
+      "hasRealArt": true,
+      "playUrl": "/games/math-puzzle-master/index.html",
+      "placeholder": false
+    },
+    {
+      "id": 9,
+      "title": "Chess Classic Board",
+      "slug": "chess-classic-board",
+      "category": "Board",
+      "categories": [
+        "Board",
+        "Strategy"
+      ],
+      "tags": [
+        "Strategy"
+      ],
+      "hook": "Classic chess with smart AI, hints and quick casual matches.",
+      "thumb": "/thumbs/chess-classic-board.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 10,
+      "title": "Car Drift Racing 3D",
+      "slug": "car-drift-racing-3d",
+      "category": "Racing",
+      "categories": [
+        "Racing",
+        "3D",
+        "Action"
+      ],
+      "tags": [
+        "3D",
+        "Action"
+      ],
+      "hook": "Slide through neon circuits, chain drifts and tune your ride.",
+      "thumb": "/thumbs/car-drift-racing-3d.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 11,
+      "title": "Zombie Shooter Strike",
+      "slug": "zombie-shooter-strike",
+      "category": "Action",
+      "categories": [
+        "Action",
+        "Adventure",
+        "3D"
+      ],
+      "tags": [
+        "Adventure",
+        "3D"
+      ],
+      "hook": "Hold the line, upgrade guns and survive waves of the undead.",
+      "thumb": "/thumbs/zombie-shooter-strike.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 12,
+      "title": "Farm Harvest Sort",
+      "slug": "farm-harvest-sort",
+      "category": "Casual",
+      "categories": [
+        "Casual",
+        "Puzzle",
+        "Strategy"
+      ],
+      "tags": [
+        "Puzzle",
+        "Strategy"
+      ],
+      "hook": "Sort crops, manage harvest trays and grow a cozy farm empire.",
+      "thumb": "/thumbs/farm-harvest-sort.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 13,
+      "title": "Block Puzzle Jewel",
+      "slug": "block-puzzle-jewel",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Brain",
+        "Casual"
+      ],
+      "tags": [
+        "Brain",
+        "Casual"
+      ],
+      "hook": "Fit jewel blocks, clear lines and chase zen high scores.",
+      "thumb": "/thumbs/block-puzzle-jewel.png",
+      "hasRealArt": true,
+      "playUrl": "/games/block-puzzle-jewel/index.html",
+      "placeholder": false
+    },
+    {
+      "id": 14,
+      "title": "Solitaire Card Classic",
+      "slug": "solitaire-card-classic",
+      "category": "Board",
+      "categories": [
+        "Board",
+        "Casual",
+        "Strategy"
+      ],
+      "tags": [
+        "Casual",
+        "Strategy"
+      ],
+      "hook": "The timeless Klondike classic with daily deals and relaxing themes.",
+      "thumb": "/thumbs/solitaire-card-classic.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 15,
+      "title": "Snake Eats Zone",
+      "slug": "snake-eats-zone",
+      "category": "Arcade",
+      "categories": [
+        "Arcade",
+        "Hyper Casual",
+        "Multiplayer"
+      ],
+      "tags": [
+        "Hyper Casual",
+        "Multiplayer"
+      ],
+      "hook": "Grow the longest snake, outplay rivals and dominate the arena.",
+      "thumb": "/thumbs/snake-eats-zone.png",
+      "hasRealArt": true,
+      "playUrl": "/games/snake-eats-zone/index.html",
+      "placeholder": false
+    },
+    {
+      "id": 16,
+      "title": "Ludo Party Dice",
+      "slug": "ludo-party-dice",
+      "category": "Board",
+      "categories": [
+        "Board",
+        "Multiplayer",
+        "Casual"
+      ],
+      "tags": [
+        "Multiplayer",
+        "Casual"
+      ],
+      "hook": "Roll, race and knock rivals in this party classic with friends.",
+      "thumb": "/thumbs/ludo-party-dice.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 17,
+      "title": "Pool Masters 3D",
+      "slug": "pool-masters-3d",
+      "category": "Sports",
+      "categories": [
+        "Sports",
+        "Multiplayer",
+        "3D"
+      ],
+      "tags": [
+        "Multiplayer",
+        "3D"
+      ],
+      "hook": "Line up trick shots and climb ranked 8-ball tables.",
+      "thumb": "/thumbs/pool-masters-3d.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 18,
+      "title": "Moto Bike Stunt",
+      "slug": "moto-bike-stunt",
+      "category": "Racing",
+      "categories": [
+        "Racing",
+        "Sports",
+        "3D"
+      ],
+      "tags": [
+        "Sports",
+        "3D"
+      ],
+      "hook": "Flip, wheelie and stunt across wild ramp tracks.",
+      "thumb": "/thumbs/moto-bike-stunt.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 19,
+      "title": "Ninja Slash Blade",
+      "slug": "ninja-slash-blade",
+      "category": "Action",
+      "categories": [
+        "Action",
+        "Arcade"
+      ],
+      "tags": [
+        "Arcade"
+      ],
+      "hook": "Slice, dash and duel shadow enemies with katana precision.",
+      "thumb": "/thumbs/ninja-slash-blade.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 20,
+      "title": "Tower Defense Empire",
+      "slug": "tower-defense-empire",
+      "category": "Strategy",
+      "categories": [
+        "Strategy",
+        "Action"
+      ],
+      "tags": [
+        "Action"
+      ],
+      "hook": "Build towers, summon heroes and crush siege waves.",
+      "thumb": "/thumbs/tower-defense-empire.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 21,
+      "title": "Cooking Chef Madness",
+      "slug": "cooking-chef-madness",
+      "category": "Casual",
+      "categories": [
+        "Casual",
+        "Strategy",
+        "Hyper Casual"
+      ],
+      "tags": [
+        "Strategy",
+        "Hyper Casual"
+      ],
+      "hook": "Cook fast, serve faster and master crazy kitchens.",
+      "thumb": "/thumbs/cooking-chef-madness.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 22,
+      "title": "Pet Rescue Match",
+      "slug": "pet-rescue-match",
+      "category": "Matching",
+      "categories": [
+        "Matching",
+        "Casual",
+        "Puzzle"
+      ],
+      "tags": [
+        "Casual",
+        "Puzzle"
+      ],
+      "hook": "Match treats, free cute pets and decorate rescue homes.",
+      "thumb": "/thumbs/pet-rescue-match.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 23,
+      "title": "Sudoku Brain Trainer",
+      "slug": "sudoku-brain-trainer",
+      "category": "Brain",
+      "categories": [
+        "Brain",
+        "Puzzle",
+        "Math"
+      ],
+      "tags": [
+        "Puzzle",
+        "Math"
+      ],
+      "hook": "Clean grids, smart hints and daily sudoku from easy to evil.",
+      "thumb": "/thumbs/sudoku-brain-trainer.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 24,
+      "title": "Crossword Word Connect",
+      "slug": "crossword-word-connect",
+      "category": "Word",
+      "categories": [
+        "Word",
+        "Brain",
+        "Casual"
+      ],
+      "tags": [
+        "Brain",
+        "Casual"
+      ],
+      "hook": "Connect letters, solve crosswords and grow your word garden.",
+      "thumb": "/thumbs/crossword-word-connect.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 25,
+      "title": "Mahjong Tile Match",
+      "slug": "mahjong-tile-match",
+      "category": "Matching",
+      "categories": [
+        "Matching",
+        "Board",
+        "Brain"
+      ],
+      "tags": [
+        "Board",
+        "Brain"
+      ],
+      "hook": "Match tiles, clear pagodas and relax through zen boards.",
+      "thumb": "/thumbs/mahjong-tile-match.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 26,
+      "title": "Color Sort Tubes",
+      "slug": "color-sort-tubes",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Casual",
+        "Brain"
+      ],
+      "tags": [
+        "Casual",
+        "Brain"
+      ],
+      "hook": "Pour, sort and solve satisfying color tube puzzles.",
+      "thumb": "/thumbs/color-sort-tubes.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 27,
+      "title": "Water Sort Flow",
+      "slug": "water-sort-flow",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Casual",
+        "Brain"
+      ],
+      "tags": [
+        "Casual",
+        "Brain"
+      ],
+      "hook": "Guide colorful flows and untangle liquid sorting tubes.",
+      "thumb": "/thumbs/water-sort-flow.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 28,
+      "title": "Parking Jam Escape",
+      "slug": "parking-jam-escape",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Strategy",
+        "3D"
+      ],
+      "tags": [
+        "Strategy",
+        "3D"
+      ],
+      "hook": "Slide cars, clear jams and escape tricky parking lots.",
+      "thumb": "/thumbs/parking-jam-escape.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 29,
+      "title": "Bridge Builder Race",
+      "slug": "bridge-builder-race",
+      "category": "Strategy",
+      "categories": [
+        "Strategy",
+        "Puzzle",
+        "Hyper Casual"
+      ],
+      "tags": [
+        "Puzzle",
+        "Hyper Casual"
+      ],
+      "hook": "Build bridges on the run and race to the finish platform.",
+      "thumb": "/thumbs/bridge-builder-race.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 30,
+      "title": "Castle Siege Defense",
+      "slug": "castle-siege-defense",
+      "category": "Strategy",
+      "categories": [
+        "Strategy",
+        "Action",
+        "Adventure"
+      ],
+      "tags": [
+        "Action",
+        "Adventure"
+      ],
+      "hook": "Fortify walls, rain arrows and repel castle sieges.",
+      "thumb": "/thumbs/castle-siege-defense.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 31,
+      "title": "Pirate Treasure Adventure",
+      "slug": "pirate-treasure-adventure",
+      "category": "Adventure",
+      "categories": [
+        "Adventure",
+        "Action",
+        "Puzzle"
+      ],
+      "tags": [
+        "Action",
+        "Puzzle"
+      ],
+      "hook": "Sail islands, dodge traps and hunt lost pirate gold.",
+      "thumb": "/thumbs/pirate-treasure-adventure.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 32,
+      "title": "Temple Jungle Escape",
+      "slug": "temple-jungle-escape",
+      "category": "Adventure",
+      "categories": [
+        "Adventure",
+        "Arcade",
+        "Hyper Casual"
+      ],
+      "tags": [
+        "Arcade",
+        "Hyper Casual"
+      ],
+      "hook": "Sprint ruins, slide under traps and outrun the guardian.",
+      "thumb": "/thumbs/temple-jungle-escape.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 33,
+      "title": "Galaxy Space Invaders",
+      "slug": "galaxy-space-invaders",
+      "category": "Arcade",
+      "categories": [
+        "Arcade",
+        "Action",
+        "3D"
+      ],
+      "tags": [
+        "Action",
+        "3D"
+      ],
+      "hook": "Blast alien waves and power up your starfighter.",
+      "thumb": "/thumbs/galaxy-space-invaders.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 34,
+      "title": "Alien Shooter Galaxy",
+      "slug": "alien-shooter-galaxy",
+      "category": "Action",
+      "categories": [
+        "Action",
+        "Arcade",
+        "3D"
+      ],
+      "tags": [
+        "Arcade",
+        "3D"
+      ],
+      "hook": "Twin-stick space combat with bosses and loot upgrades.",
+      "thumb": "/thumbs/alien-shooter-galaxy.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 35,
+      "title": "Football Soccer Stars",
+      "slug": "football-soccer-stars",
+      "category": "Sports",
+      "categories": [
+        "Sports",
+        "Multiplayer",
+        "Arcade"
+      ],
+      "tags": [
+        "Multiplayer",
+        "Arcade"
+      ],
+      "hook": "Bend free kicks and win penalty shootouts.",
+      "thumb": "/thumbs/football-soccer-stars.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 36,
+      "title": "Cricket Smash League",
+      "slug": "cricket-smash-league",
+      "category": "Sports",
+      "categories": [
+        "Sports",
+        "Action",
+        "Multiplayer"
+      ],
+      "tags": [
+        "Action",
+        "Multiplayer"
+      ],
+      "hook": "Smash sixes and bowl yorkers in fast cricket clashes.",
+      "thumb": "/thumbs/cricket-smash-league.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 37,
+      "title": "Tennis Sprint Clash",
+      "slug": "tennis-sprint-clash",
+      "category": "Sports",
+      "categories": [
+        "Sports",
+        "Arcade",
+        "Multiplayer"
+      ],
+      "tags": [
+        "Arcade",
+        "Multiplayer"
+      ],
+      "hook": "Rally, smash and rule quick-fire tennis courts.",
+      "thumb": "/thumbs/tennis-sprint-clash.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 38,
+      "title": "Bike Race Hills",
+      "slug": "bike-race-hills",
+      "category": "Racing",
+      "categories": [
+        "Racing",
+        "Sports",
+        "Hyper Casual"
+      ],
+      "tags": [
+        "Sports",
+        "Hyper Casual"
+      ],
+      "hook": "Pedal, pump and fly over bumpy hill tracks.",
+      "thumb": "/thumbs/bike-race-hills.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 39,
+      "title": "Monster Truck Mayhem",
+      "slug": "monster-truck-mayhem",
+      "category": "Racing",
+      "categories": [
+        "Racing",
+        "Action",
+        "3D"
+      ],
+      "tags": [
+        "Action",
+        "3D"
+      ],
+      "hook": "Crush cars, nail backflips and rule the arena.",
+      "thumb": "/thumbs/monster-truck-mayhem.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 40,
+      "title": "Drift Taxi City",
+      "slug": "drift-taxi-city",
+      "category": "Racing",
+      "categories": [
+        "Racing",
+        "3D",
+        "Casual"
+      ],
+      "tags": [
+        "3D",
+        "Casual"
+      ],
+      "hook": "Drift fares across the city in a crazy taxi career.",
+      "thumb": "/thumbs/drift-taxi-city.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 41,
+      "title": "Sniper Elite Mission",
+      "slug": "sniper-elite-mission",
+      "category": "Action",
+      "categories": [
+        "Action",
+        "3D",
+        "Adventure"
+      ],
+      "tags": [
+        "3D",
+        "Adventure"
+      ],
+      "hook": "Line up long shots and complete stealth contracts.",
+      "thumb": "/thumbs/sniper-elite-mission.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 42,
+      "title": "Stickman Fighter Legends",
+      "slug": "stickman-fighter-legends",
+      "category": "Action",
+      "categories": [
+        "Action",
+        "Arcade",
+        "Multiplayer"
+      ],
+      "tags": [
+        "Arcade",
+        "Multiplayer"
+      ],
+      "hook": "Punch, kick and combo through stickman tournaments.",
+      "thumb": "/thumbs/stickman-fighter-legends.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 43,
+      "title": "Crew Impostor Hunt",
+      "slug": "crew-impostor-hunt",
+      "category": "Multiplayer",
+      "categories": [
+        "Multiplayer",
+        "Strategy",
+        "Casual"
+      ],
+      "tags": [
+        "Strategy",
+        "Casual"
+      ],
+      "hook": "Find the impostor, finish tasks and survive the vote.",
+      "thumb": "/thumbs/crew-impostor-hunt.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 44,
+      "title": "Draw & Guess Party",
+      "slug": "draw-guess-party",
+      "category": "Word",
+      "categories": [
+        "Word",
+        "Multiplayer",
+        "Casual"
+      ],
+      "tags": [
+        "Multiplayer",
+        "Casual"
+      ],
+      "hook": "Sketch, guess and laugh with friends online.",
+      "thumb": "/thumbs/draw-guess-party.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 45,
+      "title": "Quiz Trivia Brain",
+      "slug": "quiz-trivia-brain",
+      "category": "Brain",
+      "categories": [
+        "Brain",
+        "Word",
+        "Multiplayer"
+      ],
+      "tags": [
+        "Word",
+        "Multiplayer"
+      ],
+      "hook": "Fast trivia across science, sports and pop culture.",
+      "thumb": "/thumbs/quiz-trivia-brain.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 46,
+      "title": "Memory Card Match",
+      "slug": "memory-card-match",
+      "category": "Matching",
+      "categories": [
+        "Matching",
+        "Brain",
+        "Casual"
+      ],
+      "tags": [
+        "Brain",
+        "Casual"
+      ],
+      "hook": "Flip, focus and match pairs against the clock.",
+      "thumb": "/thumbs/memory-card-match.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 47,
+      "title": "Jigsaw Puzzle Worlds",
+      "slug": "jigsaw-puzzle-worlds",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Casual",
+        "Brain"
+      ],
+      "tags": [
+        "Casual",
+        "Brain"
+      ],
+      "hook": "Piece together dreamy landscapes big and small.",
+      "thumb": "/thumbs/jigsaw-puzzle-worlds.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 48,
+      "title": "Dominoes Classic",
+      "slug": "dominoes-classic",
+      "category": "Board",
+      "categories": [
+        "Board",
+        "Multiplayer",
+        "Strategy"
+      ],
+      "tags": [
+        "Multiplayer",
+        "Strategy"
+      ],
+      "hook": "Block, score and domino your way to victory.",
+      "thumb": "/thumbs/dominoes-classic.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 49,
+      "title": "Checkers Clash",
+      "slug": "checkers-clash",
+      "category": "Board",
+      "categories": [
+        "Board",
+        "Strategy",
+        "Casual"
+      ],
+      "tags": [
+        "Strategy",
+        "Casual"
+      ],
+      "hook": "Jump, crown and outsmart in classic checkers duels.",
+      "thumb": "/thumbs/checkers-clash.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    },
+    {
+      "id": 50,
+      "title": "Merge 2048 Number Puzzle",
+      "slug": "merge-2048-number-puzzle",
+      "category": "Math",
+      "categories": [
+        "Math",
+        "Puzzle",
+        "Brain"
+      ],
+      "tags": [
+        "Puzzle",
+        "Brain"
+      ],
+      "hook": "Slide, merge and chase 2048 and beyond.",
+      "thumb": "/thumbs/merge-2048-number-puzzle.png",
+      "hasRealArt": true,
+      "playUrl": "/games/merge-2048-number-puzzle/index.html",
+      "placeholder": false
+    },
+    {
+      "id": 51,
+      "title": "Fruit Slice Frenzy",
+      "slug": "fruit-slice-frenzy",
+      "category": "Arcade",
+      "categories": [
+        "Arcade",
+        "Hyper Casual",
+        "Action"
+      ],
+      "tags": [
+        "Hyper Casual",
+        "Action"
+      ],
+      "hook": "Slice flying fruit, dodge bombs and chase combos.",
+      "thumb": "/thumbs/fruit-slice-frenzy.png",
+      "hasRealArt": true,
+      "playUrl": "/games/fruit-slice-frenzy/index.html",
+      "placeholder": false
+    },
+    {
+      "id": 52,
+      "title": "Sky Jump Helix Ball",
+      "slug": "sky-jump-helix-ball",
+      "category": "Arcade",
+      "categories": [
+        "Arcade",
+        "Hyper Casual",
+        "3D"
+      ],
+      "tags": [
+        "Hyper Casual",
+        "3D"
+      ],
+      "hook": "Bounce, dodge and dive down the helix tower.",
+      "thumb": "/thumbs/sky-jump-helix-ball.png",
+      "hasRealArt": true,
+      "playUrl": null,
+      "placeholder": false
+    }
+  ]
+}

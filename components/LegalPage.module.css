@@ -1,0 +1,187 @@
+/* Shared prose shell for the legal/info pages (privacy, terms, cookies, about,
+   contact). Centered, readable column dressed in our tokens — not a copy of
+   the old static site's markup. */
+
+.wrap {
+  padding-block: var(--s-9) var(--s-10);
+}
+
+.card {
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--sh-card);
+  padding: var(--s-9) var(--s-9);
+}
+
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  max-width: 760px;
+  margin: 0 auto var(--s-6);
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: var(--t-sm);
+  font-weight: var(--fw-medium);
+}
+.crumb a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.crumb a:hover {
+  color: var(--navy);
+  text-decoration: underline;
+}
+.crumb b {
+  color: var(--navy);
+  font-weight: var(--fw-bold);
+}
+
+.header {
+  margin-bottom: var(--s-7);
+  padding-bottom: var(--s-7);
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--aqua-2);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--t-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 var(--s-3);
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: clamp(28px, 4vw, 38px);
+  color: var(--navy);
+  line-height: 1.15;
+  margin: 0 0 var(--s-3);
+}
+
+.intro {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Prose — children are plain semantic elements (h2/p/ul/a) so page files stay
+   simple; this scopes typography onto them without per-element classes. */
+.prose {
+  font-family: var(--font-body);
+  color: var(--ink-body);
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+.prose h2 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: var(--t-h2);
+  color: var(--navy);
+  margin: var(--s-9) 0 var(--s-4);
+  letter-spacing: -0.01em;
+}
+.prose h2:first-child {
+  margin-top: 0;
+}
+
+.prose p {
+  margin: 0 0 var(--s-5);
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 var(--s-5);
+  padding-left: 1.3em;
+  display: grid;
+  gap: var(--s-2);
+}
+.prose li {
+  padding-left: 0.2em;
+}
+
+.prose a {
+  color: var(--aqua-2);
+  font-weight: var(--fw-semibold);
+  text-decoration: underline;
+  text-decoration-color: rgba(8, 199, 187, 0.35);
+  text-underline-offset: 2px;
+}
+.prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.prose strong {
+  color: var(--navy);
+  font-weight: var(--fw-bold);
+}
+
+/* Contact card — email CTA reused on the contact page. */
+.contactCard {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  margin: var(--s-6) 0 var(--s-8);
+  padding: var(--s-6) var(--s-7);
+  background: var(--aqua-wash);
+  border: 1px solid rgba(11, 224, 208, 0.28);
+  border-radius: var(--r-lg);
+}
+
+.contactIcon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--r-pill);
+  background: var(--grad-brand);
+  color: #fff;
+  box-shadow: var(--sh-sm);
+}
+
+.contactText {
+  display: grid;
+  gap: 2px;
+}
+.contactLabel {
+  font-family: var(--font-body);
+  font-size: var(--t-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.contactEmail {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: var(--t-h3);
+  color: var(--navy);
+  text-decoration: none;
+}
+.contactEmail:hover {
+  color: var(--aqua-2);
+}
+
+@media (max-width: 720px) {
+  .card {
+    padding: var(--s-7) var(--s-6);
+    border-radius: var(--r-xl);
+  }
+  .contactCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

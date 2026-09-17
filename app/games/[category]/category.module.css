@@ -1,0 +1,125 @@
+.page {
+  padding-block: 20px 8px;
+}
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: var(--fw-semibold);
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.crumb a:hover {
+  color: var(--navy);
+}
+.crumb b {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(600px 200px at 90% -20%, rgba(255, 255, 255, 0.25), transparent 60%),
+    linear-gradient(120deg, var(--cat-c), var(--navy) 130%);
+  color: #fff;
+  overflow: hidden;
+}
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.2px, transparent 1.3px);
+  background-size: 20px 20px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.bannerChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.18);
+  flex: none;
+}
+.bannerText {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.h1 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 26px;
+}
+.blurb {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: var(--fw-medium);
+}
+.count {
+  margin-left: auto;
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--r-pill);
+  padding: 6px 13px;
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 12.5px;
+}
+.empty {
+  color: var(--muted);
+  font-weight: var(--fw-semibold);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.mosaicSection {
+  margin: 26px 0 30px;
+}
+.adWrap {
+  margin-bottom: 30px;
+}
+.gridSection {
+  margin-bottom: 8px;
+}
+.relatedSection {
+  margin: 40px 0 12px;
+}
+.relatedRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .h1 {
+    font-size: 22px;
+  }
+  .count {
+    display: none;
+  }
+  .banner {
+    padding: 20px;
+  }
+  .mosaicSection {
+    margin: 20px 0 22px;
+  }
+  .adWrap {
+    margin-bottom: 22px;
+  }
+  .relatedSection {
+    margin: 30px 0 10px;
+  }
+}
+

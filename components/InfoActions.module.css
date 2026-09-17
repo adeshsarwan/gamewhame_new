@@ -1,0 +1,52 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.play {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 26px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: var(--grad-cta);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: 15px;
+  box-shadow: var(--sh-cta);
+  transition:
+    transform var(--dur) var(--ease-bounce),
+    box-shadow var(--dur) var(--ease-card),
+    filter var(--dur) var(--ease-card);
+}
+.play:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 14px 32px rgba(255, 77, 125, 0.5);
+}
+.play:active {
+  transform: scale(0.97);
+}
+.share {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 14px;
+  transition:
+    background var(--dur) var(--ease-card),
+    transform var(--dur) var(--ease-bounce);
+}
+.share:hover {
+  background: var(--surface-hover);
+  transform: translateY(-2px);
+}

@@ -1,0 +1,77 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  white-space: nowrap;
+  transition:
+    transform var(--dur) var(--ease-bounce),
+    box-shadow var(--dur) var(--ease-card),
+    filter var(--dur) var(--ease-card);
+}
+.btn:active {
+  transform: scale(0.96);
+}
+
+.tri {
+  display: inline-flex;
+}
+
+/* cta — full pink-to-orange gradient */
+.cta {
+  padding: 14px 28px;
+  border-radius: var(--r-pill);
+  background: var(--grad-play);
+  color: #fff;
+  font-size: 15px;
+  box-shadow: var(--sh-cta), var(--sh-inset-hi);
+}
+.cta:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.05);
+  box-shadow: 0 16px 34px rgba(255, 77, 125, 0.5);
+}
+
+/* pill — compact pink */
+.pill {
+  padding: 9px 18px;
+  border-radius: var(--r-pill);
+  background: var(--grad-cta);
+  color: #fff;
+  font-size: 13.5px;
+  box-shadow: var(--sh-cta);
+}
+.pill:hover {
+  transform: translateY(-2px);
+}
+
+/* overlay — white pill for card hover layer */
+.overlay {
+  padding: 11px 22px;
+  border-radius: var(--r-pill);
+  background: #fff;
+  color: var(--navy);
+  font-size: 13.5px;
+  letter-spacing: 0.2px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+.overlay .label {
+  text-transform: uppercase;
+}
+
+/* big — round white on stage */
+.big {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--pink);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  padding-left: 4px;
+}
+.big:hover {
+  transform: scale(1.06);
+}

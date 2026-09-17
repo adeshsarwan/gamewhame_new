@@ -1,0 +1,141 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(7, 17, 34, 0.82);
+  backdrop-filter: blur(6px);
+  animation: fadeIn var(--dur) var(--ease-card);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 18px;
+  border-radius: var(--r-lg);
+  background: #fff;
+  box-shadow: var(--sh-lg);
+  animation: popIn var(--dur-slow) var(--ease-bounce);
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.crown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 12px;
+  background: rgba(255, 197, 49, 0.16);
+}
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 17px;
+  color: var(--navy);
+}
+.sub {
+  margin-top: 2px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.close {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border: none;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+  transition: background var(--dur) var(--ease-card);
+}
+.close:hover {
+  background: var(--surface-hover);
+  color: var(--navy);
+}
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+.progressTrack {
+  position: relative;
+  flex: 1;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  overflow: hidden;
+}
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--grad-progress);
+  transition: width 1s linear;
+}
+.count {
+  flex: none;
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 12px;
+  color: var(--muted);
+}
+.skip {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 12.5px;
+  transition: color var(--dur) var(--ease-card);
+}
+.skip:hover {
+  color: var(--navy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .card {
+    animation: none;
+  }
+  .progressFill {
+    transition: none;
+  }
+}
