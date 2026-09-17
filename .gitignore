@@ -7,6 +7,10 @@
 /.next/
 /out/
 
+# OpenNext / Cloudflare build output
+/.open-next/
+/.wrangler/
+
 # production
 /build
 
@@ -28,4 +32,3 @@ next-env.d.ts
 
 # vercel / cloudflare
 .vercel
-.wrangler
