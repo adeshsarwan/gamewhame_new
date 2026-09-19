@@ -18,8 +18,10 @@
       "hook": "Link glowing dots and untangle tricky boards in this calm, clever flow puzzler.",
       "thumb": "/thumbs/dot-connect-mania.png",
       "hasRealArt": true,
-      "playUrl": "/games/dot-connect-mania/index.html",
-      "placeholder": false
+      "playUrl": null,
+      "placeholder": false,
+      "gameUrl": "https://games.gamewhame.com/dot-connect-mania/index.html",
+      "engine": "unity-webgl"
     },
     {
       "id": 2,

@@ -1,0 +1,207 @@
+/* Unity-specific bits. Chrome / stage / poster styles are reused from
+   PlayerStage.module.css (imported as `shell`); this file only adds the
+   Unity loading overlay, progress bar and error state. */
+
+/* Containment so scroll/overscroll gestures over the game never move the
+   page, without touching the shared .stage rules other games rely on. */
+.stage {
+  overscroll-behavior: contain;
+  touch-action: none;
+}
+
+/* ---- On-brand loading overlay (dot-connect motif) ---- */
+.loading {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  background: radial-gradient(120% 120% at 50% 30%, #16305a, var(--stage));
+}
+
+/* Four glowing dots with a sweeping link line — echoes the game's premise. */
+.dots {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  height: 22px;
+  margin-bottom: 4px;
+}
+.dots i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--aqua);
+  box-shadow: 0 0 14px rgba(11, 224, 208, 0.7);
+  animation: dotPulse 1.3s var(--ease-card, ease) infinite;
+  animation-delay: calc(var(--i) * 0.16s);
+}
+.link {
+  position: absolute;
+  top: 50%;
+  left: 7px;
+  right: 7px;
+  height: 2px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, rgba(11, 224, 208, 0), var(--aqua), rgba(11, 224, 208, 0));
+  background-size: 220% 100%;
+  animation: linkSweep 1.3s linear infinite;
+}
+@keyframes dotPulse {
+  0%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+@keyframes linkSweep {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}
+.loadingText {
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: 15px;
+}
+.loadingSub {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+.bar {
+  position: relative;
+  width: min(240px, 62%);
+  height: 5px;
+  margin-top: 6px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+/* Indeterminate sweep (cross-origin: no real % available). */
+.barFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--aqua), var(--aqua-light, #7ff3ea));
+  animation: barSlide 1.25s var(--ease-card, ease) infinite;
+}
+/* Determinate (only if the build ever posts progress via postMessage). */
+.barFillDet {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--aqua), var(--aqua-light, #7ff3ea));
+  transition: width 0.25s ease;
+}
+@keyframes barSlide {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* ---- Error + Retry ---- */
+.error {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px 24px;
+  text-align: center;
+  background: radial-gradient(120% 120% at 50% 30%, #16305a, var(--stage));
+}
+.errorIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 20px;
+  background: rgba(11, 224, 208, 0.12);
+  border: 1px solid rgba(11, 224, 208, 0.3);
+}
+.errorTitle {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 22px;
+  color: #fff;
+}
+.errorCopy {
+  max-width: 420px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.errorActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+.retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: var(--grad-cta);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: 14.5px;
+  box-shadow: var(--sh-cta);
+  transition: transform var(--dur) var(--ease-bounce, ease);
+}
+.retry:hover {
+  transform: translateY(-2px);
+}
+.retry:active {
+  transform: translateY(0) scale(0.98);
+}
+.errorSimilar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--aqua-light, #7ff3ea);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 13px;
+}
+.errorSimilar:hover {
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dots i,
+  .link,
+  .barFill {
+    animation: none;
+  }
+}

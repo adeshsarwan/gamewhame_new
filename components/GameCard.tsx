@@ -40,7 +40,7 @@ export default function GameCard({
   showFav = true,
   context = "mosaic",
 }: GameCardProps) {
-  const comingSoon = game.playUrl === null;
+  const comingSoon = !game.playUrl && !game.gameUrl;
   return (
     <Link
       href={`/play/${game.slug}`}

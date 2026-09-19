@@ -11,6 +11,7 @@ import GameRail from "@/components/GameRail";
 import AdSlot from "@/components/AdSlot";
 import Icon from "@/components/Icon";
 import PlayerStage from "@/components/PlayerStage";
+import UnityPlayer from "@/components/UnityPlayer";
 import InfoActions from "@/components/InfoActions";
 import RelatedList from "@/components/RelatedList";
 import RecentlyPlayed from "@/components/RecentlyPlayed";
@@ -60,7 +61,9 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
     .filter((g) => g.category === game.category)
     .slice(0, 12);
   const catSlug = categorySlug(game.category);
-  const playable = Boolean(game.playUrl);
+  const isUnity = game.engine === "unity-webgl" && Boolean(game.gameUrl);
+  // Playable = a local build (playUrl) OR an externally-hosted build (gameUrl).
+  const playable = Boolean(game.playUrl || game.gameUrl);
   const updated = new Date(game.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -131,7 +134,11 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
         <div className={styles.grid}>
           {/* Left — the stage (client iframe lifecycle inside). */}
           <div className={styles.stageCol}>
-            <PlayerStage game={game} relatedAnchor="related-games" />
+            {isUnity ? (
+              <UnityPlayer game={game} relatedAnchor="related-games" />
+            ) : (
+              <PlayerStage game={game} relatedAnchor="related-games" />
+            )}
           </div>
 
           {/* Right — info + discovery + ad. */}

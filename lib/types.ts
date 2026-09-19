@@ -22,6 +22,19 @@ export interface RawGame {
   hasRealArt: boolean;
   playUrl: string | null;
   placeholder: boolean;
+  /**
+   * Absolute URL of an externally-hosted playable build (e.g. a Unity WebGL
+   * game served same-origin from the games CDN). When set, the play page mounts
+   * the metadata-driven player instead of the local `playUrl` iframe. Optional so
+   * the 52-game lean catalog stays unchanged for every non-ported title.
+   */
+  gameUrl?: string | null;
+  /**
+   * Engine of the externally-hosted build. Drives which player component mounts
+   * on `/play/[slug]`. Currently only `"unity-webgl"`; future engines add a value
+   * here and the player switches on it — no per-game code.
+   */
+  engine?: "unity-webgl" | null;
 }
 
 /**
