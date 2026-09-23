@@ -62,7 +62,7 @@ export default function CategorySidebar() {
                   src={`/icons/cat-${it.slug}.png`}
                   className={styles.emblem}
                   decorative
-                  fallback={<Icon name={it.icon} weight="fill" size={22} color="#fff" />}
+                  fallback={<Icon name={it.icon} weight="fill" size={26} color="var(--c)" />}
                 />
               </span>
               <span className={styles.label}>{it.label}</span>

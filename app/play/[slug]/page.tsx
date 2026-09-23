@@ -6,14 +6,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllGames, getGameBySlug, getRelated } from "@/lib/games";
 import { categoryColorVar, categorySlug } from "@/lib/categories";
-import RatingBadge from "@/components/RatingBadge";
 import GameRail from "@/components/GameRail";
 import AdSlot from "@/components/AdSlot";
 import Icon from "@/components/Icon";
 import PlayerStage from "@/components/PlayerStage";
 import UnityPlayer from "@/components/UnityPlayer";
-import InfoActions from "@/components/InfoActions";
-import RelatedList from "@/components/RelatedList";
 import RecentlyPlayed from "@/components/RecentlyPlayed";
 import InterstitialGate from "@/components/InterstitialGate";
 import styles from "./play.module.css";
@@ -56,7 +53,6 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
   if (!game) notFound();
 
   const related = getRelated(game, 12);
-  const sidebarRelated = related.slice(0, 4);
   const moreInCategory = getRelated(game, 30)
     .filter((g) => g.category === game.category)
     .slice(0, 12);
@@ -64,11 +60,6 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
   const isUnity = game.engine === "unity-webgl" && Boolean(game.gameUrl);
   // Playable = a local build (playUrl) OR an externally-hosted build (gameUrl).
   const playable = Boolean(game.playUrl || game.gameUrl);
-  const updated = new Date(game.createdAt).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -116,43 +107,26 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
           <Icon name="tag" size={13} />
           {game.category}
         </span>
-        <span className={`${styles.stateChip} ${playable ? styles.instant : styles.soon}`}>
-          <Icon name={playable ? "lightning" : "bell"} weight={playable ? "fill" : "line"} size={13} />
-          {playable ? "Instant play" : "Coming soon"}
-        </span>
-        <span className={styles.metaChip}>
-          <Icon name="star" weight="fill" size={13} color="var(--yellow)" />
-          {game.rating.toFixed(1)}
-        </span>
-        <span className={styles.metaChip}>
-          <Icon name="users" size={13} color="var(--muted)" />
-          {game.plays} plays
-        </span>
       </div>
 
       <InterstitialGate>
         <div className={styles.grid}>
-          {/* Left — the stage (client iframe lifecycle inside). */}
+          {/* Left — the stage (client iframe lifecycle inside) + banner ad below. */}
           <div className={styles.stageCol}>
             {isUnity ? (
               <UnityPlayer game={game} relatedAnchor="related-games" />
             ) : (
               <PlayerStage game={game} relatedAnchor="related-games" />
             )}
+
+            {/* Leaderboard banner directly below the player (never gates play). */}
+            <AdSlot variant="display" label="728 x 90 Leaderboard" height={90} className={styles.playerAd} />
           </div>
 
-          {/* Right — info + discovery + ad. */}
+          {/* Right — info + side ad rail. */}
           <aside className={styles.info}>
-            <RatingBadge rating={game.rating} variant="inline" count={game.playsNum} />
             <h1 className={styles.title}>{game.title}</h1>
             <p className={styles.desc}>{game.description}</p>
-
-            <InfoActions
-              slug={game.slug}
-              title={game.title}
-              playable={playable}
-              storeUrl={game.externalStoreUrl}
-            />
 
             {game.tags.length > 0 && (
               <ul className={styles.tags}>
@@ -166,39 +140,8 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
               </ul>
             )}
 
-            <ul className={styles.metaTable}>
-              <li>
-                <Icon name="tag" size={16} color="var(--muted)" /> Category <b>{game.category}</b>
-              </li>
-              <li>
-                <Icon name="users" size={16} color="var(--muted)" /> Plays <b>{game.plays}</b>
-              </li>
-              <li>
-                <Icon name="star" weight="fill" size={16} color="var(--yellow)" /> Rating <b>{game.rating.toFixed(1)}</b>
-              </li>
-              <li>
-                <Icon name="calendar" size={16} color="var(--muted)" /> Updated <b>{updated}</b>
-              </li>
-              <li>
-                <Icon name="devices" size={16} color="var(--muted)" /> Platform <b>Web (all devices)</b>
-              </li>
-            </ul>
-
-            <a
-              className={styles.storeCta}
-              href={game.externalStoreUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon name="devices" size={17} />
-              Also available on Android
-              <Icon name="caretRight" size={15} />
-            </a>
-
-            <AdSlot variant="sidebar" height={220} />
-
-            {/* Loop-B discovery above the fold (desktop sidebar). */}
-            <RelatedList games={sidebarRelated} />
+            {/* Desktop right-rail medium rectangle; stacks inline on mobile. */}
+            <AdSlot variant="sidebar" label="300 x 250" height={250} />
           </aside>
         </div>
 
@@ -216,6 +159,9 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
         <section className={styles.related}>
           <RecentlyPlayed games={getAllGames()} currentSlug={game.slug} />
         </section>
+
+        {/* Bottom-of-page leaderboard, near the footer. */}
+        <AdSlot variant="display" label="728 x 90 Leaderboard" height={90} className={styles.bottomAd} />
       </InterstitialGate>
     </div>
   );

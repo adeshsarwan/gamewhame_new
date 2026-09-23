@@ -175,10 +175,11 @@
     padding: 10px;
   }
 }
-/* Small phones: mark-only logo + drop the redundant profile pill (Favorites
-   lives in the header heart and the bottom nav's "Saved") so the row fits. */
+/* Small phones: keep the text wordmark but drop its tagline, and drop the
+   redundant profile pill (Favorites lives in the header heart and the bottom
+   nav's "Saved") so the row fits. */
 @media (max-width: 560px) {
-  .word {
+  .word small {
     display: none;
   }
   .profile {

@@ -330,20 +330,6 @@ export default function UnityPlayer({ game, relatedAnchor = "related-games" }: U
               >
                 <PlayTriangle size={34} color="var(--pink)" />
               </button>
-              <div className={shell.posterMeta}>
-                <span className={shell.posterChip}>
-                  <Icon name="star" weight="fill" size={14} color="var(--yellow)" />
-                  {game.rating.toFixed(1)}
-                </span>
-                <span className={shell.posterChip}>
-                  <Icon name="users" size={14} color="var(--aqua-light)" />
-                  {game.plays} plays
-                </span>
-              </div>
-              <p className={shell.posterNote}>
-                <Icon name="lightning" weight="fill" size={14} color="var(--yellow)" />
-                Free instant · No download
-              </p>
             </div>
           </div>
         )}

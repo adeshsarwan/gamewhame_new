@@ -48,7 +48,7 @@ export default function CategoryLauncher() {
                   src={`/icons/cat-${it.slug}.png`}
                   className={styles.emblem}
                   decorative
-                  fallback={<Icon name={it.icon} weight="fill" size={30} color="#fff" />}
+                  fallback={<Icon name={it.icon} weight="fill" size={34} color="var(--c)" />}
                 />
               </span>
               <span className={styles.label}>{it.label}</span>

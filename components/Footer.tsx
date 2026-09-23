@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogoMark } from "./BrandMarks";
+import { Wordmark } from "./BrandMarks";
 import { CATEGORIES } from "@/lib/categories";
 import styles from "./Footer.module.css";
 
@@ -18,13 +18,7 @@ export default function Footer() {
       <div className={styles.inner}>
         <div className={styles.brandCol}>
           <div className={styles.brand}>
-            <LogoMark size={40} />
-            <span className={styles.word}>
-              <b>
-                GAME<i>WHAME</i>
-              </b>
-              <small>Play. Discover. Repeat.</small>
-            </span>
+            <Wordmark className={styles.word} size={24} tagline="Play. Discover. Repeat." />
           </div>
           <p className={styles.blurb}>
             A bright, fast arcade of free HTML5 games. No sign-up, no download — just tap a tile and play, then let the

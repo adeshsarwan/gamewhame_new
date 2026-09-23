@@ -16,10 +16,11 @@
         "Logic"
       ],
       "hook": "Pull the pins in the right order to free the thread and solve each tangled board.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/pull-the-thread.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/pull-the-thread/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "bundle"
     },
     {
       "id": 54,
@@ -39,7 +40,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/jump-box-hero/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "bundle"
     },
     {
       "id": 55,
@@ -59,7 +61,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/retro-speed/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "bundle"
     },
     {
       "id": 56,
@@ -79,7 +82,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/triangle-way/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "bundle"
     },
     {
       "id": 57,
@@ -99,7 +103,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/draw-the-path/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "bundle"
     },
     {
       "id": 100,
@@ -119,7 +124,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/banana-actions/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 101,
@@ -140,7 +146,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/calcudoku/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 102,
@@ -161,7 +168,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/car-rush/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 103,
@@ -182,7 +190,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/cat-match3/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 104,
@@ -203,7 +212,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/chibi-hero/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 105,
@@ -221,10 +231,11 @@
         "Rings"
       ],
       "hook": "Rotate the rings until every colour lines up into one clean circle.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/circle-puzzle.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/circle-puzzle/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 106,
@@ -242,10 +253,11 @@
         "Logic"
       ],
       "hook": "Cut the pipes so each truck fills up with its matching colour.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/color-fall.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/color-fall/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 107,
@@ -266,7 +278,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/connect-a-way/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 108,
@@ -287,7 +300,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/connect-the-dots/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 109,
@@ -308,7 +322,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/connectfour/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 110,
@@ -326,10 +341,11 @@
         "Slide"
       ],
       "hook": "Slide and roll the cube to its goal on every tricky grid.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/cube-move.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/cube-move/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 111,
@@ -350,7 +366,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/draggable-puzzle/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 112,
@@ -371,7 +388,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/draw-a-line/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 113,
@@ -389,10 +407,11 @@
         "Compare"
       ],
       "hook": "Guess which option ranks faster or slower and build a streak.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/faster-or-slower.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/faster-or-slower/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 114,
@@ -410,10 +429,11 @@
         "Logic"
       ],
       "hook": "Carve paths so the water flows and fills every glass to the line.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/fill-the-water.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/fill-the-water/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 115,
@@ -434,7 +454,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/find-the-cat/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 116,
@@ -455,7 +476,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/find-the-pug/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 117,
@@ -476,7 +498,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/guess-number/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 118,
@@ -497,7 +520,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/gyro-forcer/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 119,
@@ -518,7 +542,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/hacker-challenge/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 120,
@@ -539,7 +564,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/hit-villains/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 121,
@@ -560,7 +586,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/jojo-run/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 122,
@@ -581,7 +608,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/linebright/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 123,
@@ -602,7 +630,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/match-doodle/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 124,
@@ -623,7 +652,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/millionaire-quiz/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 125,
@@ -641,10 +671,11 @@
         "Combo"
       ],
       "hook": "Slash flying fruit into combos and dodge the bombs to survive.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/ninja-fruit-slice.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/ninja-fruit-slice/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 126,
@@ -665,7 +696,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/pin-cracker/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 127,
@@ -686,7 +718,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/play-checkers/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 128,
@@ -707,7 +740,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/play-chess/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 129,
@@ -728,7 +762,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/play-dominoes/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 130,
@@ -749,7 +784,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/play-ludo/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 131,
@@ -770,7 +806,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/play-maze/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 132,
@@ -791,7 +828,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/play-reversi/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 133,
@@ -812,7 +850,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/plumper-pipe/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 134,
@@ -833,7 +872,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/quiz-game/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 135,
@@ -854,7 +894,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/quiz-game-2/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 136,
@@ -872,10 +913,11 @@
         "Vocabulary"
       ],
       "hook": "Shuffle the jumbled letters back into the hidden word.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/rearrange-letters.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/rearrange-letters/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 137,
@@ -896,7 +938,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/rearrange-letters-2/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 138,
@@ -917,7 +960,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/snakes-and-ladders/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 139,
@@ -938,7 +982,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/solve-math/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 140,
@@ -959,7 +1004,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/space-battleship/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 141,
@@ -980,7 +1026,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/space-flash/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 142,
@@ -998,10 +1045,11 @@
         "Focus"
       ],
       "hook": "Compare two scenes and tap every hidden difference in time.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/spot-the-differences.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/spot-the-differences/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 143,
@@ -1022,7 +1070,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/swipe-basketball/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 144,
@@ -1043,7 +1092,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/tappy-dumont/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 145,
@@ -1064,7 +1114,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/thief-challenge/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 146,
@@ -1085,7 +1136,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/tictactoe/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 147,
@@ -1106,7 +1158,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/true-or-false/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 148,
@@ -1127,7 +1180,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/watermelon-fruit/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     },
     {
       "id": 149,
@@ -1148,7 +1202,8 @@
       "thumb": "",
       "hasRealArt": false,
       "playUrl": "https://games.gamewhame.com/h5-games/weapon-strike/index.html",
-      "placeholder": false
+      "placeholder": false,
+      "source": "kasetto"
     }
   ]
 }

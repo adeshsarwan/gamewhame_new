@@ -30,12 +30,7 @@ export default function RelatedList({ games, title = "You might also like" }: { 
               </span>
               <span className={styles.body}>
                 <b className={styles.name}>{g.title}</b>
-                <small className={styles.meta}>
-                  {g.category}
-                  <span className={styles.dot}>·</span>
-                  <Icon name="star" weight="fill" size={12} color="var(--yellow)" />
-                  {g.rating.toFixed(1)}
-                </small>
+                <small className={styles.meta}>{g.category}</small>
               </span>
               <span className={styles.go} aria-hidden>
                 <Icon name="caretRight" size={16} color="var(--muted)" />

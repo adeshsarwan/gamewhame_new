@@ -180,6 +180,16 @@
   margin-bottom: 22px;
 }
 
+/* Leaderboard banner sitting directly under the player. */
+.playerAd {
+  margin-top: 16px;
+}
+/* Bottom-of-page leaderboard, centered and capped at a real leaderboard width. */
+.bottomAd {
+  max-width: 728px;
+  margin: 8px auto 24px;
+}
+
 @media (max-width: 1023px) {
   .grid {
     grid-template-columns: 1fr;

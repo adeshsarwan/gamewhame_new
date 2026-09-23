@@ -83,6 +83,54 @@ export function Logo({ tone = "dark", size = 38 }: { tone?: "dark" | "light"; si
   );
 }
 
+/**
+ * Wordmark — the text-only GameWhame logo (no icon/mark). "Game" in the base
+ * ink with "Whame" in the aqua brand accent, set in the display font at a heavy
+ * weight. Shared by the header and footer; both sit on the dark navy surface so
+ * the default renders light. Pass an optional `tagline` for the small line below.
+ */
+export function Wordmark({
+  size = 19,
+  tagline,
+  className,
+  style,
+}: {
+  size?: number;
+  tagline?: string;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <span className={className} style={{ display: "flex", flexDirection: "column", lineHeight: 1.05, ...style }}>
+      <b
+        style={{
+          fontFamily: "var(--font-display)",
+          fontWeight: 1000,
+          fontSize: size,
+          letterSpacing: "-0.02em",
+          color: "#fff",
+        }}
+      >
+        Game<i style={{ fontStyle: "normal", color: "var(--aqua)" }}>Whame</i>
+      </b>
+      {tagline ? (
+        <small
+          style={{
+            fontFamily: "var(--font-body)",
+            fontWeight: 800,
+            fontSize: Math.max(8.5, size * 0.45),
+            letterSpacing: "1.2px",
+            marginTop: 3,
+            color: "rgba(180,205,230,0.72)",
+          }}
+        >
+          {tagline}
+        </small>
+      ) : null}
+    </span>
+  );
+}
+
 export function PlayTriangle({ size = 20, color = "currentColor", style }: { size?: number; color?: string; style?: CSSProperties }) {
   return (
     <svg

@@ -96,10 +96,7 @@ export default function SearchBox({
                   <span className={styles.thumb} style={{ background: `linear-gradient(140deg, var(--aqua), var(--navy))` }} />
                   <span className={styles.itemText}>
                     <b>{g.title}</b>
-                    <small>
-                      {g.category} <span aria-hidden>·</span>{" "}
-                      <Icon name="star" weight="fill" size={11} color="var(--yellow)" /> {g.rating.toFixed(1)}
-                    </small>
+                    <small>{g.category}</small>
                   </span>
                   <span className={styles.itemPlay}>
                     <PlayTriangle size={13} color="var(--pink)" />

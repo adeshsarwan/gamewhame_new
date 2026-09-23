@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { LogoMark } from "./BrandMarks";
+import { Wordmark } from "./BrandMarks";
 import SearchBox from "./SearchBox";
 import IconButton from "./IconButton";
 import CategoryPill from "./CategoryPill";
@@ -47,13 +47,7 @@ export default function Header() {
       <header className={styles.header}>
         <div className={styles.inner}>
           <Link href="/" className={styles.logo} aria-label="GameWhame home">
-            <LogoMark size={38} />
-            <span className={styles.word}>
-              <b>
-                Game<i>Whame</i>
-              </b>
-              <small>GAMEWHAME.COM</small>
-            </span>
+            <Wordmark className={styles.word} size={22} tagline="GAMEWHAME.COM" />
           </Link>
 
           <div className={styles.search}>

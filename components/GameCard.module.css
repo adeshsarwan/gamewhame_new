@@ -37,6 +37,11 @@
   pointer-events: none;
 }
 
+/* No caption text -> drop the legibility scrim so the cover art stays clean */
+.card[data-caption="false"] .art::after {
+  display: none;
+}
+
 /* shine sweep */
 .shine {
   position: absolute;

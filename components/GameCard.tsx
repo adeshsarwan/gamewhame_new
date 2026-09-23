@@ -3,17 +3,15 @@
 import Link from "next/link";
 import type { Game, TileSize } from "@/lib/types";
 import Thumb from "./Thumb";
-import RatingBadge from "./RatingBadge";
 import FavoriteButton from "./FavoriteButton";
-import Icon from "./Icon";
 import { PlayTriangle } from "./BrandMarks";
+import { cardConfig } from "@/lib/cardConfig";
 import styles from "./GameCard.module.css";
 
 export interface GameCardProps {
   game: Game;
   size?: TileSize;
   priority?: boolean;
-  showRating?: boolean;
   showFav?: boolean;
   context?: "mosaic" | "rail" | "grid";
 }
@@ -28,15 +26,14 @@ const SIZES: Record<TileSize, string> = {
 };
 
 /**
- * GameCard — the core tile. Real art (or branded placeholder), rating badge,
- * favorite button, gradient meta bar, and a hover play overlay. Links straight
- * to /play/[slug] (loop A entry).
+ * GameCard — the core tile. Real art (or branded placeholder), favorite
+ * button, gradient meta bar (title + category), and a hover play overlay.
+ * Links straight to /play/[slug] (loop A entry).
  */
 export default function GameCard({
   game,
   size = "s",
   priority = false,
-  showRating = true,
   showFav = true,
   context = "mosaic",
 }: GameCardProps) {
@@ -47,20 +44,15 @@ export default function GameCard({
       className={styles.card}
       data-size={size}
       data-context={context}
-      aria-label={`${game.title} — ${game.category} game, rated ${game.rating.toFixed(1)}`}
+      data-caption={cardConfig.showTitle || cardConfig.showCategory ? "true" : "false"}
+      aria-label={`${game.title} — ${game.category} game`}
     >
       <span className={styles.art}>
         <Thumb game={game} sizes={SIZES[size]} priority={priority} />
         <span className={styles.shine} aria-hidden />
       </span>
 
-      {showRating && (
-        <span className={styles.rate}>
-          <RatingBadge rating={game.rating} />
-        </span>
-      )}
-
-      {showFav && (
+      {showFav && cardConfig.showFavorite && (
         <span className={styles.fav}>
           <FavoriteButton slug={game.slug} title={game.title} />
         </span>
@@ -68,19 +60,15 @@ export default function GameCard({
 
       {comingSoon && <span className={styles.ribbon}>Soon</span>}
 
-      <span className={styles.meta}>
-        <b className={styles.title}>{game.title}</b>
-        <small className={styles.sub}>
-          {game.category} <span className={styles.dot}>·</span>
-          <Icon name="users" size={11} className={styles.subIcon} /> {game.plays}
-        </small>
-      </span>
+      {(cardConfig.showTitle || cardConfig.showCategory) && (
+        <span className={styles.meta}>
+          {cardConfig.showTitle && <b className={styles.title}>{game.title}</b>}
+          {cardConfig.showCategory && <small className={styles.sub}>{game.category}</small>}
+        </span>
+      )}
 
       <span className={styles.hover} aria-hidden>
-        <span className={styles.hoverTop}>
-          <Icon name="star" weight="fill" size={12} color="var(--yellow)" />
-          {game.rating.toFixed(1)} <span className={styles.dot}>·</span> {game.category}
-        </span>
+        {cardConfig.showCategory && <span className={styles.hoverTop}>{game.category}</span>}
         <span className={styles.playPill}>
           <PlayTriangle size={14} color="#fff" />
           PLAY

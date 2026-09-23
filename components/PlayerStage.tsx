@@ -241,10 +241,7 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
       <div className={styles.chrome}>
         <div className={styles.chromeLeft}>
           <span className={`${styles.liveDot} ${playing && ready ? styles.live : ""}`} aria-hidden />
-          <span className={styles.chromeTitle}>
-            {game.title}
-            <span className={styles.chromeTag}>GameWhame Player</span>
-          </span>
+          <span className={styles.chromeTitle}>{game.title}</span>
           {playing && score != null && (
             <span className={styles.scorePill} aria-live="polite">
               Score <b>{score.toLocaleString()}</b>
@@ -299,9 +296,7 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
           <div className={styles.loading} role="status" aria-live="polite">
             <span className={styles.loadMark} aria-hidden>
               <span className={styles.loadMarkRing} />
-              <span className={styles.loadMarkCore}>
-                <PlayTriangle size={22} color="#fff" />
-              </span>
+              <span className={styles.loadMarkCore} />
             </span>
             <span className={styles.loadTitle}>{game.title}</span>
             <span className={styles.loadTrack} aria-hidden>

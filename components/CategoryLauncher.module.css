@@ -30,25 +30,23 @@
     box-shadow var(--dur) var(--ease-card),
     border-color var(--dur) var(--ease-card);
 }
+/* Transparent sizing box only — the emblem PNG is a self-contained rounded
+   tile, so NO filled disc/background here (that caused box-on-box). */
 .disc {
   position: relative;
   display: grid;
   place-items: center;
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  /* category-tinted glossy disc behind the transparent emblem */
-  background:
-    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.55), transparent 55%),
-    color-mix(in srgb, var(--c) 88%, #0b1a30);
-  box-shadow: var(--sh-inset-hi), 0 8px 18px color-mix(in srgb, var(--c) 40%, transparent);
   transition: transform var(--dur) var(--ease-spring);
 }
 .emblem {
-  width: 46px;
-  height: 46px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
-  filter: drop-shadow(0 3px 5px rgba(8, 24, 45, 0.28));
+  border-radius: 16px;
+  filter: drop-shadow(0 3px 6px rgba(8, 24, 45, 0.24));
+  transition: filter var(--dur) var(--ease-card);
 }
 .label {
   font-family: var(--font-display);
@@ -71,6 +69,9 @@
   .tile:hover .disc {
     transform: scale(1.08) rotate(-4deg);
   }
+  .tile:hover .emblem {
+    filter: drop-shadow(0 6px 12px rgba(8, 24, 45, 0.3));
+  }
 }
 .tile:active {
   transform: translateY(-2px) scale(0.97);
@@ -90,8 +91,8 @@
     height: 50px;
   }
   .emblem {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
   }
   .label {
     font-size: 11.5px;

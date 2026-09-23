@@ -35,6 +35,12 @@ export interface RawGame {
    * here and the player switches on it — no per-game code.
    */
   engine?: "unity-webgl" | null;
+  /**
+   * Provenance of the catalog entry — which pipeline/source the game came from
+   * (e.g. `"bundle"`, `"kasetto"`). Optional so older entries stay valid; it is
+   * spread through into the enriched `Game` (see `lib/games.ts`) for later use.
+   */
+  source?: string;
 }
 
 /**
