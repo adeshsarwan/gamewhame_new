@@ -1,7 +1,0 @@
-{
-  "slug": "fruit-slice-frenzy",
-  "title": "Fruit Slice Frenzy",
-  "orientation": "any",
-  "controls": ["touch", "mouse"],
-  "hasSound": true
-}

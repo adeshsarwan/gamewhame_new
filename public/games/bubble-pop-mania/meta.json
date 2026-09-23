@@ -1,7 +1,0 @@
-{
-  "slug": "bubble-pop-mania",
-  "title": "Bubble Pop Mania",
-  "orientation": "any",
-  "controls": ["touch", "mouse"],
-  "hasSound": true
-}

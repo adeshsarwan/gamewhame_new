@@ -1,7 +1,0 @@
-{
-  "slug": "candy-match-blast",
-  "title": "Candy Match Blast",
-  "orientation": "any",
-  "controls": ["tap-swap", "swipe", "mouse"],
-  "hasSound": true
-}

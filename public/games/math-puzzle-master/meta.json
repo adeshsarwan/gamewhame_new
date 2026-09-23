@@ -1,7 +1,0 @@
-{
-  "slug": "math-puzzle-master",
-  "title": "Math Puzzle Master",
-  "orientation": "any",
-  "controls": ["tap", "mouse", "number-keys-1-4"],
-  "hasSound": true
-}

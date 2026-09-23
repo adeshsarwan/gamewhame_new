@@ -1,7 +1,0 @@
-{
-  "slug": "block-puzzle-jewel",
-  "title": "Block Puzzle Jewel",
-  "orientation": "any",
-  "controls": ["drag", "touch", "mouse"],
-  "hasSound": true
-}

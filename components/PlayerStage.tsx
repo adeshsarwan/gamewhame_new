@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Game } from "@/lib/types";
 import { categorySlug } from "@/lib/categories";
-import Thumb from "./Thumb";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import FavoriteButton from "./FavoriteButton";
@@ -51,10 +50,11 @@ interface PlayerStageProps {
 
 /**
  * PlayerStage — the P1 core. Reserves a 16:9 (desktop) / 9:16 (mobile) stage at
- * SSR for zero CLS, shows a poster until the user clicks Play, then mounts the
- * sandboxed game iframe CLIENT-SIDE only. The iframe is torn down (src ->
- * about:blank, node removed, refs nulled) on unmount / route change / Back so it
- * is garbage-collected — a hard PRD requirement at 1M users.
+ * SSR for zero CLS, then AUTO-MOUNTS the sandboxed game iframe CLIENT-SIDE only
+ * on mount (no GameWhame poster / Play step — the user lands straight on the
+ * loading overlay, then the game's own start screen). The iframe is torn down
+ * (src -> about:blank, node removed, refs nulled) on unmount / route change /
+ * Back so it is garbage-collected — a hard PRD requirement at 1M users.
  *
  * Listens to the game's postMessage protocol (gw:ready / gw:score / gw:gameover)
  * with an origin + source + shape check, and on game over shows a tasteful,
@@ -91,6 +91,17 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
 
   // Hard teardown on unmount / route change (memory-leak guard).
   useEffect(() => () => teardown(), [teardown]);
+
+  // Fallback readiness: self-hosted third-party games (Construct, CreateJS, …)
+  // never emit gw:ready, so treat the iframe's load event as "ready" after a
+  // short settle for the first frame to paint. Games that DO integrate our SDK
+  // still flip ready earlier via the gw:ready message — whichever fires first.
+  const onFrameLoad = useCallback(() => {
+    const el = iframeRef.current;
+    // Ignore the load event fired by teardown's about:blank swap.
+    if (!el || el.src === "about:blank") return;
+    window.setTimeout(() => setReady(true), 150);
+  }, []);
 
   // Track native fullscreen state so the control icon stays in sync.
   useEffect(() => {
@@ -141,6 +152,19 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
     recordRecent(game.slug);
     stageRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [playable, game.slug]);
+
+  // Auto-mount the game on first client render for playable games — no poster /
+  // Play step. Runs in an effect (not during render/SSR) so the iframe stays
+  // client-only and hydration matches. Games with no playUrl are never mounted.
+  useEffect(() => {
+    if (!playable) return;
+    setPlaying(true);
+    setReady(false);
+    setScore(null);
+    setGameOver(false);
+    recordRecent(game.slug);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game.slug, playable]);
 
   // Let the info-card "Play Now" CTA (elsewhere on the page) start the run.
   useEffect(() => {
@@ -264,6 +288,7 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
             sandbox="allow-scripts allow-same-origin allow-pointer-lock"
             allow="autoplay; fullscreen; gamepad"
             loading="eager"
+            onLoad={onFrameLoad}
           />
         )}
 
@@ -275,48 +300,7 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
           </div>
         )}
 
-        {/* 2. Poster / preview (before first play). */}
-        {playable && !playing && (
-          <div className={styles.poster}>
-            {game.hasRealArt && !game.placeholder && (
-              <span
-                className={styles.posterBg}
-                style={{ backgroundImage: `url(${game.thumb})` }}
-                aria-hidden
-              />
-            )}
-            <span className={styles.posterScrim} aria-hidden />
-            <div className={styles.posterInner}>
-              <span className={styles.posterArt}>
-                <Thumb game={game} sizes="(max-width:767px) 60vw, 320px" priority />
-              </span>
-              <button
-                type="button"
-                className={styles.bigPlay}
-                onClick={startPlay}
-                aria-label={`Play ${game.title}`}
-              >
-                <PlayTriangle size={34} color="var(--pink)" />
-              </button>
-              <div className={styles.posterMeta}>
-                <span className={styles.posterChip}>
-                  <Icon name="star" weight="fill" size={14} color="var(--yellow)" />
-                  {game.rating.toFixed(1)}
-                </span>
-                <span className={styles.posterChip}>
-                  <Icon name="users" size={14} color="var(--aqua-light)" />
-                  {game.plays} plays
-                </span>
-              </div>
-              <p className={styles.posterNote}>
-                <Icon name="lightning" weight="fill" size={14} color="var(--yellow)" />
-                Free instant · No download
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* 3. Honest "coming to the browser arcade" state (playUrl null). */}
+        {/* 2. Honest "coming to the browser arcade" state (playUrl null). */}
         {!playable && (
           <div className={styles.coming}>
             <span className={styles.comingIcon}>

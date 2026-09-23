@@ -1,7 +1,0 @@
-{
-  "slug": "snake-eats-zone",
-  "title": "Snake Eats Zone",
-  "orientation": "any",
-  "controls": ["touch", "mouse", "keyboard"],
-  "hasSound": true
-}

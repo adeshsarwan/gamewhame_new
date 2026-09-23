@@ -1,7 +1,0 @@
-{
-  "slug": "merge-2048-number-puzzle",
-  "title": "Merge 2048 Number Puzzle",
-  "orientation": "any",
-  "controls": ["swipe", "arrow-keys", "wasd", "mouse-drag"],
-  "hasSound": true
-}
