@@ -44,6 +44,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${nunito.variable} ${jakarta.variable}`}>
+      <head>
+        {/* Warm up the games CDN connection (DNS + TLS + TCP) before the user
+            opens a game, so the cross-origin iframe starts loading instantly. */}
+        <link rel="preconnect" href="https://games.gamewhame.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://games.gamewhame.com" />
+      </head>
       <body>
         <a href="#main" className="gw-skip-link">
           Skip to games

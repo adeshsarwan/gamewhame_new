@@ -292,11 +292,29 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
           />
         )}
 
-        {/* Loading shimmer until the game reports gw:ready. */}
+        {/* Lively indeterminate loader until the iframe load event / gw:ready.
+            Cross-origin means no real %, so we keep the motion continuous so it
+            never reads as frozen. */}
         {playable && playing && !ready && (
-          <div className={styles.loading} aria-hidden>
-            <span className={styles.spinner} />
-            <span className={styles.loadingText}>Loading {game.title}…</span>
+          <div className={styles.loading} role="status" aria-live="polite">
+            <span className={styles.loadMark} aria-hidden>
+              <span className={styles.loadMarkRing} />
+              <span className={styles.loadMarkCore}>
+                <PlayTriangle size={22} color="#fff" />
+              </span>
+            </span>
+            <span className={styles.loadTitle}>{game.title}</span>
+            <span className={styles.loadTrack} aria-hidden>
+              <span className={styles.loadFill} />
+            </span>
+            <span className={styles.loadingText}>
+              Loading
+              <span className={styles.loadDots} aria-hidden>
+                <b />
+                <b />
+                <b />
+              </span>
+            </span>
           </div>
         )}
 
