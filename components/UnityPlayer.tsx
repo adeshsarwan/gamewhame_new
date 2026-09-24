@@ -272,6 +272,7 @@ export default function UnityPlayer({ game, relatedAnchor = "related-games" }: U
         className={`${shell.stage} ${styles.stage}`}
         ref={stageRef}
         data-fullscreen={isFullscreen || undefined}
+        data-orientation={game.orientation || undefined}
       >
         {/* 1. Playable Unity iframe (client-only, mounted on Play). */}
         {showFrame && (
