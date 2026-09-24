@@ -1226,7 +1226,7 @@
       "playUrl": null,
       "gameUrl": "https://games.gamewhame.com/dot-connect-mania/index.html",
       "engine": "unity-webgl",
-      "orientation": "responsive",
+      "orientation": "portrait",
       "placeholder": false,
       "source": "unity"
     }
