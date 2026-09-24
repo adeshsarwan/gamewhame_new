@@ -119,8 +119,9 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
               <PlayerStage game={game} relatedAnchor="related-games" />
             )}
 
-            {/* Leaderboard banner directly below the player (never gates play). */}
-            <AdSlot variant="display" label="728 x 90 Leaderboard" height={90} className={styles.playerAd} />
+            {/* Leaderboard banner directly below the player (never gates play).
+                Price Optimiser managed Native container — id must be unique. */}
+            <AdSlot variant="display" managedId="ad-leaderboard" height={90} className={styles.playerAd} />
           </div>
 
           {/* Right — info + side ad rail. */}

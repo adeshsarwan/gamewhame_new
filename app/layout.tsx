@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { nunito, jakarta } from "./fonts";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -64,6 +65,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <MobileBottomNav />
         <Toaster />
+        {/* Price Optimiser publisher bundle — loaded once, site-wide. The
+            site-specific bundle pins gamewhame.com internally, so no
+            data-po-site attribute is needed. Price Optimiser owns the managed
+            GPT slots (#ad-leaderboard, #ad-incontent, …); the publisher only
+            renders the DOM containers and loads this script. */}
+        <Script
+          src="https://priceoptimiser1.thebesads.com/experiences/gamewhame.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

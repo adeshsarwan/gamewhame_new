@@ -75,8 +75,9 @@ export default function HomePage() {
         <GameGrid games={popular} priorityCount={6} />
       </Reveal>
 
+      {/* In-content Price Optimiser managed Native container — id must be unique. */}
       <Reveal as="section" className={styles.adWrap}>
-        <AdSlot variant="display" height={110} />
+        <AdSlot variant="display" managedId="ad-incontent" height={110} />
       </Reveal>
 
       {/* New — another dense grid so games keep filling the screen. */}
