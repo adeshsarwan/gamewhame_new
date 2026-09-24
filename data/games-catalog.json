@@ -1,5 +1,5 @@
 {
-  "count": 55,
+  "count": 56,
   "games": [
     {
       "id": 53,
@@ -1204,6 +1204,31 @@
       "playUrl": "https://games.gamewhame.com/h5-games/weapon-strike/index.html",
       "placeholder": false,
       "source": "kasetto"
+    },
+    {
+      "id": 150,
+      "title": "Dot Connect Mania",
+      "slug": "dot-connect-mania",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Casual",
+        "Brain"
+      ],
+      "tags": [
+        "Dots",
+        "Connect",
+        "Logic"
+      ],
+      "hook": "Connect matching dots, clear each board and keep the chain going through bite-size puzzle levels.",
+      "thumb": "",
+      "hasRealArt": false,
+      "playUrl": null,
+      "gameUrl": "https://games.gamewhame.com/dot-connect-mania/index.html",
+      "engine": "unity-webgl",
+      "orientation": "responsive",
+      "placeholder": false,
+      "source": "unity"
     }
   ]
 }
