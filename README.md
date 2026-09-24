@@ -107,3 +107,5 @@ server and client, so no hydration mismatch and no runtime randomness. Import he
 - Favorites are client-only (localStorage); components render the inactive state on the server and
   sync in `useEffect` to avoid hydration mismatches.
 </content>
+
+<!-- Cloudflare production build trigger: 2026-09-24 -->
