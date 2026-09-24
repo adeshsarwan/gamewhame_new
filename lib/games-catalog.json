@@ -37,8 +37,8 @@
         "Reflex"
       ],
       "hook": "Time your jumps, clear the obstacles and see how far the box can run.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/jump-box-hero.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/jump-box-hero/index.html",
       "placeholder": false,
       "source": "bundle"
@@ -58,8 +58,8 @@
         "Reflex"
       ],
       "hook": "Weave through traffic at full throttle and chase the high score.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/retro-speed.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/retro-speed/index.html",
       "placeholder": false,
       "source": "bundle"
@@ -79,8 +79,8 @@
         "One Tap"
       ],
       "hook": "Tap to switch sides and guide the triangle through the gaps.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/triangle-way.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/triangle-way/index.html",
       "placeholder": false,
       "source": "bundle"
@@ -100,8 +100,8 @@
         "Logic"
       ],
       "hook": "Draw a line to guide the ball to the goal in each hand-crafted level.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/draw-the-path.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/draw-the-path/index.html",
       "placeholder": false,
       "source": "bundle"
@@ -121,8 +121,8 @@
         "Reflex"
       ],
       "hook": "Leap, dash and dodge through fast banana-fuelled action stages.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/banana-actions.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/banana-actions/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -143,8 +143,8 @@
         "Numbers"
       ],
       "hook": "Fill the grid so every row, column and cage hits its target number.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/calcudoku.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/calcudoku/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -165,8 +165,8 @@
         "Speed"
       ],
       "hook": "Weave through rushing traffic and chase the longest clean run.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/car-rush.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/car-rush/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -187,8 +187,8 @@
         "Combo"
       ],
       "hook": "Swap adorable cats to line up matches and trigger cascading combos.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/cat-match3.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/cat-match3/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -209,8 +209,8 @@
         "Fight"
       ],
       "hook": "Guide a pint-sized hero through waves of enemies and traps.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/chibi-hero.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/chibi-hero/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -275,8 +275,8 @@
         "Connect"
       ],
       "hook": "Trace a single path that links every node without crossing a line.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/connect-a-way.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/connect-a-way/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -297,8 +297,8 @@
         "Connect"
       ],
       "hook": "Join the dots in the right order to reveal each hidden shape.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/connect-the-dots.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/connect-the-dots/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -319,8 +319,8 @@
         "Duel"
       ],
       "hook": "Drop your discs and be first to line up four in a row.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/connectfour.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/connectfour/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -363,8 +363,8 @@
         "Tiles"
       ],
       "hook": "Drag the scattered pieces into place to rebuild the full picture.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/draggable-puzzle.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/draggable-puzzle/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -385,8 +385,8 @@
         "Logic"
       ],
       "hook": "Draw one clever line to send the ball rolling to its target.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/draw-a-line.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/draw-a-line/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -451,8 +451,8 @@
         "Focus"
       ],
       "hook": "Scan busy scenes and spot the sneaky cat before time runs out.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/find-the-cat.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/find-the-cat/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -473,8 +473,8 @@
         "Focus"
       ],
       "hook": "Hunt down the hidden pug tucked inside each crowded picture.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/find-the-pug.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/find-the-pug/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -495,8 +495,8 @@
         "Deduce"
       ],
       "hook": "Use each hint to zero in on the secret number in fewer tries.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/guess-number.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/guess-number/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -517,8 +517,8 @@
         "Space"
       ],
       "hook": "Steer through relentless obstacle gauntlets at full throttle.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/gyro-forcer.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/gyro-forcer/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -539,8 +539,8 @@
         "Trivia"
       ],
       "hook": "Crack code-themed brain teasers and out-think the firewall.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/hacker-challenge.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/hacker-challenge/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -561,8 +561,8 @@
         "Combo"
       ],
       "hook": "Take aim and knock out every villain before they strike back.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/hit-villains.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/hit-villains/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -583,8 +583,8 @@
         "Jump"
       ],
       "hook": "Sprint, jump and slide through an endless obstacle-packed run.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/jojo-run.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/jojo-run/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -605,8 +605,8 @@
         "Logic"
       ],
       "hook": "Connect the lights so a single bright line runs through the board.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/linebright.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/linebright/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -649,8 +649,8 @@
         "Knowledge"
       ],
       "hook": "Answer your way up the ladder and bank the top trivia prize.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/millionaire-quiz.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/millionaire-quiz/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -693,8 +693,8 @@
         "Unlock"
       ],
       "hook": "Pull the pins in the right order to crack open each puzzle.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/pin-cracker.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/pin-cracker/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -759,8 +759,8 @@
         "Match"
       ],
       "hook": "Chain matching tiles and empty your hand to win at dominoes.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/play-dominoes.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/play-dominoes/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -781,8 +781,8 @@
         "Party"
       ],
       "hook": "Roll the dice and race all four tokens home in classic Ludo.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/play-ludo.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/play-ludo/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -803,8 +803,8 @@
         "Path"
       ],
       "hook": "Find the one true route through each twisting maze to the exit.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/play-maze.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/play-maze/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -847,8 +847,8 @@
         "Flow"
       ],
       "hook": "Rotate the pipes to build one leak-free path for the flow.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/plumper-pipe.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/plumper-pipe/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -869,8 +869,8 @@
         "Knowledge"
       ],
       "hook": "Test your knowledge across quick-fire questions and keep the streak.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/quiz-game.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/quiz-game/index.html",
       "placeholder": false,
       "source": "kasetto"
