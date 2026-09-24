@@ -891,8 +891,8 @@
         "Knowledge"
       ],
       "hook": "A fresh round of quick trivia across even more tricky topics.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/quiz-game-2.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/quiz-game-2/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -935,8 +935,8 @@
         "Vocabulary"
       ],
       "hook": "More scrambled words to untangle one clever anagram at a time.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/rearrange-letters-2.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/rearrange-letters-2/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -957,8 +957,8 @@
         "Party"
       ],
       "hook": "Climb the ladders, dodge the snakes and race to square 100.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/snakes-and-ladders.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/snakes-and-ladders/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -979,8 +979,8 @@
         "Speed"
       ],
       "hook": "Solve rapid-fire equations and sharpen your mental math.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/solve-math.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/solve-math/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1001,8 +1001,8 @@
         "Bullet"
       ],
       "hook": "Pilot your battleship through waves of enemy fire and bosses.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/space-battleship.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/space-battleship/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1023,8 +1023,8 @@
         "Dodge"
       ],
       "hook": "React in a flash to blast and weave through deep-space hazards.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/space-flash.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/space-flash/index.html",
       "placeholder": false,
       "source": "kasetto"
