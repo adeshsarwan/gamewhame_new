@@ -8,6 +8,7 @@ export type TileSize = "f" | "t" | "w" | "m" | "s";
 
 export type SessionLength = "quick" | "medium" | "long";
 export type Difficulty = "chill" | "easy" | "think" | "hard";
+export type GameOrientation = "responsive" | "portrait" | "landscape";
 
 /** Raw shape as stored in `lib/games-catalog.json` (mirror of data/games-catalog.json). */
 export interface RawGame {
@@ -35,6 +36,8 @@ export interface RawGame {
    * here and the player switches on it — no per-game code.
    */
   engine?: "unity-webgl" | null;
+  /** Preferred player-stage shape for externally-hosted games. */
+  orientation?: GameOrientation;
   /**
    * Provenance of the catalog entry — which pipeline/source the game came from
    * (e.g. `"bundle"`, `"kasetto"`). Optional so older entries stay valid; it is
