@@ -205,3 +205,17 @@
     animation: none;
   }
 }
+
+
+/* Optional per-game stage shape. "responsive" keeps the shared default:
+   16:9 on desktop and 9:16 on mobile. */
+.stage[data-orientation="portrait"] {
+  aspect-ratio: 9 / 16;
+  width: min(100%, 540px);
+  margin-inline: auto;
+}
+
+.stage[data-orientation="landscape"] {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
