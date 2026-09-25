@@ -29,9 +29,19 @@
   overflow: hidden;
 }
 /* Until Price Optimiser fills it (no fill, blocked, not yet requested) the
-   container draws nothing at all — never an empty white bar over the page. */
+   container draws nothing at all — never an empty white bar over the page, and
+   never blocking a click on the page underneath.
+
+   It must keep its layout box: Price Optimiser only requests a slot whose
+   container is actually visible, so `display: none` here would mean the anchor
+   can never be requested and therefore never fills. Strip the chrome, keep the
+   geometry. */
 .inner:empty {
-  display: none;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  pointer-events: none;
 }
 @media (max-width: 767px) {
   .inner {
