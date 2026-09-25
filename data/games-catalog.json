@@ -1067,8 +1067,8 @@
         "Score"
       ],
       "hook": "Swipe to arc the ball and sink as many hoops as you can.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/swipe-basketball.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/swipe-basketball/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1089,8 +1089,8 @@
         "Reflex"
       ],
       "hook": "Tap to keep the plane airborne through every tight gap.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/tappy-dumont.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/tappy-dumont/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1111,8 +1111,8 @@
         "Plan"
       ],
       "hook": "Plan the perfect route to grab the loot and slip away unseen.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/thief-challenge.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/thief-challenge/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1133,8 +1133,8 @@
         "Duel"
       ],
       "hook": "Line up three in a row before your opponent blocks the win.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/tictactoe.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/tictactoe/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1155,8 +1155,8 @@
         "Snap"
       ],
       "hook": "Snap-judge each statement true or false and chase a hot streak.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/true-or-false.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/true-or-false/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1177,8 +1177,8 @@
         "Combo"
       ],
       "hook": "Drop and merge fruit to grow the mighty watermelon.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/watermelon-fruit.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/watermelon-fruit/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1199,8 +1199,8 @@
         "Aim"
       ],
       "hook": "Arm up and blast through relentless waves of enemy strikes.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/weapon-strike.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/weapon-strike/index.html",
       "placeholder": false,
       "source": "kasetto"
