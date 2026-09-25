@@ -146,26 +146,51 @@ export function showRewardedAd(timeoutMs = adConfig.rewarded.timeoutMs): Promise
   return inFlight;
 }
 
-/** Slots already preloaded on this page load — a preload is reused, never repeated. */
-const preloaded = new Set<string>();
+/**
+ * Run `cb` on the next paint, or shortly after if paints are not happening.
+ *
+ * `requestAnimationFrame` does NOT fire while the document is hidden, so any
+ * work gated purely behind it never runs in a backgrounded or prerendered tab.
+ * Ad registration must not depend on the tab being visible, so this races rAF
+ * against a timer and runs whichever comes first, exactly once.
+ */
+function nextFrame(cb: () => void): () => void {
+  let done = false;
+  const run = () => {
+    if (done) return;
+    done = true;
+    cb();
+  };
+  const raf = window.requestAnimationFrame(run);
+  const timer = window.setTimeout(run, 32);
+  return () => {
+    done = true;
+    window.cancelAnimationFrame(raf);
+    window.clearTimeout(timer);
+  };
+}
 
 /**
- * Has the bundle finished booting?
+ * Which managed slot ids Price Optimiser currently has registered.
  *
- * `window.PriceOptimiser` and its methods exist BEFORE the bundle has loaded
- * its runtime config, and a `preloadSlots()` call made in that window is
- * silently dropped — verified live: the identical call is a no-op early and
- * registers the slot once `status().loaded` is true. So readiness must be
- * checked against `status()`, never against "the method exists".
+ * `status()` is the only reliable signal. Method existence is NOT: verified
+ * live, `window.PriceOptimiser` and all its methods are present before the
+ * bundle has finished booting, and a `preloadSlots()` call made in that window
+ * is silently dropped. `status().loaded` is not sufficient either — it can
+ * already be true while the slot registry is still empty.
  */
-async function isReady(po: PriceOptimiserApi): Promise<boolean> {
-  if (typeof po.status !== "function") return true; // no way to ask; best effort
+async function registeredIds(po: PriceOptimiserApi): Promise<Set<string>> {
+  const out = new Set<string>();
+  if (typeof po.status !== "function") return out;
   try {
-    const s = (await Promise.resolve(po.status())) as { loaded?: unknown } | null;
-    return Boolean(s && s.loaded);
+    const s = (await Promise.resolve(po.status())) as { slots?: Array<{ domId?: unknown }> } | null;
+    for (const slot of s?.slots ?? []) {
+      if (typeof slot?.domId === "string") out.add(slot.domId);
+    }
   } catch {
-    return false;
+    /* not ready yet */
   }
+  return out;
 }
 
 /**
@@ -176,41 +201,34 @@ async function isReady(po: PriceOptimiserApi): Promise<boolean> {
  * invisible to it until we announce it. Verified against the live bundle:
  * `revealSlots()` alone is a no-op for a slot Price Optimiser has not seen —
  * `preloadSlots()` is what registers the destination and defines the GAM slot,
- * and `revealSlots()` then makes it live. Both are the documented
- * preload/reveal lifecycle; neither is `refreshSlots()` / `refreshAll()`,
- * which would be publisher-owned slot management.
+ * and `revealSlots()` then makes it live. Neither is `refreshSlots()` /
+ * `refreshAll()`, which would be publisher-owned slot management.
  *
- * A container that remounts (SPA navigation) reuses its existing preload and
- * only reveals again, so no duplicate slot is ever defined.
+ * Rather than guess which internal signal means "ready", this retries until
+ * `status()` actually reports the slot as registered, then reveals once and
+ * stops. It re-preloads only ids that are still missing, so a slot is never
+ * defined twice — including when a container remounts on SPA navigation, where
+ * the existing registration is simply reused.
  *
- * Waits (bounded) for the bundle to actually finish booting, then registers
- * once. Never throws.
+ * Never throws.
  */
 export function registerManagedSlots(ids: string[], maxWaitMs = 20000): () => void {
   if (typeof window === "undefined" || !ids.length) return () => {};
 
   let cancelled = false;
   let timer: number | undefined;
-  let raf2: number | undefined;
+  let cancelReveal: (() => void) | undefined;
   const deadline = Date.now() + maxWaitMs;
 
-  const register = (po: PriceOptimiserApi) => {
-    const fresh = ids.filter((id) => !preloaded.has(id));
-    try {
-      if (fresh.length && typeof po.preloadSlots === "function") {
-        po.preloadSlots(fresh);
-        fresh.forEach((id) => preloaded.add(id));
-      }
-    } catch {
-      /* the bundle owns this; a failure here must never break the page */
-    }
-    // Reveal on the next frame so the container is laid out and measurable.
-    raf2 = window.requestAnimationFrame(() => {
+  const reveal = (po: PriceOptimiserApi) => {
+    // Reveal once the container has been laid out and is measurable.
+    cancelReveal?.();
+    cancelReveal = nextFrame(() => {
       if (cancelled) return;
       try {
         po.revealSlots?.(ids);
       } catch {
-        /* ignore */
+        /* the bundle owns this; a failure here must never break the page */
       }
     });
   };
@@ -218,22 +236,35 @@ export function registerManagedSlots(ids: string[], maxWaitMs = 20000): () => vo
   const attempt = async () => {
     if (cancelled) return;
     const po = api();
-    if (po && typeof po.preloadSlots === "function" && (await isReady(po))) {
-      if (!cancelled) register(po);
-      return;
+
+    if (po && typeof po.preloadSlots === "function") {
+      const have = await registeredIds(po);
+      if (cancelled) return;
+
+      const missing = ids.filter((id) => !have.has(id));
+      if (!missing.length) {
+        reveal(po);
+        return;
+      }
+      try {
+        po.preloadSlots(missing);
+      } catch {
+        /* ignore and retry */
+      }
+      reveal(po);
     }
+
     if (cancelled || Date.now() >= deadline) return;
-    timer = window.setTimeout(attempt, 250);
+    timer = window.setTimeout(() => void attempt(), 500);
   };
 
-  const raf = window.requestAnimationFrame(() => {
-    void attempt();
-  });
+  // Start immediately — never behind a frame, which a hidden tab would never
+  // deliver.
+  void attempt();
 
   return () => {
     cancelled = true;
-    window.cancelAnimationFrame(raf);
-    if (raf2 !== undefined) window.cancelAnimationFrame(raf2);
+    cancelReveal?.();
     if (timer !== undefined) window.clearTimeout(timer);
   };
 }

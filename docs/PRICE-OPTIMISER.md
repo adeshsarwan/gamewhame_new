@@ -79,10 +79,20 @@ Rationale:
      GAM slot; `revealSlots()` then makes it live.
   2. **`window.PriceOptimiser` and its methods exist before the bundle has
      booted**, and a `preloadSlots()` call made in that window is silently
-     dropped. The identical call is a no-op early and registers the slot once
-     `status().loaded` is true. Readiness must therefore be checked against
-     `status()`, never against "the method exists" —
-     `registerManagedSlots()` polls for it (bounded, 20s).
+     dropped. Rather than guess which internal signal means "ready",
+     `registerManagedSlots()` retries until `status()` actually reports the slot
+     registered (bounded, 20s), re-preloading only ids still missing — so a slot
+     is never defined twice.
+  3. **Never gate ad registration behind `requestAnimationFrame`.** rAF does not
+     fire while the document is hidden, so a backgrounded or prerendered tab
+     would never register the slot. `registerManagedSlots()` starts immediately
+     and races rAF against a short timer for the reveal step.
+
+### Testing note
+
+`document.hidden` is true in an automated browser pane, so rAF-gated code never
+runs there and every slot looks unregistered. Front the tab before concluding
+anything about ad registration.
 
   A container that remounts on SPA navigation reuses its existing preload and
   only reveals again, so no duplicate slot is ever defined.
