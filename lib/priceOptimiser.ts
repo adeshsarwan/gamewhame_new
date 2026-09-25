@@ -145,48 +145,69 @@ export function showRewardedAd(timeoutMs = adConfig.rewarded.timeoutMs): Promise
   return inFlight;
 }
 
+/** Slots already preloaded on this page load — a preload is reused, never repeated. */
+const preloaded = new Set<string>();
+
 /**
- * Tell Price Optimiser that a managed container is now present and visible.
+ * Register a managed container that was NOT in the server-rendered HTML.
  *
- * Needed for containers that are NOT in the server-rendered HTML — Price
- * Optimiser scans for its destinations when it boots, so a div that mounts
- * later (route-gated, viewport-gated, or revealed from hidden) is invisible to
- * it until we announce it. This is the documented preload/reveal lifecycle;
- * it is deliberately NOT `refreshSlots()` / `refreshAll()`, which would be
- * publisher-owned slot management.
+ * Price Optimiser scans for its destinations when it boots, so a div that
+ * mounts later (route-gated, viewport-gated, or revealed from hidden) is
+ * invisible to it until we announce it. Verified against the live bundle:
+ * `revealSlots()` alone is a no-op for a slot Price Optimiser has not seen —
+ * `preloadSlots()` is what registers the destination and defines the GAM slot,
+ * and `revealSlots()` then makes it live. Both are the documented
+ * preload/reveal lifecycle; neither is `refreshSlots()` / `refreshAll()`,
+ * which would be publisher-owned slot management.
+ *
+ * A container that remounts (SPA navigation) reuses its existing preload and
+ * only reveals again, so no duplicate slot is ever defined.
  *
  * The bundle loads `afterInteractive`, so it may not be on the page yet when a
- * container mounts. Waits (bounded) for it, then reveals once. Never throws.
+ * container mounts. Waits (bounded) for it, then registers once. Never throws.
  */
-export function revealManagedSlots(ids: string[], maxWaitMs = 10000): () => void {
+export function registerManagedSlots(ids: string[], maxWaitMs = 10000): () => void {
   if (typeof window === "undefined" || !ids.length) return () => {};
 
   let cancelled = false;
   let timer: number | undefined;
+  let raf2: number | undefined;
   const deadline = Date.now() + maxWaitMs;
 
   const attempt = () => {
     if (cancelled) return;
     const po = api();
     if (po && typeof po.revealSlots === "function") {
+      const fresh = ids.filter((id) => !preloaded.has(id));
       try {
-        po.revealSlots(ids);
+        if (fresh.length && typeof po.preloadSlots === "function") {
+          po.preloadSlots(fresh);
+          fresh.forEach((id) => preloaded.add(id));
+        }
       } catch {
         /* the bundle owns this; a failure here must never break the page */
       }
+      // Reveal on the next frame so the container is laid out and measurable.
+      raf2 = window.requestAnimationFrame(() => {
+        if (cancelled) return;
+        try {
+          po.revealSlots!(ids);
+        } catch {
+          /* ignore */
+        }
+      });
       return;
     }
     if (Date.now() >= deadline) return;
     timer = window.setTimeout(attempt, 250);
   };
 
-  // Let the browser lay the container out before announcing it, so Price
-  // Optimiser measures real geometry rather than a zero-size box.
   const raf = window.requestAnimationFrame(attempt);
 
   return () => {
     cancelled = true;
     window.cancelAnimationFrame(raf);
+    if (raf2 !== undefined) window.cancelAnimationFrame(raf2);
     if (timer !== undefined) window.clearTimeout(timer);
   };
 }

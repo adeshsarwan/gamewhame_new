@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { adConfig, MANAGED_SLOT_IDS } from "@/lib/adConfig";
-import { revealManagedSlots } from "@/lib/priceOptimiser";
+import { registerManagedSlots } from "@/lib/priceOptimiser";
 import styles from "./AnchorAd.module.css";
 
 /**
@@ -50,7 +50,7 @@ export default function AnchorAd() {
 
   useEffect(() => {
     if (!visible) return;
-    return revealManagedSlots([MANAGED_SLOT_IDS.anchor]);
+    return registerManagedSlots([MANAGED_SLOT_IDS.anchor]);
   }, [visible, pathname]);
 
   if (!visible) return null;

@@ -68,9 +68,15 @@ Rationale:
 - The anchor is route- and viewport-gated, so it is **not** in the
   server-rendered HTML and does not exist when Price Optimiser boots and scans
   for destinations. On mount it announces itself via
-  `revealManagedSlots(["ad-anchor"])` (`lib/priceOptimiser.ts`), the documented
-  reveal lifecycle — never `refreshSlots()` / `refreshAll()`. Without this the
-  anchor is never registered (also found in live testing).
+  `registerManagedSlots(["ad-anchor"])` (`lib/priceOptimiser.ts`), the
+  documented preload/reveal lifecycle — never `refreshSlots()` / `refreshAll()`.
+  Without this the anchor is never registered (found in live testing).
+
+  Probed against the live bundle: **`revealSlots()` alone is a no-op** for a
+  slot Price Optimiser has not seen. `preloadSlots()` is what registers the
+  destination and defines the GAM slot; `revealSlots()` then makes it live. A
+  container that remounts on SPA navigation reuses its existing preload and
+  only reveals again, so no duplicate slot is ever defined.
 
 Sizing: the anchor container is 320px min-width / 50px min-height on phones and
 up to 748px wide / 90px min-height from tablet up, so neither 320x50 nor 728x90
