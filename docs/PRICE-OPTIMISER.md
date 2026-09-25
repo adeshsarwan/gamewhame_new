@@ -72,10 +72,19 @@ Rationale:
   documented preload/reveal lifecycle — never `refreshSlots()` / `refreshAll()`.
   Without this the anchor is never registered (found in live testing).
 
-  Probed against the live bundle: **`revealSlots()` alone is a no-op** for a
-  slot Price Optimiser has not seen. `preloadSlots()` is what registers the
-  destination and defines the GAM slot; `revealSlots()` then makes it live. A
-  container that remounts on SPA navigation reuses its existing preload and
+  Two things probed against the live bundle, both non-obvious:
+
+  1. **`revealSlots()` alone is a no-op** for a slot Price Optimiser has not
+     seen. `preloadSlots()` is what registers the destination and defines the
+     GAM slot; `revealSlots()` then makes it live.
+  2. **`window.PriceOptimiser` and its methods exist before the bundle has
+     booted**, and a `preloadSlots()` call made in that window is silently
+     dropped. The identical call is a no-op early and registers the slot once
+     `status().loaded` is true. Readiness must therefore be checked against
+     `status()`, never against "the method exists" —
+     `registerManagedSlots()` polls for it (bounded, 20s).
+
+  A container that remounts on SPA navigation reuses its existing preload and
   only reveals again, so no duplicate slot is ever defined.
 
 Sizing: the anchor container is 320px min-width / 50px min-height on phones and

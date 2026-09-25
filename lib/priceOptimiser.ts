@@ -22,6 +22,7 @@ interface PriceOptimiserApi {
   showRewarded?: () => unknown;
   preloadSlots?: (ids: string[]) => unknown;
   revealSlots?: (ids: string[]) => unknown;
+  status?: () => unknown;
 }
 
 declare global {
@@ -149,6 +150,25 @@ export function showRewardedAd(timeoutMs = adConfig.rewarded.timeoutMs): Promise
 const preloaded = new Set<string>();
 
 /**
+ * Has the bundle finished booting?
+ *
+ * `window.PriceOptimiser` and its methods exist BEFORE the bundle has loaded
+ * its runtime config, and a `preloadSlots()` call made in that window is
+ * silently dropped — verified live: the identical call is a no-op early and
+ * registers the slot once `status().loaded` is true. So readiness must be
+ * checked against `status()`, never against "the method exists".
+ */
+async function isReady(po: PriceOptimiserApi): Promise<boolean> {
+  if (typeof po.status !== "function") return true; // no way to ask; best effort
+  try {
+    const s = (await Promise.resolve(po.status())) as { loaded?: unknown } | null;
+    return Boolean(s && s.loaded);
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Register a managed container that was NOT in the server-rendered HTML.
  *
  * Price Optimiser scans for its destinations when it boots, so a div that
@@ -163,10 +183,10 @@ const preloaded = new Set<string>();
  * A container that remounts (SPA navigation) reuses its existing preload and
  * only reveals again, so no duplicate slot is ever defined.
  *
- * The bundle loads `afterInteractive`, so it may not be on the page yet when a
- * container mounts. Waits (bounded) for it, then registers once. Never throws.
+ * Waits (bounded) for the bundle to actually finish booting, then registers
+ * once. Never throws.
  */
-export function registerManagedSlots(ids: string[], maxWaitMs = 10000): () => void {
+export function registerManagedSlots(ids: string[], maxWaitMs = 20000): () => void {
   if (typeof window === "undefined" || !ids.length) return () => {};
 
   let cancelled = false;
@@ -174,35 +194,41 @@ export function registerManagedSlots(ids: string[], maxWaitMs = 10000): () => vo
   let raf2: number | undefined;
   const deadline = Date.now() + maxWaitMs;
 
-  const attempt = () => {
+  const register = (po: PriceOptimiserApi) => {
+    const fresh = ids.filter((id) => !preloaded.has(id));
+    try {
+      if (fresh.length && typeof po.preloadSlots === "function") {
+        po.preloadSlots(fresh);
+        fresh.forEach((id) => preloaded.add(id));
+      }
+    } catch {
+      /* the bundle owns this; a failure here must never break the page */
+    }
+    // Reveal on the next frame so the container is laid out and measurable.
+    raf2 = window.requestAnimationFrame(() => {
+      if (cancelled) return;
+      try {
+        po.revealSlots?.(ids);
+      } catch {
+        /* ignore */
+      }
+    });
+  };
+
+  const attempt = async () => {
     if (cancelled) return;
     const po = api();
-    if (po && typeof po.revealSlots === "function") {
-      const fresh = ids.filter((id) => !preloaded.has(id));
-      try {
-        if (fresh.length && typeof po.preloadSlots === "function") {
-          po.preloadSlots(fresh);
-          fresh.forEach((id) => preloaded.add(id));
-        }
-      } catch {
-        /* the bundle owns this; a failure here must never break the page */
-      }
-      // Reveal on the next frame so the container is laid out and measurable.
-      raf2 = window.requestAnimationFrame(() => {
-        if (cancelled) return;
-        try {
-          po.revealSlots!(ids);
-        } catch {
-          /* ignore */
-        }
-      });
+    if (po && typeof po.preloadSlots === "function" && (await isReady(po))) {
+      if (!cancelled) register(po);
       return;
     }
-    if (Date.now() >= deadline) return;
+    if (cancelled || Date.now() >= deadline) return;
     timer = window.setTimeout(attempt, 250);
   };
 
-  const raf = window.requestAnimationFrame(attempt);
+  const raf = window.requestAnimationFrame(() => {
+    void attempt();
+  });
 
   return () => {
     cancelled = true;
