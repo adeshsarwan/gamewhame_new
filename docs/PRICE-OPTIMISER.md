@@ -61,7 +61,16 @@ Rationale:
   screen: third-party game builds own their end states and only a handful emit
   `gw:gameover`. The handoff says to add it only if a real results UX exists.
 - The anchor is mounted exactly once, from the root layout, so `#ad-anchor` can
-  never be duplicated. It collapses to nothing when unfilled.
+  never be duplicated. When unfilled it draws nothing and blocks no clicks, but
+  it **keeps its layout box** — `display: none` gives a zero-size container that
+  Price Optimiser's visibility check can never see, so the slot would never be
+  requested (found in live testing).
+- The anchor is route- and viewport-gated, so it is **not** in the
+  server-rendered HTML and does not exist when Price Optimiser boots and scans
+  for destinations. On mount it announces itself via
+  `revealManagedSlots(["ad-anchor"])` (`lib/priceOptimiser.ts`), the documented
+  reveal lifecycle — never `refreshSlots()` / `refreshAll()`. Without this the
+  anchor is never registered (also found in live testing).
 
 Sizing: the anchor container is 320px min-width / 50px min-height on phones and
 up to 748px wide / 90px min-height from tablet up, so neither 320x50 nor 728x90

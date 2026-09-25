@@ -145,6 +145,52 @@ export function showRewardedAd(timeoutMs = adConfig.rewarded.timeoutMs): Promise
   return inFlight;
 }
 
+/**
+ * Tell Price Optimiser that a managed container is now present and visible.
+ *
+ * Needed for containers that are NOT in the server-rendered HTML — Price
+ * Optimiser scans for its destinations when it boots, so a div that mounts
+ * later (route-gated, viewport-gated, or revealed from hidden) is invisible to
+ * it until we announce it. This is the documented preload/reveal lifecycle;
+ * it is deliberately NOT `refreshSlots()` / `refreshAll()`, which would be
+ * publisher-owned slot management.
+ *
+ * The bundle loads `afterInteractive`, so it may not be on the page yet when a
+ * container mounts. Waits (bounded) for it, then reveals once. Never throws.
+ */
+export function revealManagedSlots(ids: string[], maxWaitMs = 10000): () => void {
+  if (typeof window === "undefined" || !ids.length) return () => {};
+
+  let cancelled = false;
+  let timer: number | undefined;
+  const deadline = Date.now() + maxWaitMs;
+
+  const attempt = () => {
+    if (cancelled) return;
+    const po = api();
+    if (po && typeof po.revealSlots === "function") {
+      try {
+        po.revealSlots(ids);
+      } catch {
+        /* the bundle owns this; a failure here must never break the page */
+      }
+      return;
+    }
+    if (Date.now() >= deadline) return;
+    timer = window.setTimeout(attempt, 250);
+  };
+
+  // Let the browser lay the container out before announcing it, so Price
+  // Optimiser measures real geometry rather than a zero-size box.
+  const raf = window.requestAnimationFrame(attempt);
+
+  return () => {
+    cancelled = true;
+    window.cancelAnimationFrame(raf);
+    if (timer !== undefined) window.clearTimeout(timer);
+  };
+}
+
 /** Warm the rewarded ad ahead of time. Safe to call repeatedly; never throws. */
 export function preloadRewardedAd(): void {
   if (!adConfig.rewarded.enabled) return;

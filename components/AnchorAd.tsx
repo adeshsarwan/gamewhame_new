@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { adConfig, MANAGED_SLOT_IDS } from "@/lib/adConfig";
+import { revealManagedSlots } from "@/lib/priceOptimiser";
 import styles from "./AnchorAd.module.css";
 
 /**
@@ -20,7 +21,13 @@ import styles from "./AnchorAd.module.css";
  *
  * The publisher supplies only the container and its geometry (320x50 mobile /
  * 728x90 desktop). Price Optimiser owns the slot lifecycle — there is no
- * googletag call, no refresh and no reveal call here.
+ * googletag call and no refresh here.
+ *
+ * Because this container is route- and viewport-gated it is NOT in the
+ * server-rendered HTML, so it does not exist when Price Optimiser boots and
+ * scans for its destinations. Once mounted we announce it through the
+ * documented reveal lifecycle; without that the anchor is never requested and
+ * can never fill (verified live).
  */
 export default function AnchorAd() {
   const pathname = usePathname();
@@ -38,8 +45,15 @@ export default function AnchorAd() {
     return () => mq.removeEventListener("change", sync);
   }, []);
 
-  if (!adConfig.anchor.enabled || !wideEnough) return null;
-  if (adConfig.anchor.excludeRoutePrefixes.some((p) => pathname?.startsWith(p))) return null;
+  const excluded = adConfig.anchor.excludeRoutePrefixes.some((p) => pathname?.startsWith(p));
+  const visible = adConfig.anchor.enabled && wideEnough && !excluded;
+
+  useEffect(() => {
+    if (!visible) return;
+    return revealManagedSlots([MANAGED_SLOT_IDS.anchor]);
+  }, [visible, pathname]);
+
+  if (!visible) return null;
 
   return (
     <div className={styles.anchor} aria-label="Advertisement">
