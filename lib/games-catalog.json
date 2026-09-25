@@ -627,8 +627,8 @@
         "Doodle"
       ],
       "hook": "Flip the doodles and match every pair before the clock stops.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/match-doodle.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/match-doodle/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -715,8 +715,8 @@
         "Duel"
       ],
       "hook": "Jump, capture and crown your way to a classic checkers win.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/play-checkers.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/play-checkers/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -737,8 +737,8 @@
         "Duel"
       ],
       "hook": "Plot your attack and checkmate the king in timeless chess.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/play-chess.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/play-chess/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -825,8 +825,8 @@
         "Tactics"
       ],
       "hook": "Flank your rival's discs to flip the board in your colour.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/play-reversi.png",
+      "hasRealArt": true,
       "playUrl": "https://games.gamewhame.com/h5-games/play-reversi/index.html",
       "placeholder": false,
       "source": "kasetto"
@@ -1221,8 +1221,8 @@
         "Logic"
       ],
       "hook": "Connect matching dots, clear each board and keep the chain going through bite-size puzzle levels.",
-      "thumb": "",
-      "hasRealArt": false,
+      "thumb": "/thumbs/dot-connect-mania.png",
+      "hasRealArt": true,
       "playUrl": null,
       "gameUrl": "https://games.gamewhame.com/dot-connect-mania/index.html",
       "engine": "unity-webgl",
