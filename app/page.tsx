@@ -15,6 +15,7 @@ import GameGrid from "@/components/GameGrid";
 import GameRail from "@/components/GameRail";
 import SectionHeader from "@/components/SectionHeader";
 import AdSlot from "@/components/AdSlot";
+import { MANAGED_SLOT_IDS } from "@/lib/adConfig";
 import Reveal from "@/components/Reveal";
 import Icon from "@/components/Icon";
 import styles from "./page.module.css";
@@ -77,7 +78,7 @@ export default function HomePage() {
 
       {/* In-content Price Optimiser managed Native container — id must be unique. */}
       <Reveal as="section" className={styles.adWrap}>
-        <AdSlot variant="display" managedId="ad-incontent" height={110} />
+        <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent} height={110} />
       </Reveal>
 
       {/* New — another dense grid so games keep filling the screen. */}
@@ -124,10 +125,6 @@ export default function HomePage() {
           games={relax}
           seeAllHref="/games/casual"
         />
-      </Reveal>
-
-      <Reveal as="section" className={styles.adWrap}>
-        <AdSlot variant="display" height={110} />
       </Reveal>
 
       {/* SEO card */}

@@ -13,6 +13,7 @@ import type { CategoryDef, Game } from "@/lib/types";
 import Mosaic from "@/components/Mosaic";
 import SectionHeader from "@/components/SectionHeader";
 import AdSlot from "@/components/AdSlot";
+import { MANAGED_SLOT_IDS } from "@/lib/adConfig";
 import CategoryPill from "@/components/CategoryPill";
 import CategoryView, { type SubFilter } from "@/components/CategoryView";
 import Reveal from "@/components/Reveal";
@@ -140,8 +141,10 @@ export default function CategoryPage({ params }: { params: { category: string } 
             <Mosaic games={mosaicGames} priorityCount={4} />
           </section>
 
+          {/* Price Optimiser managed in-content container — the category
+              route's single display unit. Unique per rendered DOM. */}
           <Reveal as="section" className={styles.adWrap}>
-            <AdSlot variant="display" height={110} />
+            <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent} height={110} />
           </Reveal>
 
           <Reveal as="section" className={styles.gridSection}>

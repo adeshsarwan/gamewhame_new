@@ -6,6 +6,7 @@ import Thumb from "./Thumb";
 import FavoriteButton from "./FavoriteButton";
 import { PlayTriangle } from "./BrandMarks";
 import { cardConfig } from "@/lib/cardConfig";
+import { useInterstitialLink } from "./useInterstitialLink";
 import styles from "./GameCard.module.css";
 
 export interface GameCardProps {
@@ -28,7 +29,10 @@ const SIZES: Record<TileSize, string> = {
 /**
  * GameCard — the core tile. Real art (or branded placeholder), favorite
  * button, gradient meta bar (title + category), and a hover play overlay.
- * Links straight to /play/[slug] (loop A entry).
+ * Links straight to /play/[slug] (loop A entry) and is the site's approved
+ * Google web-interstitial opportunity (game tile -> gameplay). See
+ * useInterstitialLink — the publisher only marks the link, Price Optimiser owns
+ * the ad lifecycle.
  */
 export default function GameCard({
   game,
@@ -38,9 +42,13 @@ export default function GameCard({
   context = "mosaic",
 }: GameCardProps) {
   const comingSoon = !game.playUrl && !game.gameUrl;
+  // "Coming soon" tiles do not lead to gameplay, so they are not an approved
+  // interstitial opportunity.
+  const interstitial = useInterstitialLink(!comingSoon);
   return (
     <Link
       href={`/play/${game.slug}`}
+      {...interstitial}
       className={styles.card}
       data-size={size}
       data-context={context}

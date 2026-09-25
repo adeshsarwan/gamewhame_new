@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import CategorySidebar from "@/components/CategorySidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { Toaster } from "@/components/Toast";
+import AnchorAd from "@/components/AnchorAd";
+import { PO_SCRIPT_ID, PO_SCRIPT_SRC, PO_PRECONNECT_ORIGINS } from "@/lib/adConfig";
 
 const SITE_URL = "https://gamewhame.com";
 
@@ -50,6 +52,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             opens a game, so the cross-origin iframe starts loading instantly. */}
         <link rel="preconnect" href="https://games.gamewhame.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://games.gamewhame.com" />
+        {/* Warm up the Price Optimiser / GAM path too, so the first ad request
+            does not pay for DNS + TLS on top of the game load. */}
+        {PO_PRECONNECT_ORIGINS.map((origin) => (
+          <link key={origin} rel="preconnect" href={origin} crossOrigin="anonymous" />
+        ))}
       </head>
       <body>
         <a href="#main" className="gw-skip-link">
@@ -65,15 +72,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <MobileBottomNav />
         <Toaster />
-        {/* Price Optimiser publisher bundle — loaded once, site-wide. The
-            site-specific bundle pins gamewhame.com internally, so no
-            data-po-site attribute is needed. Price Optimiser owns the managed
-            GPT slots (#ad-leaderboard, #ad-incontent, …); the publisher only
-            renders the DOM containers and loads this script. */}
-        <Script
-          src="https://priceoptimiser1.thebesads.com/experiences/gamewhame.js"
-          strategy="afterInteractive"
-        />
+        {/* The single sticky Price Optimiser anchor container. Mounted once,
+            here, so #ad-anchor can never be duplicated. */}
+        <AnchorAd />
+        {/* Price Optimiser publisher bundle — loaded exactly once, site-wide.
+            The site-specific bundle pins gamewhame.com internally, so no
+            data-po-site attribute is needed. The `id` makes Next dedupe the
+            tag, so SPA route changes never re-inject or re-bootstrap it.
+            Price Optimiser owns the managed GPT slots (#ad-leaderboard,
+            #ad-incontent, #ad-anchor, interstitial, rewarded); the publisher
+            only renders the DOM containers and loads this script — there is no
+            publisher-side googletag call anywhere in this app. */}
+        <Script id={PO_SCRIPT_ID} src={PO_SCRIPT_SRC} strategy="afterInteractive" />
       </body>
     </html>
   );

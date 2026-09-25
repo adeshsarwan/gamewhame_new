@@ -1,0 +1,41 @@
+/* Sticky anchor rail. Sized so the creative never clips: 728x90 from tablet up,
+   320x50 on phones (phones are opt-in — see lib/adConfig.ts). Sits below the
+   mobile bottom nav in the stacking order so navigation always wins.
+   The container is fixed-position, so it costs no layout and causes no CLS. */
+.anchor {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: calc(var(--z-bottomnav) - 1);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 0 env(safe-area-inset-bottom);
+  pointer-events: none;
+}
+.inner {
+  pointer-events: auto;
+  display: block;
+  width: 100%;
+  max-width: 748px;
+  min-width: 320px;
+  min-height: 90px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+  border-radius: var(--r) var(--r) 0 0;
+  box-shadow: var(--sh-lg);
+  overflow: hidden;
+}
+/* Until Price Optimiser fills it (no fill, blocked, not yet requested) the
+   container draws nothing at all — never an empty white bar over the page. */
+.inner:empty {
+  display: none;
+}
+@media (max-width: 767px) {
+  .inner {
+    max-width: 100%;
+    min-height: 50px;
+  }
+}

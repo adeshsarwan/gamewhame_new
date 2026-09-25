@@ -8,11 +8,11 @@ import { getAllGames, getGameBySlug, getRelated } from "@/lib/games";
 import { categoryColorVar, categorySlug } from "@/lib/categories";
 import GameRail from "@/components/GameRail";
 import AdSlot from "@/components/AdSlot";
+import { MANAGED_SLOT_IDS } from "@/lib/adConfig";
 import Icon from "@/components/Icon";
 import PlayerStage from "@/components/PlayerStage";
 import UnityPlayer from "@/components/UnityPlayer";
 import RecentlyPlayed from "@/components/RecentlyPlayed";
-import InterstitialGate from "@/components/InterstitialGate";
 import styles from "./play.module.css";
 
 const SITE_URL = "https://gamewhame.com";
@@ -109,61 +109,58 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
         </span>
       </div>
 
-      <InterstitialGate>
-        <div className={styles.grid}>
-          {/* Left — the stage (client iframe lifecycle inside) + banner ad below. */}
-          <div className={styles.stageCol}>
-            {isUnity ? (
-              <UnityPlayer game={game} relatedAnchor="related-games" />
-            ) : (
-              <PlayerStage game={game} relatedAnchor="related-games" />
-            )}
+      <div className={styles.grid}>
+        {/* Left — the stage (client iframe lifecycle inside) + banner ad below. */}
+        <div className={styles.stageCol}>
+          {isUnity ? (
+            <UnityPlayer game={game} relatedAnchor="related-games" />
+          ) : (
+            <PlayerStage game={game} relatedAnchor="related-games" />
+          )}
 
-            {/* Leaderboard banner directly below the player (never gates play).
-                Price Optimiser managed Native container — id must be unique. */}
-            <AdSlot variant="display" managedId="ad-leaderboard" height={90} className={styles.playerAd} />
-          </div>
-
-          {/* Right — info + side ad rail. */}
-          <aside className={styles.info}>
-            <h1 className={styles.title}>{game.title}</h1>
-            <p className={styles.desc}>{game.description}</p>
-
-            {game.tags.length > 0 && (
-              <ul className={styles.tags}>
-                {game.tags.map((t) => (
-                  <li key={t}>
-                    <Link href={`/games/${categorySlug(t)}`} className={styles.tag}>
-                      {t}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {/* Desktop right-rail medium rectangle; stacks inline on mobile. */}
-            <AdSlot variant="sidebar" label="300 x 250" height={250} />
-          </aside>
+          {/* Leaderboard banner directly below the player (never gates play).
+              Price Optimiser managed Native container — id must be unique. */}
+          <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.leaderboard} height={90} className={styles.playerAd} />
         </div>
 
-        {/* THE P1 module — full width, right after the frame. */}
-        <section id="related-games" className={styles.related}>
-          <GameRail title="More Games Like This" icon="flame" games={related} priority />
-        </section>
+        {/* Right — game info. */}
+        <aside className={styles.info}>
+          <h1 className={styles.title}>{game.title}</h1>
+          <p className={styles.desc}>{game.description}</p>
 
-        {moreInCategory.length >= 4 && (
-          <section className={styles.related}>
-            <GameRail title={`More ${game.category} Games`} icon={playable ? "puzzle" : "gamepad"} games={moreInCategory} />
-          </section>
-        )}
+          {game.tags.length > 0 && (
+            <ul className={styles.tags}>
+              {game.tags.map((t) => (
+                <li key={t}>
+                  <Link href={`/games/${categorySlug(t)}`} className={styles.tag}>
+                    {t}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </aside>
+      </div>
 
+      {/* THE P1 module — full width, right after the frame. */}
+      <section id="related-games" className={styles.related}>
+        <GameRail title="More Games Like This" icon="flame" games={related} priority />
+      </section>
+
+      {moreInCategory.length >= 4 && (
         <section className={styles.related}>
-          <RecentlyPlayed games={getAllGames()} currentSlug={game.slug} />
+          <GameRail title={`More ${game.category} Games`} icon={playable ? "puzzle" : "gamepad"} games={moreInCategory} />
         </section>
+      )}
 
-        {/* Bottom-of-page leaderboard, near the footer. */}
-        <AdSlot variant="display" label="728 x 90 Leaderboard" height={90} className={styles.bottomAd} />
-      </InterstitialGate>
+      <section className={styles.related}>
+        <RecentlyPlayed games={getAllGames()} currentSlug={game.slug} />
+      </section>
+
+      {/* Bottom-of-page Price Optimiser managed container, after the discovery
+          rails. Second (and last) managed display id on this route — the page
+          already owns #ad-leaderboard, and each id may appear only once. */}
+      <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent} height={90} className={styles.bottomAd} />
     </div>
   );
 }

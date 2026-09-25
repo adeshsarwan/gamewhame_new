@@ -10,6 +10,8 @@ import FavoriteButton from "./FavoriteButton";
 import { PlayTriangle } from "./BrandMarks";
 import { toast } from "./Toast";
 import RewardedContinue from "./RewardedContinue";
+import { adConfig } from "@/lib/adConfig";
+import { preloadRewardedAd } from "@/lib/priceOptimiser";
 import styles from "./PlayerStage.module.css";
 
 const RECENT_KEY = "gw_recent";
@@ -131,6 +133,9 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
           case "gw:gameover":
             setFinalScore(typeof data.score === "number" ? data.score : null);
             setGameOver(true);
+            // Warm the rewarded ad the moment a continue becomes offerable, so
+            // the opt-in tap feels instant. Preloading grants nothing.
+            if (adConfig.rewarded.enabled) preloadRewardedAd();
             break;
           default:
             break;
@@ -363,10 +368,12 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
                   <PlayTriangle size={18} color="#fff" />
                   Play again
                 </button>
-                <button type="button" className={styles.goReward} onClick={() => setShowRewarded(true)}>
-                  <Icon name="crown" weight="fill" size={18} color="var(--yellow)" />
-                  Watch to continue
-                </button>
+                {adConfig.rewarded.enabled && (
+                  <button type="button" className={styles.goReward} onClick={() => setShowRewarded(true)}>
+                    <Icon name="crown" weight="fill" size={18} color="var(--yellow)" />
+                    Watch to continue
+                  </button>
+                )}
               </div>
               <a className={styles.goSimilar} href={`#${relatedAnchor}`}>
                 Or discover a new game
@@ -376,7 +383,8 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
           </div>
         )}
 
-        {/* 5. Opt-in rewarded "continue" overlay (mock ad + countdown). */}
+        {/* 5. Opt-in rewarded "continue" overlay — real Price Optimiser rewarded
+            ad; the continue is granted only on a rewarded outcome. */}
         {showRewarded && (
           <RewardedContinue
             onComplete={onRewardComplete}

@@ -236,3 +236,10 @@
     padding: 24px 10px 10px;
   }
 }
+
+/* One tap = one interstitial workflow = one navigation. After a click the tile
+   briefly stops accepting pointer events instead of the app intercepting the
+   click, so Price Optimiser's workflow is never competed with or duplicated. */
+.card[data-po-busy="true"] {
+  pointer-events: none;
+}

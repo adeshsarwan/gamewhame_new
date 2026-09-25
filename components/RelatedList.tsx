@@ -7,8 +7,9 @@ import styles from "./RelatedList.module.css";
 /**
  * RelatedList — compact vertical list of related games for the desktop sidebar,
  * placing loop-B discovery above the fold right beside the frame. Rows link
- * straight to /play/[slug]; the InterstitialGate wrapping the page catches the
- * click for the between-games cap.
+ * straight to /play/[slug]. Rows are game tile -> gameplay transitions, so they
+ * are approved Google web-interstitial opportunities (see lib/adConfig.ts) —
+ * the publisher only marks the link; Price Optimiser owns the ad lifecycle.
  */
 export default function RelatedList({ games, title = "You might also like" }: { games: Game[]; title?: string }) {
   if (!games.length) return null;
@@ -23,7 +24,12 @@ export default function RelatedList({ games, title = "You might also like" }: { 
       <ul className={styles.list}>
         {games.map((g) => (
           <li key={g.slug}>
-            <Link href={`/play/${g.slug}`} className={styles.row} aria-label={`Play ${g.title}`}>
+            <Link
+              href={`/play/${g.slug}`}
+              className={styles.row}
+              aria-label={`Play ${g.title}`}
+              data-google-interstitial="true"
+            >
               <span className={styles.art}>
                 <Thumb game={g} sizes="72px" />
                 {g.playUrl === null && <span className={styles.soon}>Soon</span>}

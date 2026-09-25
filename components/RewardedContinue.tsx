@@ -2,48 +2,76 @@
 
 import { useEffect, useRef, useState } from "react";
 import Icon from "./Icon";
-import AdSlot from "./AdSlot";
+import { showRewardedAd, preloadRewardedAd, isRewardedAvailable } from "@/lib/priceOptimiser";
 import styles from "./RewardedContinue.module.css";
 
 interface RewardedContinueProps {
-  /** Fired when the (mock) rewarded ad finishes — grant the continue. */
+  /** Fired ONLY when the rewarded ad reports a granted/rewarded outcome. */
   onComplete: () => void;
-  /** Fired when the player backs out before the reward is earned. */
-  onCancel: () => void;
-  /** Countdown seconds for the mock ad. */
-  seconds?: number;
+  /** Fired when no reward was earned (dismissed, no fill, error, unavailable). */
+  onCancel: (reason?: string) => void;
 }
+
+const COPY: Record<string, string> = {
+  unavailable: "Rewarded ads aren't available right now.",
+  "no-fill": "No ad was available this time.",
+  error: "The ad couldn't load. Nothing lost — jump back in.",
+  timeout: "The ad took too long. Nothing lost — jump back in.",
+  dismissed: "Ad closed early, so no reward this time.",
+  disabled: "Rewarded ads are turned off.",
+  "in-flight": "An ad is already playing.",
+};
 
 /**
  * RewardedContinue — the single rewarded surface. Player-initiated ONLY (opened
- * from the game-over panel), never a pre-play gate and never mid-run. Mocks a
- * short rewarded ad with a countdown over an `AdSlot variant="rewarded"`, then
- * grants the continue. Skippable before the reward is earned (no reward if so).
+ * from the game-over panel), never a pre-play gate and never mid-run.
+ *
+ * Price Optimiser owns the rewarded lifecycle: this component just asks the SDK
+ * for an ad and reports the outcome. The reward is granted ONLY when the SDK
+ * says the ad was actually rewarded — never on preload, show, close, no-fill,
+ * error or timeout. Failure is silent and harmless: the player keeps their
+ * game-over options.
  */
-export default function RewardedContinue({ onComplete, onCancel, seconds = 5 }: RewardedContinueProps) {
-  const [left, setLeft] = useState(seconds);
-  const doneRef = useRef(false);
+export default function RewardedContinue({ onComplete, onCancel }: RewardedContinueProps) {
+  const [status, setStatus] = useState<"loading" | "failed">("loading");
+  const [note, setNote] = useState<string | null>(null);
+  const started = useRef(false);
+  const alive = useRef(true);
+
+  // Warm the ad as soon as the panel opens; the request itself follows.
+  useEffect(() => {
+    preloadRewardedAd();
+  }, []);
 
   useEffect(() => {
-    // Respect reduced motion / just tick a real timer.
-    const id = window.setInterval(() => {
-      setLeft((n) => {
-        if (n <= 1) {
-          window.clearInterval(id);
-          if (!doneRef.current) {
-            doneRef.current = true;
-            // Defer so we grant after this render tick settles.
-            window.setTimeout(onComplete, 350);
-          }
-          return 0;
-        }
-        return n - 1;
-      });
-    }, 1000);
-    return () => window.clearInterval(id);
-  }, [onComplete]);
+    alive.current = true;
+    // Guard against React double-invoking effects (StrictMode) or a re-render
+    // starting a second workflow — one open panel means one ad request.
+    if (started.current) return;
+    started.current = true;
 
-  const pct = Math.round(((seconds - left) / seconds) * 100);
+    if (!isRewardedAvailable()) {
+      setStatus("failed");
+      setNote(COPY.unavailable);
+      return;
+    }
+
+    showRewardedAd().then((outcome) => {
+      if (!alive.current) return;
+      if (outcome.granted) {
+        onComplete();
+        return;
+      }
+      setStatus("failed");
+      setNote(COPY[outcome.reason] ?? COPY.dismissed);
+    });
+
+    return () => {
+      alive.current = false;
+    };
+    // Intentionally run once per mounted panel.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" aria-label="Watch to continue">
@@ -54,26 +82,27 @@ export default function RewardedContinue({ onComplete, onCancel, seconds = 5 }: 
           </span>
           <div>
             <h2 className={styles.title}>Watch to continue</h2>
-            <p className={styles.sub}>Finish the short ad to jump back in with a fresh run.</p>
+            <p className={styles.sub}>
+              {status === "loading"
+                ? "Finding your ad — finish it to jump back in with a fresh run."
+                : "No reward this time."}
+            </p>
           </div>
-          <button type="button" className={styles.close} onClick={onCancel} aria-label="Cancel and close">
+          <button type="button" className={styles.close} onClick={() => onCancel()} aria-label="Close">
             <Icon name="close" size={18} />
           </button>
         </div>
 
-        <AdSlot variant="rewarded" label="Rewarded video" height={150} />
-
-        <div className={styles.progressRow}>
-          <span className={styles.progressTrack} aria-hidden>
-            <span className={styles.progressFill} style={{ width: `${pct}%` }} />
-          </span>
-          <span className={styles.count} aria-live="polite">
-            {left > 0 ? `Reward in ${left}s` : "Unlocking…"}
-          </span>
+        <div className={styles.stage} aria-live="polite">
+          {status === "loading" ? (
+            <span className={styles.spinner} aria-hidden />
+          ) : (
+            <p className={styles.note}>{note}</p>
+          )}
         </div>
 
-        <button type="button" className={styles.skip} onClick={onCancel}>
-          Skip — no reward
+        <button type="button" className={styles.skip} onClick={() => onCancel()}>
+          {status === "loading" ? "Cancel" : "Back to game"}
         </button>
       </div>
     </div>
