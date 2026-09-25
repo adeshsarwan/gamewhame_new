@@ -1,5 +1,5 @@
 {
-  "count": 56,
+  "count": 63,
   "games": [
     {
       "id": 53,
@@ -1225,6 +1225,177 @@
       "hasRealArt": true,
       "playUrl": null,
       "gameUrl": "https://games.gamewhame.com/dot-connect-mania/index.html",
+      "engine": "unity-webgl",
+      "orientation": "portrait",
+      "placeholder": false,
+      "source": "unity"
+    },
+    {
+      "id": 151,
+      "title": "Ball Rolling Puzzle",
+      "slug": "ball-rolling-puzzle",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Brain",
+        "Casual"
+      ],
+      "tags": [
+        "Ball",
+        "Logic"
+      ],
+      "hook": "Guide the rolling ball through each tricky board and reach the goal in as few moves as you can.",
+      "thumb": "",
+      "hasRealArt": false,
+      "playUrl": null,
+      "gameUrl": "https://games.gamewhame.com/ball-rolling-puzzle/index.html",
+      "engine": "unity-webgl",
+      "orientation": "portrait",
+      "placeholder": false,
+      "source": "unity"
+    },
+    {
+      "id": 152,
+      "title": "Block Puzzle Blast",
+      "slug": "block-puzzle-blast",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Casual",
+        "Brain"
+      ],
+      "tags": [
+        "Blocks",
+        "Logic"
+      ],
+      "hook": "Drag and drop the blocks to fill rows, blast them clear and keep the grid from filling up.",
+      "thumb": "",
+      "hasRealArt": false,
+      "playUrl": null,
+      "gameUrl": "https://games.gamewhame.com/block-puzzle-blast/index.html",
+      "engine": "unity-webgl",
+      "orientation": "portrait",
+      "placeholder": false,
+      "source": "unity"
+    },
+    {
+      "id": 153,
+      "title": "Dice Merge Mania",
+      "slug": "dice-merge-mania",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Brain",
+        "Casual"
+      ],
+      "tags": [
+        "Merge",
+        "Dice",
+        "Numbers"
+      ],
+      "hook": "Drop and merge matching dice to chase bigger numbers and rack up combo after combo.",
+      "thumb": "",
+      "hasRealArt": false,
+      "playUrl": null,
+      "gameUrl": "https://games.gamewhame.com/dice-merge-mania/index.html",
+      "engine": "unity-webgl",
+      "orientation": "portrait",
+      "placeholder": false,
+      "source": "unity"
+    },
+    {
+      "id": 154,
+      "title": "Maze Quest",
+      "slug": "maze-quest",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Brain",
+        "Casual"
+      ],
+      "tags": [
+        "Maze",
+        "Logic"
+      ],
+      "hook": "Trace the one true path out of every maze before the twists and dead ends catch you out.",
+      "thumb": "",
+      "hasRealArt": false,
+      "playUrl": null,
+      "gameUrl": "https://games.gamewhame.com/maze-quest/index.html",
+      "engine": "unity-webgl",
+      "orientation": "portrait",
+      "placeholder": false,
+      "source": "unity"
+    },
+    {
+      "id": 155,
+      "title": "Number Merge 2048",
+      "slug": "number-merge-2048",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Brain",
+        "Math"
+      ],
+      "tags": [
+        "2048",
+        "Merge",
+        "Numbers"
+      ],
+      "hook": "Slide and merge matching numbers to climb toward 2048 and beat your own high score.",
+      "thumb": "",
+      "hasRealArt": false,
+      "playUrl": null,
+      "gameUrl": "https://games.gamewhame.com/number-merge-2048/index.html",
+      "engine": "unity-webgl",
+      "orientation": "portrait",
+      "placeholder": false,
+      "source": "unity"
+    },
+    {
+      "id": 156,
+      "title": "Water Sort",
+      "slug": "water-sort",
+      "category": "Puzzle",
+      "categories": [
+        "Puzzle",
+        "Brain",
+        "Casual"
+      ],
+      "tags": [
+        "Sorting",
+        "Logic"
+      ],
+      "hook": "Pour the colored water between tubes until each one holds a single, perfectly sorted shade.",
+      "thumb": "",
+      "hasRealArt": false,
+      "playUrl": null,
+      "gameUrl": "https://games.gamewhame.com/water-sort/index.html",
+      "engine": "unity-webgl",
+      "orientation": "portrait",
+      "placeholder": false,
+      "source": "unity"
+    },
+    {
+      "id": 157,
+      "title": "Word Quest Crossword Puzzle",
+      "slug": "word-quest-cross-word-puzzle",
+      "category": "Word",
+      "categories": [
+        "Word",
+        "Brain",
+        "Puzzle"
+      ],
+      "tags": [
+        "Words",
+        "Crossword",
+        "Vocabulary"
+      ],
+      "hook": "Swipe the letters to spell hidden words and fill every crossword grid across the levels.",
+      "thumb": "",
+      "hasRealArt": false,
+      "playUrl": null,
+      "gameUrl": "https://games.gamewhame.com/word-quest-cross-word-puzzle/index.html",
       "engine": "unity-webgl",
       "orientation": "portrait",
       "placeholder": false,
