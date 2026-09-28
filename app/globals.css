@@ -122,6 +122,18 @@ ul {
   padding-inline: var(--container-pad);
 }
 
+/* Immersive play (mobile): the game owns the whole screen. The global header,
+   primary bottom nav and footer are hidden so there is nothing to scroll past
+   to reach the player — the player carries its own logo + controls. Desktop is
+   untouched (chrome stays). Set by <ImmersivePlay> on /play routes. */
+@media (max-width: 767px) {
+  body.gw-immersive > header,
+  body.gw-immersive nav[aria-label="Primary"],
+  body.gw-immersive > footer {
+    display: none;
+  }
+}
+
 /* Screen-reader-only utility */
 .gw-sr-only {
   position: absolute;

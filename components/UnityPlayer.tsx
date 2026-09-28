@@ -2,15 +2,18 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { Game } from "@/lib/types";
 import { categorySlug } from "@/lib/categories";
 import Thumb from "./Thumb";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import FavoriteButton from "./FavoriteButton";
-import { PlayTriangle } from "./BrandMarks";
+import { PlayTriangle, Wordmark } from "./BrandMarks";
 import { toast } from "./Toast";
 import shell from "./PlayerStage.module.css";
+import { stageAspect } from "./PlayerStage";
+import { useStageFit } from "./useStageFit";
 import styles from "./UnityPlayer.module.css";
 
 const RECENT_KEY = "gw_recent";
@@ -91,6 +94,9 @@ export default function UnityPlayer({ game, relatedAnchor = "related-games" }: U
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const src = game.gameUrl as string;
 
+  // Fit the player to the viewport on desktop so it never overflows the screen.
+  useStageFit(stageRef);
+
   const [playing, setPlaying] = useState(false);
   const [loaded, setLoaded] = useState(false); // iframe `load` event fired
   const [error, setError] = useState(false); // failed / timed out
@@ -169,7 +175,10 @@ export default function UnityPlayer({ game, relatedAnchor = "related-games" }: U
     setError(false);
     setProgress(null);
     recordRecent(game.slug);
-    stageRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    // "nearest" won't scroll when the player is already visible (mobile immersive
+    // / top of page) — so tapping Play no longer nudges the view — but still pulls
+    // the player into view when it is off-screen.
+    stageRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [game.slug]);
 
   // Let the info-card "Play Now" CTA (elsewhere on the page) start the run.
@@ -235,6 +244,9 @@ export default function UnityPlayer({ game, relatedAnchor = "related-games" }: U
       {/* Player top bar — controls live here, never over the play area. */}
       <div className={shell.chrome}>
         <div className={shell.chromeLeft}>
+          <Link href="/" className={shell.brand} aria-label="GameWhame home">
+            <Wordmark size={17} />
+          </Link>
           <span className={`${shell.liveDot} ${playing && loaded ? shell.live : ""}`} aria-hidden />
           <span className={shell.chromeTitle}>
             {game.title}
@@ -273,17 +285,21 @@ export default function UnityPlayer({ game, relatedAnchor = "related-games" }: U
         ref={stageRef}
         data-fullscreen={isFullscreen || undefined}
         data-orientation={game.orientation || undefined}
+        style={{ ["--ar" as string]: String(stageAspect(game.orientation)) } as React.CSSProperties}
       >
-        {/* 1. Playable Unity iframe (client-only, mounted on Play). */}
-        {showFrame && (
-          <UnityFrame
-            key={frameKey}
-            src={src}
-            title={`${game.title} — playable game`}
-            onLoad={handleLoad}
-            setRef={setFrameRef}
-          />
-        )}
+        {/* 1. Playable Unity iframe (client-only, mounted on Play), inside the
+            aspect-fitted, viewport-capped box shared with PlayerStage. */}
+        <div className={shell.frameBox}>
+          {showFrame && (
+            <UnityFrame
+              key={frameKey}
+              src={src}
+              title={`${game.title} — playable game`}
+              onLoad={handleLoad}
+              setRef={setFrameRef}
+            />
+          )}
+        </div>
 
         {/* 2. On-brand loading overlay until the iframe's `load` event fires. */}
         {showLoader && (

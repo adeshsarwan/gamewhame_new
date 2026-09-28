@@ -2,20 +2,40 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { Game } from "@/lib/types";
 import { categorySlug } from "@/lib/categories";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import FavoriteButton from "./FavoriteButton";
-import { PlayTriangle } from "./BrandMarks";
+import { PlayTriangle, Wordmark } from "./BrandMarks";
 import { toast } from "./Toast";
 import RewardedContinue from "./RewardedContinue";
 import { adConfig } from "@/lib/adConfig";
 import { preloadRewardedAd } from "@/lib/priceOptimiser";
+import { useStageFit } from "./useStageFit";
 import styles from "./PlayerStage.module.css";
 
 const RECENT_KEY = "gw_recent";
 const NOTIFY_KEY = "gw_notify";
+
+/**
+ * Aspect ratio (width / height, as a unitless number CSS `aspect-ratio` accepts)
+ * per game orientation. The stage box is sized to this so the game fills it with
+ * no black bars from our side — a portrait game gets a tall narrow frame, a
+ * landscape game a wide one. `responsive` games adapt, so we give them a neutral
+ * 16:10. Falls back to landscape for any untagged game.
+ */
+export const ASPECT: Record<string, number> = {
+  portrait: 9 / 16,
+  landscape: 16 / 9,
+  responsive: 16 / 10,
+};
+
+/** Aspect number (width/height) for a game's orientation; landscape fallback. */
+export function stageAspect(orientation?: string | null): number {
+  return ASPECT[orientation ?? "responsive"] ?? ASPECT.landscape;
+}
 
 /** Push a slug to the front of the MRU recently-played list (localStorage). */
 function recordRecent(slug: string) {
@@ -69,6 +89,12 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   const playable = Boolean(game.playUrl);
+  const orientation = game.orientation ?? "responsive";
+  const aspect = stageAspect(orientation);
+
+  // Keep the player (and banner below) within the viewport on desktop, at any
+  // window height, by fitting the stage to the real available space.
+  useStageFit(stageRef);
   const [playing, setPlaying] = useState(false);
   const [runId, setRunId] = useState(0); // bump to remount (reload / play again)
   const [ready, setReady] = useState(false); // gw:ready received
@@ -155,7 +181,10 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
     setScore(null);
     setGameOver(false);
     recordRecent(game.slug);
-    stageRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    // "nearest" is a no-op when the player is already on screen (mobile immersive
+    // / top of the page), so tapping Play never jerks the view; it only scrolls
+    // when the player is actually off-screen (e.g. a Play CTA further down).
+    stageRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [playable, game.slug]);
 
   // Auto-mount the game on first client render for playable games — no poster /
@@ -204,12 +233,25 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
       if (document.fullscreenElement) {
         document.exitFullscreen();
       } else {
-        el.requestFullscreen();
+        const req = el.requestFullscreen();
+        // Landscape games play far better filling a rotated phone — ask the OS to
+        // lock orientation once we're actually fullscreen. Best-effort: unsupported
+        // on desktop / iOS Safari, so every failure is swallowed silently.
+        if (orientation === "landscape" && req && typeof req.then === "function") {
+          req
+            .then(() => {
+              const so = screen.orientation as (ScreenOrientation & { lock?: (o: string) => Promise<void> }) | undefined;
+              return so?.lock?.("landscape");
+            })
+            .catch(() => {
+              /* orientation lock unavailable — game still runs fullscreen */
+            });
+        }
       }
     } catch {
       toast("Fullscreen is not available here", "info");
     }
-  }, []);
+  }, [orientation]);
 
   const share = useCallback(() => {
     const url = typeof window !== "undefined" ? window.location.href : `https://gamewhame.com/play/${game.slug}`;
@@ -245,6 +287,9 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
       {/* Player top bar — controls live here, never over the play area. */}
       <div className={styles.chrome}>
         <div className={styles.chromeLeft}>
+          <Link href="/" className={styles.brand} aria-label="GameWhame home">
+            <Wordmark size={17} />
+          </Link>
           <span className={`${styles.liveDot} ${playing && ready ? styles.live : ""}`} aria-hidden />
           <span className={styles.chromeTitle}>{game.title}</span>
           {playing && score != null && (
@@ -277,21 +322,33 @@ export default function PlayerStage({ game, relatedAnchor = "related-games" }: P
         </div>
       </div>
 
-      {/* Reserved stage box (aspect set in CSS at SSR -> zero CLS). */}
-      <div className={styles.stage} ref={stageRef} data-fullscreen={isFullscreen || undefined}>
-        {/* 1. Playable iframe (client-only, mounted on Play). */}
+      {/* Reserved stage box. The frame is sized to the game's real aspect ratio
+          (portrait / landscape / responsive) and fitted within the available
+          viewport height so nothing overflows and the banner below stays in view.
+          Aspect is set from catalog data at SSR -> zero CLS. */}
+      <div
+        className={styles.stage}
+        ref={stageRef}
+        data-fullscreen={isFullscreen || undefined}
+        data-orientation={orientation}
+        style={{ ["--ar" as string]: String(aspect) } as React.CSSProperties}
+      >
+        {/* 1. Playable iframe (client-only, mounted on Play), inside an
+            aspect-fitted box centered on the stage backdrop. */}
         {playable && playing && (
-          <iframe
-            key={runId}
-            ref={iframeRef}
-            className={styles.frame}
-            src={game.playUrl as string}
-            title={`${game.title} — playable game`}
-            sandbox="allow-scripts allow-same-origin allow-pointer-lock"
-            allow="autoplay; fullscreen; gamepad"
-            loading="eager"
-            onLoad={onFrameLoad}
-          />
+          <div className={styles.frameBox}>
+            <iframe
+              key={runId}
+              ref={iframeRef}
+              className={styles.frame}
+              src={game.playUrl as string}
+              title={`${game.title} — playable game`}
+              sandbox="allow-scripts allow-same-origin allow-pointer-lock"
+              allow="autoplay; fullscreen; gamepad"
+              loading="eager"
+              onLoad={onFrameLoad}
+            />
+          </div>
         )}
 
         {/* Lively indeterminate loader until the iframe load event / gw:ready.

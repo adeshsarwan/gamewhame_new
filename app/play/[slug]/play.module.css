@@ -1,5 +1,5 @@
 .page {
-  padding-block: 20px 8px;
+  padding-block: 12px 8px;
 }
 .crumb {
   display: flex;
@@ -8,7 +8,7 @@
   font-size: 12.5px;
   font-weight: var(--fw-semibold);
   color: var(--muted);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 .crumb a:hover {
   color: var(--navy);
@@ -25,7 +25,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 .catChip {
   display: inline-flex;
@@ -197,5 +197,35 @@
   /* On mobile the stage should come before the wall of info text. */
   .stageCol {
     order: -1;
+  }
+}
+
+/* Mobile: immersive, chrome-free. The player owns the first screen — no
+   breadcrumb, no chips, no page heading (the player carries the logo + title),
+   and no banner for now (ads come later). Everything else scrolls below. */
+@media (max-width: 767px) {
+  .page {
+    padding-block: 0 12px;
+  }
+  .crumb,
+  .chips,
+  .title,
+  .playerAd,
+  .bottomAd {
+    display: none;
+  }
+  .grid {
+    gap: 0;
+    margin-bottom: 14px;
+  }
+  /* Full-bleed the player to the screen edges (cancel the container gutter). */
+  .stageCol {
+    margin-inline: calc(-1 * var(--container-pad));
+  }
+  .info {
+    padding-top: 14px;
+  }
+  .desc {
+    font-size: 13.5px;
   }
 }

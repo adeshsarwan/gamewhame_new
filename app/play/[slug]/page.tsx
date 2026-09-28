@@ -12,6 +12,7 @@ import { MANAGED_SLOT_IDS } from "@/lib/adConfig";
 import Icon from "@/components/Icon";
 import PlayerStage from "@/components/PlayerStage";
 import UnityPlayer from "@/components/UnityPlayer";
+import ImmersivePlay from "@/components/ImmersivePlay";
 import RecentlyPlayed from "@/components/RecentlyPlayed";
 import styles from "./play.module.css";
 
@@ -88,6 +89,7 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className={`gw-container ${styles.page}`}>
+      <ImmersivePlay />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <nav className={styles.crumb} aria-label="Breadcrumb">

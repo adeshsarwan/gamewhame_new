@@ -22,6 +22,16 @@
   gap: 10px;
   min-width: 0;
 }
+/* GameWhame logo inside the player. Hidden on desktop (the site header already
+   carries it); shown on mobile where the header is hidden for immersive play. */
+.brand {
+  display: none;
+  align-items: center;
+  flex: none;
+}
+.brand:active {
+  opacity: 0.7;
+}
 .liveDot {
   width: 9px;
   height: 9px;
@@ -94,18 +104,30 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* ---- Reserved stage (zero CLS) ---- */
+/* ---- Reserved stage (zero CLS) ----
+   The stage is a backdrop that centers an aspect-fitted frame. --ar (game
+   width/height) comes from catalog orientation; --maxh caps the play area so
+   the whole player + banner fit one screen. Mobile-first defaults here. */
 .stage {
   position: relative;
-  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  min-height: 300px;
+  --maxh: 82dvh;
   background: radial-gradient(120% 120% at 50% 28%, #16305a, var(--stage));
   overflow: hidden;
 }
-.stage[data-fullscreen] {
-  aspect-ratio: auto;
-  height: 100%;
-  display: flex;
+/* Fit-and-center box: width is capped to what --maxh allows for this ratio, so a
+   landscape game fills the width (height-capped) and a portrait game fills the
+   height (narrow, centered on the backdrop) — no black bars from our side. */
+.frameBox {
+  position: relative;
+  aspect-ratio: var(--ar, 1.7778);
+  max-width: 100%;
+  max-height: var(--maxh);
+  width: min(100%, calc(var(--maxh) * var(--ar, 1.7778)));
 }
 .frame {
   position: absolute;
@@ -115,6 +137,27 @@
   border: 0;
   display: block;
   background: #000;
+}
+
+/* Desktop: cap play-area height to the viewport minus the page chrome + the
+   banner below, so the leaderboard is always visible without scrolling. */
+@media (min-width: 1024px) {
+  .stage {
+    --maxh: clamp(340px, calc(100dvh - 340px), 880px);
+  }
+}
+
+/* Fullscreen: fill the screen; the game engine handles its own letterboxing. */
+.stage[data-fullscreen] {
+  --maxh: 100%;
+  min-height: 0;
+  height: 100%;
+}
+.stage[data-fullscreen] .frameBox {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  aspect-ratio: auto;
 }
 
 /* ---- Loading ---- */
@@ -571,14 +614,31 @@
   color: var(--navy);
 }
 
-/* ---- Mobile: portrait stage per spec (9:16) ---- */
+/* ---- Mobile: immersive — the player fills the screen, no scroll to see it ---- */
 @media (max-width: 767px) {
-  .stage {
-    aspect-ratio: 9 / 16;
-    max-height: 76vh;
+  /* Full-bleed: no card radius, logo shows, game title hides (logo replaces it). */
+  .wrap {
+    border-radius: 0;
+    box-shadow: none;
   }
+  .brand {
+    display: inline-flex;
+  }
+  .chromeTitle,
   .chromeTag {
     display: none;
+  }
+  .chrome {
+    padding-top: calc(7px + env(safe-area-inset-top));
+  }
+  /* Fill the viewport below the compact chrome bar (svh = never taller than the
+     visible area, so the game is fully on screen with the browser UI showing).
+     The shared `.frameBox` fit formula keeps the WHOLE game visible: on a tall
+     phone a portrait game reaches full width; on a short/narrow one the frame
+     narrows (small side gutters) instead of clipping the bottom off. */
+  .stage {
+    --maxh: calc(100svh - 58px - env(safe-area-inset-top));
+    min-height: 0;
   }
   .goTitle {
     font-size: 22px;
