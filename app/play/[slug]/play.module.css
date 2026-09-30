@@ -184,10 +184,10 @@
 .playerAd {
   margin-top: 16px;
 }
-/* Bottom-of-page leaderboard, centered and capped at a real leaderboard width. */
-.bottomAd {
-  max-width: 728px;
-  margin: 8px auto 24px;
+/* In-content managed slots placed between the discovery rails below the player.
+   Plain layout wrapper (no Reveal opacity animation) for predictable viewability. */
+.adWrap {
+  margin: 8px 0 24px;
 }
 
 @media (max-width: 1023px) {
@@ -201,17 +201,18 @@
 }
 
 /* Mobile: immersive, chrome-free. The player owns the first screen — no
-   breadcrumb, no chips, no page heading (the player carries the logo + title),
-   and no banner for now (ads come later). Everything else scrolls below. */
+   breadcrumb, no chips, no page heading (the player carries the logo + title).
+   Website ads are NOT hidden: they render BELOW the immersive game (leaderboard
+   under the player, then in-content between the discovery rails) per the final
+   website-ads handoff — the game still fills the first screen, ads appear on
+   scroll and never over the frame. */
 @media (max-width: 767px) {
   .page {
     padding-block: 0 12px;
   }
   .crumb,
   .chips,
-  .title,
-  .playerAd,
-  .bottomAd {
+  .title {
     display: none;
   }
   .grid {

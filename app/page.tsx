@@ -58,6 +58,12 @@ export default function HomePage() {
     <div className={`gw-container ${styles.page}`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
 
+      {/* Top leaderboard — Price Optimiser managed, Native/fluid. Plain layout
+          wrapper (no Reveal) so viewability is predictable. */}
+      <section className={styles.adWrap}>
+        <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.leaderboard} height={90} />
+      </section>
+
       {/* Games-first: the big-tile strip leads the page. The mascot is demoted
           to a single tile INSIDE this row (not a hero) — one of the widgets. */}
       <section className={styles.top}>
@@ -76,10 +82,11 @@ export default function HomePage() {
         <GameGrid games={popular} priorityCount={6} />
       </Reveal>
 
-      {/* In-content Price Optimiser managed Native container — id must be unique. */}
-      <Reveal as="section" className={styles.adWrap}>
+      {/* In-content #1 — Price Optimiser managed Native. Plain wrapper (no Reveal
+          opacity animation) so viewability stays predictable. */}
+      <section className={styles.adWrap}>
         <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent} height={110} />
-      </Reveal>
+      </section>
 
       {/* New — another dense grid so games keep filling the screen. */}
       <Reveal as="section" className={styles.section}>
@@ -93,6 +100,11 @@ export default function HomePage() {
         <GameGrid games={fresh} />
       </Reveal>
 
+      {/* In-content #2. */}
+      <section className={styles.adWrap}>
+        <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent2} height={110} />
+      </section>
+
       {/* Category discovery rows — horizontal variety, still games-first. */}
       <Reveal as="section" className={styles.section}>
         <GameRail
@@ -104,6 +116,12 @@ export default function HomePage() {
           seeAllHref="/games/puzzle"
         />
       </Reveal>
+
+      {/* In-content #3 — the home page has enough content below the fold to
+          support a third Native opportunity (lazy-loaded by Price Optimiser). */}
+      <section className={styles.adWrap}>
+        <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent3} height={110} />
+      </section>
 
       <Reveal as="section" className={styles.section}>
         <GameRail

@@ -32,6 +32,8 @@ export const PO_PRECONNECT_ORIGINS = [
 export const MANAGED_SLOT_IDS = {
   leaderboard: "ad-leaderboard",
   incontent: "ad-incontent",
+  incontent2: "ad-incontent-2",
+  incontent3: "ad-incontent-3",
   results: "ad-results",
   anchor: "ad-anchor",
 } as const;
@@ -49,8 +51,13 @@ export const adConfig = {
     mobile: false,
     /** Minimum viewport width (px) at which the anchor mounts. */
     minWidth: 768,
-    /** Never mount the anchor on these route prefixes — it would sit over the game. */
-    excludeRoutePrefixes: ["/play"] as string[],
+    /**
+     * Route prefixes where the anchor must never mount. Per the final website-ads
+     * handoff the anchor IS approved on desktop/tablet Play pages (it stays off
+     * mobile Play automatically via `mobile:false` + `minWidth`), so `/play` is
+     * no longer excluded. Kept as a lever for any future route we must protect.
+     */
+    excludeRoutePrefixes: [] as string[],
   },
 
   /**

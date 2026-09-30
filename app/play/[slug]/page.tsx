@@ -149,20 +149,33 @@ export default function PlayPage({ params }: { params: { slug: string } }) {
         <GameRail title="More Games Like This" icon="flame" games={related} priority />
       </section>
 
+      {/* In-content #1 — after the primary related rail (below the leaderboard
+          that already sits under the player). */}
+      <section className={styles.adWrap}>
+        <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent} height={110} />
+      </section>
+
       {moreInCategory.length >= 4 && (
-        <section className={styles.related}>
-          <GameRail title={`More ${game.category} Games`} icon={playable ? "puzzle" : "gamepad"} games={moreInCategory} />
-        </section>
+        <>
+          <section className={styles.related}>
+            <GameRail
+              title={`More ${game.category} Games`}
+              icon={playable ? "puzzle" : "gamepad"}
+              games={moreInCategory}
+            />
+          </section>
+
+          {/* In-content #2 — only when there is a second discovery rail, so short
+              play pages are not over-stuffed. */}
+          <section className={styles.adWrap}>
+            <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent2} height={110} />
+          </section>
+        </>
       )}
 
       <section className={styles.related}>
         <RecentlyPlayed games={getAllGames()} currentSlug={game.slug} />
       </section>
-
-      {/* Bottom-of-page Price Optimiser managed container, after the discovery
-          rails. Second (and last) managed display id on this route — the page
-          already owns #ad-leaderboard, and each id may appear only once. */}
-      <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent} height={90} className={styles.bottomAd} />
     </div>
   );
 }

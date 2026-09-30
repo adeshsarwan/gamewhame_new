@@ -137,15 +137,19 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
       {games.length ? (
         <>
+          {/* Top leaderboard — Price Optimiser managed, Native/fluid. */}
+          <section className={styles.adWrap}>
+            <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.leaderboard} height={90} />
+          </section>
+
           <section aria-label={`Best ${def.label} games`} className={styles.mosaicSection}>
             <Mosaic games={mosaicGames} priorityCount={4} />
           </section>
 
-          {/* Price Optimiser managed in-content container — the category
-              route's single display unit. Unique per rendered DOM. */}
-          <Reveal as="section" className={styles.adWrap}>
+          {/* In-content #1 — plain wrapper (no Reveal) for predictable viewability. */}
+          <section className={styles.adWrap}>
             <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent} height={110} />
-          </Reveal>
+          </section>
 
           <Reveal as="section" className={styles.gridSection}>
             <SectionHeader
@@ -156,6 +160,17 @@ export default function CategoryPage({ params }: { params: { category: string } 
             />
             <CategoryView games={games} subFilters={subFilters} />
           </Reveal>
+
+          {/* In-content #2 after the full grid. A third (#3) only on long pages,
+              so short categories are not over-stuffed with ad slots. */}
+          <section className={styles.adWrap}>
+            <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent2} height={110} />
+          </section>
+          {games.length >= 24 && (
+            <section className={styles.adWrap}>
+              <AdSlot variant="display" managedId={MANAGED_SLOT_IDS.incontent3} height={110} />
+            </section>
+          )}
         </>
       ) : (
         <p className={styles.empty}>No games in this category yet — explore related categories below.</p>

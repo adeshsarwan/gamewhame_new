@@ -14,10 +14,12 @@ import styles from "./AnchorAd.module.css";
  * anchor does not belong on the current route or viewport, so Price Optimiser
  * never owns a slot the user cannot see:
  *
- *  - never on /play/* — a sticky bar over the game frame is the single worst
- *    thing we could do to time-on-site, our P1 metric;
  *  - phones are opt-in (`adConfig.anchor.mobile`) because the GameWhame bottom
- *    nav already occupies that strip.
+ *    nav already occupies that strip. This also keeps the anchor OFF mobile Play
+ *    (per the handoff) while it is approved on desktop/tablet Play, where it does
+ *    not collide with the bottom nav.
+ *  - `adConfig.anchor.excludeRoutePrefixes` still hard-blocks any route we must
+ *    protect (currently none).
  *
  * The publisher supplies only the container and its geometry (320x50 mobile /
  * 728x90 desktop). Price Optimiser owns the slot lifecycle — there is no
