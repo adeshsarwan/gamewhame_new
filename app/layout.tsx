@@ -8,6 +8,7 @@ import CategorySidebar from "@/components/CategorySidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { Toaster } from "@/components/Toast";
 import AnchorAd from "@/components/AnchorAd";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { PO_SCRIPT_ID, PO_SCRIPT_SRC, PO_PRECONNECT_ORIGINS } from "@/lib/adConfig";
 
 const SITE_URL = "https://gamewhame.com";
@@ -57,6 +58,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {PO_PRECONNECT_ORIGINS.map((origin) => (
           <link key={origin} rel="preconnect" href={origin} crossOrigin="anonymous" />
         ))}
+        {/* GA4 host — dns-prefetch only (not preconnect) so it never competes
+            with the ad sockets; GA loads afterInteractive anyway. */}
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
       <body>
         <a href="#main" className="gw-skip-link">
@@ -84,6 +88,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             only renders the DOM containers and loads this script — there is no
             publisher-side googletag call anywhere in this app. */}
         <Script id={PO_SCRIPT_ID} src={PO_SCRIPT_SRC} strategy="afterInteractive" />
+        {/* GA4 — loaded after the ad SDK so it never competes for the first
+            paint or ad sockets. Measurement ID lives in the component. */}
+        <GoogleAnalytics />
       </body>
     </html>
   );

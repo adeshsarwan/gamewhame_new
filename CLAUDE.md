@@ -20,6 +20,7 @@ An HTML5 games portal (Poki-style) built to scale to 1M+ users. Ad-monetized.
 | Store-id fallback | `lib/games.ts` | `com.gamewhame.` | `com.playloft.` |
 | Cloudflare worker | `wrangler.jsonc` `name` | `gamewhame-new` | `playloft` |
 | Package name | `package.json` `name` | `gamewhame` | `playloft` |
+| GA4 measurement ID | `components/GoogleAnalytics.tsx` `GA_MEASUREMENT_ID` | `G-7HMLBZ1B26` | its own GA4 property (never reuse GameWhame's) |
 
 **Identical in both — keep literal (the rebrand must NOT touch):** `games.gamewhame.com` (shared game CDN), `gamewhame-files` (this site's R2 bucket), `skills/gamewhame-price-optimiser-publisher-handoff.md`.
 
