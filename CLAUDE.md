@@ -2,6 +2,46 @@
 
 An HTML5 games portal (Poki-style) built to scale to 1M+ users. Ad-monetized.
 
+## Sibling site — PlayLoft (replicating changes GameWhame ⇄ PlayLoft)
+
+**PlayLoft** (`playloft.fun`, repo `chandrakanth527/content-arb-games`, local `content-arbitrage/content-arb-games`) is a **rebranded mirror of this codebase** that runs the same portal on a second domain and **links the same games** from this site's R2 (`games.gamewhame.com`). **When you fix or add something here, port it to PlayLoft (and vice-versa).** Everything is identical except a small "rebrand delta" of site-identity values.
+
+### Rebrand delta — the ONLY differences (never overwrite these when porting)
+
+| Concern | File | GameWhame | PlayLoft |
+|---|---|---|---|
+| Brand name | app/**, components/** | `GameWhame` / `GAMEWHAME` | `PlayLoft` / `PLAYLOFT` |
+| Wordmark split + tagline | `components/BrandMarks.tsx` | `Game`/`Whame`, `GAMEWHAME.COM` | `Play`/`Loft`, `PLAYLOFT.FUN` |
+| Site domain (SITE_URL, canonical, OG, sitemap, robots, JSON-LD) | app/** | `gamewhame.com` | `playloft.fun` |
+| PO bundle | `lib/adConfig.ts` `PO_SCRIPT_SRC` | `experiences/gamewhame.js` | `experiences/playloft.fun.js` |
+| PO script id | `lib/adConfig.ts` `PO_SCRIPT_ID` | `gamewhame-price-optimiser` | `playloft-price-optimiser` |
+| PO site key | `lib/adConfig.ts` `PO_SITE_KEY` | `gamewhame.com` | `playloft.fun` |
+| Ad gates | `scripts/check-ads.mjs`, `scripts/verify-ads-live.mjs` | gamewhame | playloft |
+| Store-id fallback | `lib/games.ts` | `com.gamewhame.` | `com.playloft.` |
+| Cloudflare worker | `wrangler.jsonc` `name` | `gamewhame-new` | `playloft` |
+| Package name | `package.json` `name` | `gamewhame` | `playloft` |
+
+**Identical in both — keep literal (the rebrand must NOT touch):** `games.gamewhame.com` (shared game CDN), `gamewhame-files` (this site's R2 bucket), `skills/gamewhame-price-optimiser-publisher-handoff.md`.
+
+### Porting a change
+1. Make + verify it in the source site.
+2. Copy the changed files into the other repo's same paths — never `node_modules` / `.next` / `.git` / `.env*`.
+3. Re-apply the rebrand delta. **GameWhame → PlayLoft** (the lookbehind protects the shared CDN):
+   ```bash
+   perl -pi -e 's/(?<!games\.)gamewhame\.com/playloft.fun/g' <files>
+   perl -pi -e 's{experiences/gamewhame\.js}{experiences/playloft.fun.js}g' <files>
+   perl -pi -e 's/gamewhame-price-optimiser/playloft-price-optimiser/g' <files>   # NOT the skill filename
+   perl -pi -e 's/com\.gamewhame\./com.playloft./g' lib/games.ts
+   perl -pi -e 's/GameWhame/PlayLoft/g; s/GAMEWHAME/PLAYLOFT/g' <files>
+   perl -0pi -e 's/Game(<i[^>]*>)Whame(<\/i>)/Play${1}Loft${2}/g' components/BrandMarks.tsx
+   # wrangler.jsonc `name` + package.json `name` are per-site — leave the destination's.
+   ```
+   **PlayLoft → GameWhame:** invert every rule (`playloft.fun`→`gamewhame.com`, `PlayLoft`→`GameWhame`, `experiences/playloft.fun.js`→`experiences/gamewhame.js`, `playloft-price-optimiser`→`gamewhame-price-optimiser`, `com.playloft.`→`com.gamewhame.`, wordmark `Play`/`Loft`→`Game`/`Whame`).
+4. Gates in the destination: `npm run check:emoji && npm run check:ads && npx tsc --noEmit`, then a dev smoke test.
+5. **Games/R2:** nothing to sync — both link `games.gamewhame.com`. Only copy new `public/thumbs/*` if the change adds game art.
+
+**Gotcha:** a blanket lowercase `gamewhame`→`playloft` corrupts `games.gamewhame.com` and `gamewhame-files`. Always use the targeted transforms above.
+
 ## How to work on this project (READ FIRST)
 
 - **Correct the user when they are wrong.** Do not build something just because it was asked. If a request is a mistake, hurts the P1 metric, or has a better alternative, say so *before* building and explain why. The user explicitly wants push-back over blind execution.
