@@ -1,4 +1,5 @@
 import Icon from "./Icon";
+import ManagedSlotReveal from "./ManagedSlotReveal";
 import styles from "./AdSlot.module.css";
 
 interface AdSlotProps {
@@ -35,6 +36,7 @@ export default function AdSlot({ variant = "display", label, height = 120, class
         aria-label="Advertisement"
       >
         <div id={managedId} className={styles.managedInner} />
+        <ManagedSlotReveal id={managedId} />
       </aside>
     );
   }

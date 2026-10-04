@@ -269,6 +269,72 @@ export function registerManagedSlots(ids: string[], maxWaitMs = 20000): () => vo
   };
 }
 
+/**
+ * Path of the document Price Optimiser booted on. Captured when this module is
+ * first evaluated, which happens during the initial hydration because the root
+ * layout (AnchorAd) imports it.
+ */
+const BOOT_PATH = typeof window !== "undefined" ? window.location.pathname : null;
+let leftBootDocument = false;
+
+/**
+ * True once the app has client-navigated away from the document Price
+ * Optimiser booted on. Containers mounted after that point were NOT in the HTML
+ * Price Optimiser scanned at boot, so it never discovers them on its own
+ * (verified live on gamewhame.com: after a game-tile click to /play/*, the
+ * new #ad-leaderboard / #ad-incontent / #ad-incontent-2 never requested).
+ * Call it on every route change so a later return to the boot path still
+ * counts as a client mount.
+ */
+export function isClientNavigationMount(): boolean {
+  if (typeof window === "undefined") return false;
+  if (window.location.pathname !== BOOT_PATH) leftBootDocument = true;
+  return leftBootDocument;
+}
+
+/**
+ * Announce a managed container that a CLIENT navigation mounted (same DOM id
+ * as a container from a previous route, but a new node). Uses the documented
+ * dynamic-container lifecycle: once the container is within Price Optimiser's
+ * own 300px loading margin, call `revealSlots([id])` exactly once. No preload,
+ * no refresh, no retry loop — one intended opportunity per mount; an empty
+ * result is final. Skipped when Price Optimiser has already acted on this node
+ * (it carries `data-po-slot-state`). Never throws.
+ */
+export function revealOnClientMount(id: string): () => void {
+  if (typeof window === "undefined" || !isClientNavigationMount()) return () => {};
+  const el = document.getElementById(id);
+  if (!el || typeof IntersectionObserver === "undefined") return () => {};
+
+  let done = false;
+  let cancelFrame: (() => void) | undefined;
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (done || !entries.some((e) => e.isIntersecting)) return;
+      done = true;
+      io.disconnect();
+      cancelFrame = nextFrame(() => {
+        const po = api();
+        if (!po || typeof po.revealSlots !== "function") return;
+        if (!el.isConnected || el.dataset.poSlotState) return;
+        try {
+          void Promise.resolve(po.revealSlots([id])).catch(() => {});
+        } catch {
+          /* the bundle owns this; a failure here must never break the page */
+        }
+      });
+    },
+    { rootMargin: "300px 0px" },
+  );
+  io.observe(el);
+
+  return () => {
+    done = true;
+    io.disconnect();
+    cancelFrame?.();
+  };
+}
+
 /** Warm the rewarded ad ahead of time. Safe to call repeatedly; never throws. */
 export function preloadRewardedAd(): void {
   if (!adConfig.rewarded.enabled) return;

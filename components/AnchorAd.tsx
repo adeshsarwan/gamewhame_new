@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { adConfig, MANAGED_SLOT_IDS } from "@/lib/adConfig";
-import { registerManagedSlots } from "@/lib/priceOptimiser";
+import { isClientNavigationMount, registerManagedSlots } from "@/lib/priceOptimiser";
 import styles from "./AnchorAd.module.css";
 
 /**
@@ -46,6 +46,12 @@ export default function AnchorAd() {
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
   }, []);
+
+  // Record route changes from this always-mounted layout component so managed
+  // containers remounted later (even back on the boot path) are announced.
+  useEffect(() => {
+    isClientNavigationMount();
+  }, [pathname]);
 
   const excluded = adConfig.anchor.excludeRoutePrefixes.some((p) => pathname?.startsWith(p));
   const visible = adConfig.anchor.enabled && wideEnough && !excluded;
