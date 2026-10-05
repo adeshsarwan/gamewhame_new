@@ -11,8 +11,11 @@ deploy, game storage. **No secrets live in this file** — real credentials are 
 - **Stack:** Next.js (App Router) → **OpenNext** → **Cloudflare Workers**.
 - **Repo:** `adeshsarwan/gamewhame_new` → connected to the **`gamewhame-new`** Worker.
 - **Deploy:** push to **`main`** → auto-deploys. No manual step.
+- **Deploy command (Cloudflare build settings) must be `npx opennextjs-cloudflare deploy`** —
+  it populates the static-assets page cache (`open-next.config.ts`). `wrangler deploy` ships an empty cache
+  and every page gets re-rendered (CPU-limit errors).
 - **Production domain:** gamewhame.com
-- **Hard rules (do not touch):** `open-next.config.ts`, `wrangler.jsonc`,
+- **Hard rules (do not touch):** `wrangler.jsonc`,
   `package.json` deps, `.gitignore`. There is intentionally **NO committed lockfile** —
   do not add one.
 - The app repo should stay lean: **game files are NOT committed** — they live in R2 (below).
